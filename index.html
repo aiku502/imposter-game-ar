@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b0d11">
+<meta name="theme-color" content="#fff6ec">
 <meta name="description" content="من المحتال؟ — لعبة استنتاج جماعية بجهاز واحد، تعمل محلياً بدون إنترنت.">
 <title>من المحتال؟ — لعبة الاستنتاج الجماعية</title>
 
 <!-- PWA / iOS: تثبيت على الشاشة الرئيسية (بدون أي تكلفة) -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="من المحتال؟">
 <meta name="format-detection" content="telephone=no">
 
@@ -32,55 +32,60 @@
 <!-- ===== الخطوط: IBM Plex Sans Arabic + IBM Plex Mono ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================================
-   من المحتال؟ — نمط «تحريري / خطوط خارجية» Outline Editorial
-   كل التنسيقات الحرجة مكتوبة هنا، فاللعبة تعمل كاملة حتى بدون الشبكة.
+   من المحتال؟ — نمط «حفلة ملوّنة» (Playful Party)
+   حدود سميكة + ظلال صلبة بلا توهّج + ألوان دافئة على خلفية كريمية.
+   كل التنسيقات الحرجة هنا، فاللعبة تعمل كاملة حتى بدون الشبكة.
    ============================================================================ */
 
 :root{
-  --bg:        #0b0d11;
-  --surface:   #111419;
-  --surface-2: #161a20;
-  --surface-3: #1b2027;
-  --line:      #232830;
-  --line-2:    #343b45;
-  --line-3:    #4a535f;
+  --bg:        #fff6ec;
+  --bg-2:      #ffeede;
+  --card:      #ffffff;
+  --ink:       #1b1b1f;
+  --ink-2:     #4a4a52;
+  --muted:     #8b8b93;
+  --line:      #1b1b1f;
 
-  --text:      #e9edf2;
-  --dim:       #98a2ae;
-  --faint:     #6a7480;
+  --coral:     #ff6b5a;
+  --coral-d:   #e85543;
+  --coral-t:   #fff0ed;
+  --yellow:    #ffc247;
+  --yellow-t:  #fff3d6;
+  --teal:      #21b58f;
+  --teal-t:    #e3f8f1;
+  --blue:      #6aa8ff;
+  --blue-t:    #eaf3ff;
 
-  --civil:     #5cb3a1;
-  --civil-line:rgba(92,179,161,.55);
-  --civil-tint:rgba(92,179,161,.08);
+  --sh:        3px 3px 0 var(--ink);
+  --sh-lg:     5px 5px 0 var(--ink);
 
-  --imp:       #cf6152;
-  --imp-line:  rgba(207,97,82,.58);
-  --imp-tint:  rgba(207,97,82,.10);
+  --r-sm: 9px;
+  --r:    12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
 
-  --r-sm: 8px;
-  --r:    10px;
-  --r-lg: 14px;
-
-  --font:  'IBM Plex Sans Arabic','Cairo','Segoe UI',Tahoma,system-ui,sans-serif;
-  --mono:  'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --font:  'Tajawal','IBM Plex Sans Arabic','Segoe UI',Tahoma,system-ui,sans-serif;
+  --head:  'Baloo Bhaijaan 2','Tajawal','Segoe UI',Tahoma,sans-serif;
+  --mono:  ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
 [hidden]{ display:none !important; }
-
 html,body{ margin:0; padding:0; }
 html{ -webkit-text-size-adjust:100%; }
 
 body{
   min-height:100vh;
   background:var(--bg);
-  color:var(--text);
+  background-image:radial-gradient(#ffd9b0 1.5px, transparent 1.5px);
+  background-size:22px 22px;
+  color:var(--ink);
   font-family:var(--font);
-  font-weight:400;
+  font-weight:500;
   font-size:15px;
   line-height:1.75;
   overflow-x:hidden;
@@ -88,503 +93,495 @@ body{
   -webkit-tap-highlight-color:transparent;
 }
 
-/* عناصر مساعدة */
-.mono{ font-family:var(--mono); font-weight:500; }
+/* أدوات مساعدة */
+.mono{ font-family:var(--mono); }
 .num{ font-family:var(--mono); font-variant-numeric:tabular-nums; }
-.dim{ color:var(--dim); }
-.faint{ color:var(--faint); }
+.dim{ color:var(--ink-2); }
+.faint{ color:var(--muted); }
 .ico{ width:18px; height:18px; flex:0 0 auto; display:block; }
 .ico-sm{ width:15px; height:15px; }
 .ico-lg{ width:26px; height:26px; }
-
-svg{ stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
-
-::selection{ background:rgba(92,179,161,.3); }
+svg{ stroke:currentColor; fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+::selection{ background:var(--yellow); color:var(--ink); }
 
 /* التخطيط */
 .app{
-  width:100%; max-width:680px; margin:0 auto;
+  width:100%; max-width:660px; margin:0 auto;
   min-height:100vh; min-height:100dvh;
-  padding:16px 16px calc(112px + env(safe-area-inset-bottom));
-  display:flex; flex-direction:column; gap:14px;
+  padding:14px 14px calc(116px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; gap:13px;
 }
 
 /* ===================== الشريط العلوي ===================== */
 .topbar{
-  position:sticky; top:0; z-index:30;
+  position:sticky; top:8px; z-index:30;
   display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:11px 14px; margin:0 -2px;
-  background:rgba(11,13,17,.92);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-  border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:10px 12px;
+  background:var(--card);
+  border:2px solid var(--line); border-radius:var(--r-lg);
+  box-shadow:var(--sh);
 }
 .brand-mark{ display:flex; align-items:center; gap:10px; }
 .brand-glyph{
-  width:30px; height:30px; display:grid; place-items:center;
-  border:1px solid var(--line-2); border-radius:var(--r-sm); color:var(--dim);
+  width:34px; height:34px; display:grid; place-items:center;
+  background:var(--yellow); border:2px solid var(--line); border-radius:10px;
+  color:var(--ink); box-shadow:2px 2px 0 var(--line);
 }
-.brand-name{ font-size:15px; font-weight:600; }
-.brand-tag{ font-size:10.5px; color:var(--faint); }
-.top-actions{ display:flex; gap:8px; }
+.brand-name{ font-family:var(--head); font-size:16px; font-weight:800; line-height:1.2; }
+.brand-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--muted); }
+.top-actions{ display:flex; gap:7px; }
 
 /* ===================== الأسطح ===================== */
 .panel{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--r-lg);
-  padding:16px;
-  display:flex; flex-direction:column; gap:14px;
+  background:var(--card);
+  border:2px solid var(--line); border-radius:var(--r-lg);
+  box-shadow:var(--sh);
+  padding:15px;
+  display:flex; flex-direction:column; gap:13px;
 }
-.hero{ padding:22px 18px; }
+.hero{ padding:18px 15px; background:var(--card); }
 
-/* ترويسة الأقسام: 01 — العنوان ————— */
-.sec-head{ display:flex; align-items:center; gap:10px; }
-.sec-num{ font-family:var(--mono); font-size:11.5px; color:var(--faint); letter-spacing:.06em; }
-.sec-title{ margin:0; font-size:15px; font-weight:600; white-space:nowrap; }
-.sec-rule{ flex:1; height:1px; background:var(--line); }
-.sec-meta{ font-family:var(--mono); font-size:11.5px; color:var(--dim); white-space:nowrap; }
+/* ترويسة الأقسام */
+.sec-head{ display:flex; align-items:center; gap:9px; }
+.sec-num{
+  font-family:var(--mono); font-size:10.5px; font-weight:700; color:var(--ink);
+  background:var(--yellow); border:2px solid var(--line); border-radius:6px;
+  padding:0 6px; line-height:1.6;
+}
+.sec-title{ margin:0; font-family:var(--head); font-size:16px; font-weight:800; white-space:nowrap; }
+.sec-rule{ flex:1; height:2px; background:repeating-linear-gradient(90deg,var(--line) 0 5px,transparent 5px 10px); opacity:.35; }
+.sec-meta{ font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--ink-2); }
 
-.lede{ margin:0; color:var(--dim); font-size:14px; line-height:1.85; }
-.note{ margin:0; font-size:12.5px; color:var(--faint); line-height:1.7; }
-.note.warn{ color:#c9a227; }
-.note.err{ color:var(--imp); }
+.lede{ margin:0; color:var(--ink-2); font-size:14px; line-height:1.85; }
+.note{ margin:0; font-size:12.5px; color:var(--muted); line-height:1.7; }
+.note.warn{ color:#b06a00; font-weight:700; }
+.note.err{ color:var(--coral-d); font-weight:700; }
 
 /* ===================== العنوان الرئيسي ===================== */
-.brand-block{ display:flex; flex-direction:column; gap:10px; padding:6px 2px 2px; }
+.brand-block{ display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center; }
 .eyebrow{
-  display:flex; align-items:center; gap:8px;
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--faint);
+  display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+  color:var(--ink); background:var(--teal-t); border:2px solid var(--line);
+  border-radius:99px; padding:2px 10px;
 }
-.eyebrow::before{ content:""; width:22px; height:1px; background:var(--line-2); }
-.title{ margin:0; font-size:clamp(30px,8.5vw,38px); font-weight:700; letter-spacing:-.02em; line-height:1.25; }
-.title-sub{ margin:0; color:var(--dim); max-width:44ch; }
-.meta-row{ display:flex; flex-wrap:wrap; gap:0; margin-top:4px; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; }
+.title{
+  margin:0; font-family:var(--head); font-size:clamp(32px,9.5vw,44px); font-weight:800;
+  letter-spacing:-.5px; line-height:1.15;
+}
+.title-sub{ margin:0; color:var(--ink-2); max-width:44ch; }
+.meta-row{ display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin-top:6px; }
 .meta-cell{
-  flex:1 1 auto; min-width:120px; padding:9px 12px;
-  border-inline-start:1px solid var(--line);
-  display:flex; align-items:center; gap:8px;
+  display:flex; align-items:center; gap:7px;
+  padding:6px 11px; background:var(--bg-2);
+  border:2px solid var(--line); border-radius:99px;
 }
-.meta-cell:first-child{ border-inline-start:0; }
-.meta-k{ font-family:var(--mono); font-size:10.5px; color:var(--faint); letter-spacing:.06em; }
-.meta-v{ font-size:13px; font-weight:500; }
+.meta-k{ font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; color:var(--muted); }
+.meta-v{ font-size:12.5px; font-weight:700; }
 
 /* ===================== الأزرار ===================== */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:12px 16px; border-radius:var(--r);
-  border:1px solid var(--line-2); background:transparent; color:var(--text);
-  font-family:var(--font); font-size:14.5px; font-weight:600;
-  cursor:pointer; user-select:none; text-align:center;
-  transition:background .15s ease, border-color .15s ease, color .15s ease, transform .1s ease, opacity .15s ease;
+  padding:11px 16px; border-radius:var(--r); cursor:pointer; user-select:none;
+  background:var(--card); color:var(--ink);
+  border:2px solid var(--line); box-shadow:var(--sh);
+  font-family:var(--font); font-size:14.5px; font-weight:800; text-align:center;
+  transition:transform .08s ease, box-shadow .08s ease, background .12s ease;
 }
-.btn:hover{ background:var(--surface-2); border-color:var(--line-3); }
-.btn:active{ transform:translateY(1px); }
-.btn:disabled{ opacity:.38; cursor:not-allowed; }
-.btn:disabled:hover{ background:transparent; border-color:var(--line-2); }
-.btn:focus-visible{ outline:2px solid var(--civil); outline-offset:2px; }
+.btn:hover{ background:var(--bg-2); }
+.btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--line); }
+.btn:disabled{ opacity:.45; cursor:not-allowed; box-shadow:var(--sh); }
+.btn:disabled:active{ transform:none; box-shadow:var(--sh); }
+.btn:focus-visible{ outline:3px solid var(--blue); outline-offset:2px; }
 
-.btn-solid{ background:var(--text); border-color:var(--text); color:#0b0d11; }
-.btn-solid:hover{ background:#fff; border-color:#fff; }
-.btn-solid:disabled:hover{ background:var(--text); border-color:var(--text); }
-
-.btn-civil{ border-color:var(--civil-line); color:#9fded1; }
-.btn-civil:hover{ background:var(--civil-tint); border-color:var(--civil); }
-
-.btn-imp{ border-color:var(--imp-line); color:#e9aaa0; }
-.btn-imp:hover{ background:var(--imp-tint); border-color:var(--imp); }
-
-.btn-ghost{ border-color:var(--line); color:var(--dim); }
-.btn-ghost:hover{ color:var(--text); }
-
-.btn-sm{ padding:9px 12px; font-size:13px; border-radius:var(--r-sm); }
+.btn-solid{ background:var(--coral); color:#fff; }
+.btn-solid:hover{ background:var(--coral-d); }
+.btn-imp{ background:var(--coral); color:#fff; }
+.btn-imp:hover{ background:var(--coral-d); }
+.btn-civil{ background:var(--teal); color:#fff; }
+.btn-civil:hover{ background:#1a9a7a; }
+.btn-ghost{ background:var(--card); }
+.btn-ghost:hover{ background:var(--bg-2); }
+.btn-sm{ padding:8px 12px; font-size:13px; border-radius:var(--r-sm); box-shadow:2px 2px 0 var(--line); }
 .btn-block{ width:100%; }
-.btn-lg{ padding:15px 18px; font-size:16px; }
-.btn-row{ display:flex; gap:8px; }
+.btn-lg{ padding:14px 18px; font-size:16px; }
+.btn-row{ display:flex; gap:9px; }
 .btn-row .btn{ flex:1; }
 
 .icon-btn{
-  width:34px; height:34px; padding:0; border-radius:var(--r-sm);
-  display:grid; place-items:center; color:var(--dim);
-  background:transparent; border:1px solid var(--line); cursor:pointer;
-  transition:color .15s, border-color .15s, background .15s;
+  width:38px; height:38px; padding:0; cursor:pointer;
+  display:grid; place-items:center; color:var(--ink);
+  background:var(--card); border:2px solid var(--line); border-radius:11px;
+  box-shadow:2px 2px 0 var(--line);
+  transition:transform .08s ease, box-shadow .08s ease, background .12s ease;
 }
-.icon-btn:hover{ color:var(--text); border-color:var(--line-2); background:var(--surface-2); }
-.icon-btn:active{ transform:translateY(1px); }
+.icon-btn:hover{ background:var(--yellow-t); }
+.icon-btn:active{ transform:translate(2px,2px); box-shadow:0 0 0 var(--line); }
 
 .link-btn{
-  background:none; border:0; padding:2px 4px; cursor:pointer;
-  font-family:var(--font); font-size:12.5px; font-weight:500; color:var(--dim);
-  border-bottom:1px solid transparent; transition:color .15s, border-color .15s;
+  background:var(--bg-2); border:2px solid var(--line); border-radius:99px;
+  padding:4px 12px; cursor:pointer; font-family:var(--font);
+  font-size:12.5px; font-weight:700; color:var(--ink);
+  box-shadow:2px 2px 0 var(--line);
+  transition:transform .08s ease, box-shadow .08s ease, background .12s;
 }
-.link-btn:hover{ color:var(--text); border-bottom-color:var(--line-3); }
+.link-btn:hover{ background:var(--yellow); }
+.link-btn:active{ transform:translate(2px,2px); box-shadow:0 0 0 var(--line); }
 
 /* ===================== الحقول ===================== */
-.input-row{ display:flex; gap:8px; }
+.input-row{ display:flex; gap:9px; }
 .field{
   flex:1; min-width:0; padding:11px 13px; border-radius:var(--r);
-  background:var(--bg); border:1px solid var(--line-2); color:var(--text);
-  font-family:var(--font); font-size:15px; font-weight:500; outline:none;
-  transition:border-color .15s ease;
+  background:var(--bg); border:2px solid var(--line); color:var(--ink);
+  font-family:var(--font); font-size:15px; font-weight:700; outline:none;
+  transition:background .12s ease;
 }
-.field::placeholder{ color:var(--faint); font-weight:400; }
-.field:focus{ border-color:var(--civil); }
+.field::placeholder{ color:var(--muted); font-weight:500; }
+.field:focus{ background:var(--yellow-t); }
 
 /* ===================== وسوم اللاعبين ===================== */
-.tags{ display:flex; flex-wrap:wrap; gap:7px; }
+.tags{ display:flex; flex-wrap:wrap; gap:8px; }
 .tag{
-  display:inline-flex; align-items:center; gap:7px;
-  padding:5px 5px 5px 11px; border-radius:99px;
-  background:var(--surface-2); border:1px solid var(--line-2);
-  font-size:13.5px; font-weight:500;
-  animation:tagIn .18s ease both;
+  display:inline-flex; align-items:center; gap:6px;
+  padding:5px 6px 5px 12px; border-radius:99px;
+  background:var(--yellow-t); border:2px solid var(--line);
+  box-shadow:2px 2px 0 var(--line);
+  font-size:13.5px; font-weight:700;
+  animation:tagIn .16s ease both;
 }
 @keyframes tagIn{ from{ opacity:0; transform:translateY(3px); } to{ opacity:1; transform:none; } }
-.tag-idx{ font-family:var(--mono); font-size:10.5px; color:var(--faint); }
-.tag-x{
+.tag:nth-child(4n+2){ background:var(--teal-t); }
+.tag:nth-child(4n+3){ background:var(--coral-t); }
+.tag:nth-child(4n+4){ background:var(--blue-t); }
+.tag-idx{ font-family:var(--mono); font-size:10px; color:var(--ink-2); }
+.tag-edit, .tag-x{
   width:20px; height:20px; padding:0; display:grid; place-items:center; cursor:pointer;
-  border-radius:50%; background:transparent; border:1px solid var(--line-2); color:var(--faint);
-  transition:color .15s, border-color .15s, background .15s;
+  border:2px solid var(--line); border-radius:50%; background:var(--card); color:var(--ink);
+  transition:background .12s ease;
 }
-.tag-x:hover{ color:var(--imp); border-color:var(--imp-line); background:var(--imp-tint); }
-.tag-x svg{ width:11px; height:11px; stroke-width:2; }
+.tag-edit:hover{ background:var(--yellow); }
+.tag-x:hover{ background:var(--coral); color:#fff; }
+.tag-edit svg, .tag-x svg{ width:10px; height:10px; stroke-width:2.4; }
+.tag-input{
+  width:104px; padding:2px 7px; border-radius:7px;
+  background:var(--card); border:2px solid var(--line); color:var(--ink);
+  font-family:var(--font); font-size:13.5px; font-weight:700; outline:none;
+}
 
 .empty{
-  padding:18px 14px; text-align:center; border:1px dashed var(--line-2);
-  border-radius:var(--r); color:var(--faint); font-size:13px;
+  padding:16px 14px; text-align:center; border:2px dashed var(--line);
+  border-radius:var(--r); color:var(--muted); font-size:13px; background:var(--bg);
 }
 
 /* ===================== شرائح التصنيفات ===================== */
-.chips{ display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr)); gap:8px; }
+.chips{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
 .chip{
-  position:relative; cursor:pointer; text-align:start;
-  display:flex; align-items:center; gap:10px;
-  padding:11px 12px; border-radius:var(--r);
-  background:var(--surface-2); border:1px solid var(--line);
-  color:var(--text); font-family:var(--font);
-  transition:border-color .15s, background .15s, transform .1s;
+  display:flex; align-items:center; gap:9px; cursor:pointer; text-align:start;
+  padding:10px 11px; border-radius:var(--r);
+  background:var(--card); border:2px solid var(--line); color:var(--ink);
+  box-shadow:2px 2px 0 var(--line); font-family:var(--font);
+  transition:transform .08s ease, box-shadow .08s ease, background .12s;
 }
-.chip:hover{ border-color:var(--line-3); }
-.chip:active{ transform:translateY(1px); }
-.chip:focus-visible{ outline:2px solid var(--civil); outline-offset:2px; }
-.chip-ico{ color:var(--dim); display:grid; place-items:center; }
-.chip-body{ display:flex; flex-direction:column; gap:1px; min-width:0; flex:1; }
-.chip-name{ font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.chip-count{ font-family:var(--mono); font-size:10.5px; color:var(--faint); }
+.chip:hover{ background:var(--bg-2); }
+.chip:active{ transform:translate(2px,2px); box-shadow:0 0 0 var(--line); }
+.chip:focus-visible{ outline:3px solid var(--blue); outline-offset:2px; }
+.chip-ico{ display:grid; place-items:center; color:var(--ink); }
+.chip-body{ display:flex; flex-direction:column; gap:0; min-width:0; flex:1; }
+.chip-name{ font-size:13px; font-weight:800; line-height:1.35; overflow-wrap:anywhere; }
+.chip-count{ font-family:var(--mono); font-size:10px; color:var(--muted); }
 .chip-box{
-  width:15px; height:15px; flex:0 0 auto; border:1px solid var(--line-2);
-  border-radius:4px; display:grid; place-items:center; color:transparent;
+  width:19px; height:19px; flex:0 0 auto; display:grid; place-items:center;
+  border:2px solid var(--line); border-radius:6px; background:var(--card); color:transparent;
 }
-.chip-box svg{ width:10px; height:10px; stroke-width:2.4; }
-.chip.on{ background:var(--civil-tint); border-color:var(--civil-line); }
-.chip.on .chip-ico{ color:var(--civil); }
-.chip.on .chip-count{ color:var(--civil); opacity:.85; }
-.chip.on .chip-box{ background:var(--civil); border-color:var(--civil); color:#08221d; }
+.chip-box svg{ width:11px; height:11px; stroke-width:3; }
+.chip.on{ background:var(--teal); }
+.chip.on .chip-name, .chip.on .chip-count, .chip.on .chip-ico{ color:#fff; }
+.chip.on .chip-count{ opacity:.85; }
+.chip.on .chip-box{ background:#fff; color:var(--teal); border-color:var(--line); }
 
-/* ===================== المفتاح (Switch) ===================== */
+/* ===================== المفتاح ===================== */
 .setting-row{
   display:flex; align-items:center; justify-content:space-between; gap:14px;
-  padding:12px 13px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2);
+  padding:11px 12px; background:var(--bg);
+  border:2px solid var(--line); border-radius:var(--r);
 }
-.setting-text{ display:flex; flex-direction:column; gap:1px; min-width:0; }
-.setting-title{ font-size:14px; font-weight:600; display:flex; align-items:center; gap:7px; }
-.setting-sub{ font-size:11.5px; color:var(--faint); }
+.setting-text{ display:flex; flex-direction:column; gap:0; min-width:0; }
+.setting-title{ font-size:14px; font-weight:800; }
+.setting-sub{ font-size:11.5px; color:var(--muted); }
 
 .switch{ position:relative; flex:0 0 auto; cursor:pointer; display:inline-block; }
 .switch input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; z-index:2; }
 .switch .track{
-  display:block; width:46px; height:26px; border-radius:99px;
-  background:var(--bg); border:1px solid var(--line-2); position:relative;
-  transition:border-color .18s ease, background .18s ease;
+  display:block; width:52px; height:30px; border-radius:99px;
+  background:var(--card); border:2px solid var(--line); position:relative;
+  box-shadow:2px 2px 0 var(--line);
+  transition:background .16s ease;
 }
 .switch .thumb{
-  position:absolute; top:3px; inset-inline-end:3px; width:18px; height:18px; border-radius:50%;
-  background:var(--faint); transition:transform .18s ease, background .18s ease;
+  position:absolute; top:3px; inset-inline-end:3px; width:20px; height:20px; border-radius:50%;
+  background:var(--muted); border:2px solid var(--line);
+  transition:transform .16s ease, background .16s ease;
 }
-.switch input:checked + .track{ background:var(--imp-tint); border-color:var(--imp-line); }
-.switch input:checked + .track .thumb{ transform:translateX(-20px); background:var(--imp); }
+.switch input:checked + .track{ background:var(--coral); }
+.switch input:checked + .track .thumb{ transform:translateX(-22px); background:#fff; }
 
 /* مُحدِّد العدد */
-.stepper{ display:flex; align-items:center; border:1px solid var(--line-2); border-radius:var(--r-sm); overflow:hidden; }
+.stepper{ display:flex; align-items:center; gap:0; }
 .step-btn{
-  width:34px; height:34px; padding:0; display:grid; place-items:center; cursor:pointer;
-  background:var(--surface-3); border:0; color:var(--dim);
-  transition:background .15s, color .15s;
+  width:36px; height:36px; padding:0; display:grid; place-items:center; cursor:pointer;
+  background:var(--card); border:2px solid var(--line); border-radius:10px;
+  box-shadow:2px 2px 0 var(--line); color:var(--ink);
+  transition:transform .08s ease, box-shadow .08s ease, background .12s;
 }
-.step-btn:hover{ background:var(--line); color:var(--text); }
-.step-btn:active{ background:var(--line-2); }
-.step-val{ min-width:38px; text-align:center; font-family:var(--mono); font-size:15px; font-weight:600; }
+.step-btn:hover{ background:var(--yellow); }
+.step-btn:active{ transform:translate(2px,2px); box-shadow:0 0 0 var(--line); }
+.step-val{
+  min-width:44px; text-align:center; font-family:var(--head);
+  font-size:19px; font-weight:800;
+}
 
-/* الشريط الفوضوي */
+/* صندوق الفوضى */
 .chaos-box{
   display:none; flex-direction:column; gap:10px;
-  padding:13px; border:1px solid var(--imp-line); border-radius:var(--r);
-  background:var(--imp-tint);
+  padding:12px; background:var(--coral-t);
+  border:2px dashed var(--line); border-radius:var(--r);
 }
 .chaos-box.open{ display:flex; }
 .chaos-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
-.chaos-label{ font-size:12.5px; color:var(--dim); }
-.chaos-pct{ font-family:var(--mono); font-size:16px; font-weight:600; color:var(--imp); }
+.chaos-label{ font-size:12.5px; font-weight:700; color:var(--ink-2); }
+.chaos-pct{ font-family:var(--head); font-size:19px; font-weight:800; color:var(--coral-d); }
 
 input[type="range"]{
-  -webkit-appearance:none; appearance:none; width:100%; height:22px; background:transparent; outline:none; cursor:pointer;
+  -webkit-appearance:none; appearance:none; width:100%; height:26px; background:transparent; outline:none; cursor:pointer;
 }
-input[type="range"]::-webkit-slider-runnable-track{ height:2px; background:var(--line-3); border-radius:2px; }
+input[type="range"]::-webkit-slider-runnable-track{ height:8px; background:var(--card); border:2px solid var(--line); border-radius:99px; }
 input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none; width:16px; height:16px; margin-top:-7px; border-radius:50%;
-  background:var(--text); border:0;
+  -webkit-appearance:none; width:22px; height:22px; margin-top:-9px; border-radius:50%;
+  background:var(--coral); border:2px solid var(--line); box-shadow:1px 1px 0 var(--line);
 }
-input[type="range"]::-moz-range-track{ height:2px; background:var(--line-3); border-radius:2px; }
-input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border-radius:50%; background:var(--text); }
+input[type="range"]::-moz-range-track{ height:8px; background:var(--card); border:2px solid var(--line); border-radius:99px; }
+input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:var(--coral); border:2px solid var(--line); }
 
-/* ===================== الشريط السفلي الثابت (أوامر الشاشة) ===================== */
+/* ===================== الشريط السفلي الثابت ===================== */
 .navbar{
   position:fixed; inset-inline:0; bottom:0; z-index:40;
-  background:rgba(11,13,17,.95);
-  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-  border-top:1px solid var(--line);
-  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  padding:0 12px calc(12px + env(safe-area-inset-bottom));
+  pointer-events:none;
 }
-.navbar-inner{ max-width:680px; margin:0 auto; display:flex; align-items:center; gap:8px; }
-.nav-group{ display:none; align-items:center; gap:8px; width:100%; }
+.navbar-inner{
+  pointer-events:auto;
+  max-width:660px; margin:0 auto;
+  display:flex; align-items:center; gap:9px;
+  padding:10px 11px;
+  background:var(--card);
+  border:2px solid var(--line); border-radius:var(--r-lg);
+  box-shadow:4px 4px 0 var(--line);
+}
+.nav-group{ display:none; align-items:center; gap:9px; width:100%; }
 .nav-group.active{ display:flex; }
 .nav-group .btn-grow{ flex:1 1 auto; }
 .nav-status{
   flex:1 1 auto; min-width:0; margin:0;
-  font-size:11.5px; line-height:1.45; color:var(--faint);
+  font-size:11.5px; font-weight:700; line-height:1.45; color:var(--muted);
   overflow:hidden; text-overflow:ellipsis;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
 }
-.nav-status.warn{ color:#c9a227; }
-.nav-status.err{ color:var(--imp); }
-
-/* زر تعديل اسم اللاعب */
-.tag-edit{
-  width:20px; height:20px; padding:0; display:grid; place-items:center; cursor:pointer;
-  border-radius:50%; background:transparent; border:1px solid var(--line-2); color:var(--faint);
-  transition:color .15s, border-color .15s;
-}
-.tag-edit:hover{ color:var(--text); border-color:var(--line-3); }
-.tag-edit svg{ width:11px; height:11px; stroke-width:1.8; }
-.tag-input{
-  width:104px; padding:3px 7px; border-radius:6px;
-  background:var(--bg); border:1px solid var(--civil); color:var(--text);
-  font-family:var(--font); font-size:13.5px; font-weight:500; outline:none;
-}
-
 @media (max-width:380px){ .nav-status{ display:none; } }
 
 /* ===================== الشاشات ===================== */
-.screen{ display:none; flex-direction:column; gap:14px; }
-.screen.active{ display:flex; flex:1 1 auto; animation:screenIn .22s ease both; }
-@keyframes screenIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+.screen{ display:none; flex-direction:column; gap:13px; }
+.screen.active{ display:flex; flex:1 1 auto; animation:screenIn .18s ease both; }
+@keyframes screenIn{ from{ opacity:0; transform:translateY(5px); } to{ opacity:1; transform:none; } }
 
 /* ===================== شاشة الكشف ===================== */
-.turn-head{ display:flex; flex-direction:column; gap:10px; flex:0 0 auto; }
-.turn-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.turn-head{ display:flex; flex-direction:column; gap:9px; flex:0 0 auto; }
+.turn-top{ display:flex; align-items:center; justify-content:space-between; gap:9px; }
 .pill{
   display:inline-flex; align-items:center; gap:6px;
-  padding:4px 10px; border-radius:99px; border:1px solid var(--line-2);
-  font-family:var(--mono); font-size:11px; color:var(--dim);
+  padding:3px 11px; border-radius:99px;
+  background:var(--yellow-t); border:2px solid var(--line);
+  font-family:var(--mono); font-size:11px; font-weight:700;
 }
-.pill-cat{ font-family:var(--font); font-size:12px; }
-.turn-title{ margin:0; font-size:clamp(19px,5.4vw,23px); font-weight:600; line-height:1.4; }
-.turn-title b{ font-weight:700; }
-.bars{ display:flex; gap:4px; margin-top:2px; }
+.pill-cat{ font-family:var(--font); font-size:12px; background:var(--teal-t); }
+.turn-title{ margin:0; font-family:var(--head); font-size:clamp(20px,5.6vw,24px); font-weight:800; line-height:1.35; }
+.turn-title b{ background:var(--yellow); border-radius:6px; padding:0 6px; box-decoration-break:clone; }
+.bars{ display:flex; gap:5px; margin-top:2px; }
 .bar-seg{
-  height:3px; flex:1; border-radius:2px; background:var(--line);
-  transition:background .2s ease;
+  height:7px; flex:1; border-radius:99px;
+  background:var(--card); border:2px solid var(--line);
+  transition:background .16s ease;
 }
-.bar-seg.done{ background:var(--civil); }
-.bar-seg.current{ background:var(--text); }
+.bar-seg.done{ background:var(--teal); }
+.bar-seg.current{ background:var(--yellow); }
 
 /* الكرت */
 .secret-card{
   position:relative; width:100%; min-height:320px; flex:1 1 auto;
   display:grid; place-items:center; text-align:center;
-  padding:34px 22px; border-radius:18px; cursor:pointer;
-  background:var(--surface); border:1px solid var(--line-2);
+  padding:32px 20px; border-radius:var(--r-xl); cursor:pointer;
+  background:var(--card); border:3px solid var(--line);
+  box-shadow:var(--sh-lg);
   user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;
   touch-action:none; outline:none;
-  transition:border-color .2s ease, background .2s ease, transform .15s ease;
+  transition:background .16s ease, transform .1s ease;
 }
-.secret-card:focus-visible{ border-color:var(--civil); }
-.secret-card.arming{ transform:scale(.994); }
+.secret-card:focus-visible{ outline:3px solid var(--blue); outline-offset:3px; }
+.secret-card.arming{ transform:scale(.995); }
 .secret-card.revealed{ cursor:default; }
-.secret-card.revealed.civil{
-  border-color:var(--civil-line); background:var(--civil-tint);
-  background-image:linear-gradient(180deg, var(--civil-tint), transparent 62%);
-}
+.secret-card.revealed.civil{ background:var(--teal-t); }
 .secret-card.revealed.imposter{
-  border-color:var(--imp-line);
-  background-image:linear-gradient(180deg, var(--imp-tint), transparent 62%);
-  animation:tap .34s ease both;
+  background:var(--ink); color:#fff;
+  animation:tap .3s ease both;
 }
 @keyframes tap{
-  0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-3px); }
-  50%{ transform:translateX(3px); } 75%{ transform:translateX(-2px); }
+  0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-4px); }
+  50%{ transform:translateX(4px); } 75%{ transform:translateX(-2px); }
 }
 
-/* أقواس الزوايا */
-.corner{ position:absolute; width:16px; height:16px; border:1px solid var(--line-2); pointer-events:none; transition:border-color .2s ease; }
-.corner.tl{ top:10px; inset-inline-start:10px; border-inline-end:0; border-bottom:0; border-start-start-radius:6px; }
-.corner.tr{ top:10px; inset-inline-end:10px; border-inline-start:0; border-bottom:0; border-start-end-radius:6px; }
-.corner.bl{ bottom:10px; inset-inline-start:10px; border-inline-end:0; border-top:0; border-end-start-radius:6px; }
-.corner.br{ bottom:10px; inset-inline-end:10px; border-inline-start:0; border-top:0; border-end-end-radius:6px; }
-.secret-card.revealed.civil .corner{ border-color:var(--civil-line); }
-.secret-card.revealed.imposter .corner{ border-color:var(--imp-line); }
+.corner{ position:absolute; width:14px; height:14px; border:3px solid var(--line); pointer-events:none; opacity:.35; }
+.corner.tl{ top:9px; inset-inline-start:9px; border-inline-end:0; border-bottom:0; border-start-start-radius:7px; }
+.corner.tr{ top:9px; inset-inline-end:9px; border-inline-start:0; border-bottom:0; border-start-end-radius:7px; }
+.corner.bl{ bottom:9px; inset-inline-start:9px; border-inline-end:0; border-top:0; border-end-start-radius:7px; }
+.corner.br{ bottom:9px; inset-inline-end:9px; border-inline-start:0; border-top:0; border-end-end-radius:7px; }
 
 .layer{
   grid-area:1/1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:12px; width:100%; transition:opacity .16s ease, transform .18s ease;
+  gap:11px; width:100%; transition:opacity .14s ease, transform .14s ease;
 }
 .layer-role{ opacity:0; transform:scale(.98); pointer-events:none; }
 .secret-card.revealed .layer-front{ opacity:0; transform:scale(.98); }
 .secret-card.revealed .layer-role { opacity:1; transform:none; }
 
-.card-kicker{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--faint); }
-.card-lock{ color:var(--dim); }
-.card-hint{ margin:0; font-size:18px; font-weight:600; }
-.hold-line{ width:min(200px,64%); height:2px; background:var(--line-2); border-radius:2px; overflow:hidden; }
-.hold-line i{ display:block; height:100%; width:0; background:var(--civil); }
+.card-kicker{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--muted); font-weight:700; }
+.card-lock{ color:var(--ink); }
+.card-hint{ margin:0; font-family:var(--head); font-size:19px; font-weight:800; }
+.hold-line{
+  width:min(190px,62%); height:10px; border-radius:99px;
+  background:var(--bg); border:2px solid var(--line); overflow:hidden;
+}
+.hold-line i{ display:block; height:100%; width:0; background:var(--coral); }
 .secret-card.arming .hold-line i{ animation:fillHold .34s linear forwards; }
 @keyframes fillHold{ to{ width:100%; } }
+.secret-card.revealed.imposter .card-kicker{ color:#a9a9b2; }
+.secret-card.revealed.imposter .card-lock{ color:#fff; }
 
 .role-word{
-  margin:0; font-size:clamp(38px,11.5vw,54px); font-weight:700; line-height:1.3;
-  color:#dff2ed; word-break:break-word;
+  margin:0; font-family:var(--head); font-size:clamp(38px,11.5vw,52px); font-weight:800;
+  line-height:1.25; color:var(--ink); word-break:break-word;
 }
 .role-imp{
-  margin:0; font-size:clamp(34px,10.5vw,48px); font-weight:700; line-height:1.3;
-  color:#f3d2cb; animation:impIn .26s ease both;
+  margin:0; font-family:var(--head); font-size:clamp(34px,10.5vw,46px); font-weight:800;
+  line-height:1.25; color:var(--coral); animation:impIn .22s ease both;
 }
 @keyframes impIn{ from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:none; } }
-.role-note{ margin:0; max-width:32ch; font-size:12.5px; color:var(--dim); line-height:1.8; }
+.role-note{ margin:0; max-width:32ch; font-size:13px; color:var(--ink-2); line-height:1.8; }
+.secret-card.revealed.imposter .role-note{ color:#c9c9cf; }
 .cat-chip{
-  display:inline-flex; align-items:center; gap:6px; padding:3px 10px;
-  border:1px solid var(--line-2); border-radius:99px; font-size:11.5px; color:var(--dim);
+  display:inline-flex; align-items:center; gap:6px; padding:3px 11px;
+  background:var(--card); border:2px solid var(--line); border-radius:99px;
+  font-size:11.5px; font-weight:700;
 }
 
 /* ===================== القوائم ===================== */
-.list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px; }
+.list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
 .row{
-  display:flex; align-items:center; gap:11px; padding:10px 12px;
-  border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2);
-  animation:tagIn .2s ease both;
+  display:flex; align-items:center; gap:10px; padding:9px 11px;
+  background:var(--bg); border:2px solid var(--line); border-radius:var(--r);
+  animation:tagIn .18s ease both;
 }
 .avatar{
   width:32px; height:32px; flex:0 0 auto; display:grid; place-items:center;
-  border:1px solid var(--line-2); border-radius:var(--r-sm);
-  font-size:13.5px; font-weight:600; color:var(--dim); background:var(--bg);
+  border:2px solid var(--line); border-radius:9px; background:var(--yellow);
+  font-family:var(--head); font-size:14px; font-weight:800; color:var(--ink);
 }
-.row-name{ flex:1; min-width:0; font-size:14.5px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.row-idx{ font-family:var(--mono); font-size:11px; color:var(--faint); }
+.row:nth-child(4n+2) .avatar{ background:var(--teal); color:#fff; }
+.row:nth-child(4n+3) .avatar{ background:var(--coral); color:#fff; }
+.row:nth-child(4n+4) .avatar{ background:var(--blue); color:#fff; }
+.row-name{ flex:1; min-width:0; font-size:14.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.row-idx{ font-family:var(--mono); font-size:11px; color:var(--muted); font-weight:700; }
 .role-chip{
-  display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:99px;
-  font-size:11.5px; font-weight:600; border:1px solid var(--line-2); color:var(--dim);
+  display:inline-flex; align-items:center; gap:5px; padding:2px 9px; border-radius:99px;
+  font-size:11.5px; font-weight:800; border:2px solid var(--line); background:var(--card);
 }
-.role-chip svg{ width:13px; height:13px; }
-.role-chip.civ{ color:var(--civil); border-color:var(--civil-line); background:var(--civil-tint); }
-.role-chip.imp{ color:var(--imp); border-color:var(--imp-line); background:var(--imp-tint); }
-.mark-vote{ font-size:11px; color:var(--faint); border-inline-end:1px solid var(--line-2); padding-inline-end:9px; }
+.role-chip svg{ width:12px; height:12px; stroke-width:2.2; }
+.role-chip.civ{ background:var(--teal-t); color:#0d6a54; }
+.role-chip.imp{ background:var(--coral); color:#fff; }
 
-/* ===================== المؤقت ===================== */
-.timer-display{
-  text-align:center; font-family:var(--mono); font-size:clamp(42px,13vw,56px);
-  font-weight:500; direction:ltr; font-variant-numeric:tabular-nums;
-  color:var(--text); line-height:1.1;
-  transition:color .2s ease;
-}
-.timer-display.low{ color:var(--imp); }
-.timer-display.over{ color:var(--imp); }
-.timer-bar{ height:2px; background:var(--line); border-radius:2px; overflow:hidden; }
-.timer-bar i{ display:block; height:100%; width:100%; background:var(--civil); transition:width .95s linear, background .2s; }
-.timer-bar i.low{ background:var(--imp); }
 .open-note{
-  padding:12px; border:1px dashed var(--line-2); border-radius:var(--r);
-  text-align:center; font-size:13px; color:var(--dim);
+  padding:11px; border:2px dashed var(--line); border-radius:var(--r);
+  text-align:center; font-size:13px; font-weight:700; color:var(--ink-2); background:var(--bg);
 }
-
-/* ===================== التصويت ===================== */
-.vote-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(132px,1fr)); gap:8px; }
-.vote-card{
-  position:relative; cursor:pointer; padding:14px 12px; border-radius:var(--r);
-  background:var(--surface-2); border:1px solid var(--line); color:var(--text);
-  font-family:var(--font); display:flex; flex-direction:column; align-items:center; gap:8px;
-  transition:border-color .15s, background .15s, transform .1s;
-}
-.vote-card:hover{ border-color:var(--line-3); }
-.vote-card:active{ transform:translateY(1px); }
-.vote-card .v-name{ font-size:14px; font-weight:600; }
-.vote-card .v-ico{ color:var(--faint); }
-.vote-card.sel{ border-color:var(--imp-line); background:var(--imp-tint); }
-.vote-card.sel .v-ico{ color:var(--imp); }
-.vote-card .v-check{
-  position:absolute; top:8px; inset-inline-end:8px; color:var(--imp);
-  opacity:0; transition:opacity .15s;
-}
-.vote-card.sel .v-check{ opacity:1; }
 
 /* ===================== النتيجة ===================== */
 .verdict{
-  padding:24px 18px; border:1px solid var(--line-2); border-radius:16px;
-  background:var(--surface); text-align:center;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
+  padding:22px 16px; background:var(--card);
+  border:3px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--sh-lg);
+  text-align:center; display:flex; flex-direction:column; align-items:center; gap:9px;
 }
-.verdict.win{ border-color:var(--civil-line); background-image:linear-gradient(180deg, var(--civil-tint), transparent 55%); }
-.verdict.lose{ border-color:var(--imp-line); background-image:linear-gradient(180deg, var(--imp-tint), transparent 55%); }
-.verdict-ico{ color:var(--dim); }
-.verdict.win .verdict-ico{ color:var(--civil); }
-.verdict.lose .verdict-ico{ color:var(--imp); }
-.verdict-title{ margin:0; font-size:clamp(23px,7vw,30px); font-weight:700; line-height:1.35; }
-.verdict-sub{ margin:0; color:var(--dim); font-size:14px; max-width:42ch; }
+.verdict.reveal{ background:var(--yellow-t); }
+.verdict.win{ background:var(--teal-t); }
+.verdict.lose{ background:var(--coral-t); }
+.verdict-ico{
+  width:52px; height:52px; display:grid; place-items:center; border-radius:50%;
+  background:var(--card); border:3px solid var(--line); color:var(--ink);
+}
+.verdict.reveal .verdict-ico{ background:var(--yellow); }
+.verdict.win .verdict-ico{ background:var(--teal); color:#fff; }
+.verdict.lose .verdict-ico{ background:var(--coral); color:#fff; }
+.verdict-ico svg{ width:26px; height:26px; }
+.verdict-title{ margin:0; font-family:var(--head); font-size:clamp(24px,7vw,32px); font-weight:800; line-height:1.3; }
+.verdict-sub{ margin:0; color:var(--ink-2); font-size:14px; max-width:42ch; }
 .word-box{
-  margin-top:6px; padding:12px 22px; border:1px solid var(--line-2); border-radius:var(--r);
-  background:var(--bg); display:flex; flex-direction:column; align-items:center; gap:3px; min-width:190px;
+  margin-top:4px; padding:11px 22px; background:var(--card);
+  border:2px solid var(--line); border-radius:var(--r); box-shadow:var(--sh);
+  display:flex; flex-direction:column; align-items:center; gap:2px; min-width:190px;
 }
-.word-box .wk{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--faint); }
-.word-box .wv{ font-size:23px; font-weight:700; }
-.word-box .wm{ font-size:11.5px; color:var(--faint); }
+.word-box .wk{ font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--muted); font-weight:700; }
+.word-box .wv{ font-family:var(--head); font-size:26px; font-weight:800; }
+.word-box .wm{ font-size:11.5px; color:var(--muted); }
 .chaos-note{
-  padding:12px 14px; border:1px solid var(--imp-line); border-radius:var(--r);
-  background:var(--imp-tint); font-size:13px; color:#e9bcb3; text-align:center;
+  padding:12px 14px; text-align:center; font-size:13px; font-weight:700; color:#fff;
+  background:var(--coral); border:2px solid var(--line); border-radius:var(--r); box-shadow:var(--sh);
 }
 
 /* ===================== نافذة القواعد ===================== */
 .modal{
   position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center; padding:16px;
-  background:rgba(5,7,10,.82); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  background:rgba(27,27,31,.6);
 }
-.modal.open{ display:flex; animation:fadeIn .16s ease both; }
+.modal.open{ display:flex; animation:fadeIn .14s ease both; }
 @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
 .modal-card{
   width:100%; max-width:520px; max-height:86vh; overflow-y:auto;
-  padding:18px; border-radius:16px; background:var(--surface); border:1px solid var(--line-2);
-  animation:screenIn .2s ease both;
+  padding:17px; background:var(--card);
+  border:3px solid var(--line); border-radius:var(--r-xl); box-shadow:var(--sh-lg);
+  animation:screenIn .18s ease both;
 }
-.rules{ list-style:none; margin:14px 0 16px; padding:0; display:flex; flex-direction:column; gap:0; }
+.rules{ list-style:none; margin:13px 0 15px; padding:0; display:flex; flex-direction:column; gap:0; }
 .rules li{
-  display:flex; gap:12px; padding:11px 0; border-top:1px solid var(--line);
-  font-size:13.5px; line-height:1.8; color:var(--dim);
+  display:flex; gap:11px; padding:10px 0; border-top:2px dashed rgba(27,27,31,.18);
+  font-size:13.5px; line-height:1.8; color:var(--ink-2); font-weight:500;
 }
 .rules li:first-child{ border-top:0; }
-.rules .rn{ font-family:var(--mono); font-size:11.5px; color:var(--faint); padding-top:3px; }
-.rules b{ color:var(--text); font-weight:600; }
+.rules .rn{
+  font-family:var(--mono); font-size:10px; font-weight:700; color:var(--ink);
+  background:var(--yellow); border:2px solid var(--line); border-radius:6px;
+  padding:1px 6px; height:fit-content;
+}
+.rules b{ color:var(--ink); font-weight:800; }
 
-.footer-note{ text-align:center; font-size:11px; color:var(--faint); padding-top:4px; }
+.footer-note{ text-align:center; font-size:11px; color:var(--muted); }
 .footer-note .mono{ font-size:10.5px; }
 
 @media (max-width:520px){
-  /* مساحة كافية أسفل المحتوى حتى لا يغطّي الشريط الثابت آخر عنصر في الصفحة */
-  .app{ padding:10px 10px calc(104px + env(safe-area-inset-bottom)); gap:12px; }
-  .panel{ padding:14px; }
-  .chips{ grid-template-columns:repeat(auto-fill,minmax(146px,1fr)); }
-  .vote-grid{ grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); }
-  .secret-card{ min-height:320px; }
-  .meta-cell{ min-width:100%; }
+  .app{ padding:10px 10px calc(112px + env(safe-area-inset-bottom)); gap:12px; }
+  .panel{ padding:13px; }
+  .chips{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .secret-card{ min-height:300px; }
 }
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration:.001s !important; transition-duration:.06s !important; }
 }
+
 </style>
 </head>
 <body>
@@ -747,63 +744,14 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
         <h2 class="sec-title">وقت النقاش</h2>
         <i class="sec-rule"></i>
       </div>
-      <p class="lede">كل لاعب يصف الكلمة السرّية بجملة واحدة دون ذكرها صراحة. المحتال يستمع بذكاء ليخمّن الكلمة ويقلّدكم… فلا تكونوا أوضح من اللازم.</p>
+      <p class="lede">بالترتيب، كل لاعب يقول جملة واحدة تصف الكلمة السرّية دون ذكرها. المحتال يستمع بذكاء ليمسك الكلمة من كلامكم… فلا تكونوا أوضح من اللازم.</p>
       <ul class="list" id="discussList"></ul>
-    </div>
-
-    <div class="panel">
-      <div class="sec-head">
-        <span class="sec-num">05</span>
-        <h2 class="sec-title">المؤقّت</h2>
-        <i class="sec-rule"></i>
-      </div>
-
-      <div class="setting-row">
-        <div class="setting-text">
-          <span class="setting-title">مؤقّت النقاش</span>
-          <span class="setting-sub" id="timerModeHint">مدة محدّدة، ثم ننتقل للتصويت</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="timerToggle" checked>
-          <span class="track"><span class="thumb"></span></span>
-        </label>
-      </div>
-
-      <div id="timerSettings" style="display:flex;flex-direction:column;gap:12px">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
-          <span class="chaos-label">مدة النقاش</span>
-          <span class="chaos-pct" id="timerMinutesLabel" style="color:var(--text)">3 دقائق</span>
-        </div>
-        <input type="range" id="timerMinutes" min="1" max="10" step="1" value="3">
-        <div class="timer-display" id="timerDisplay">03:00</div>
-        <div class="timer-bar"><i id="timerBar"></i></div>
-        <div class="btn-row">
-          <button class="btn btn-civil" id="btnTimerStart">ابدأ المؤقّت</button>
-          <button class="btn btn-ghost" id="btnTimerReset">تصفير</button>
-        </div>
-      </div>
-
-      <div class="open-note" id="noTimerNote" hidden>الوقت مفتوح — لا يوجد عدّاد. ناقشوا بحرية حتى تجهزوا للتصويت.</div>
+      <p class="open-note" id="discussNote">النقاش مفتوح بلا عدّاد زمني — عندما تنتهون اضغطوا «إنهاء اللعبة» في الأسفل.</p>
     </div>
 
   </section>
 
-  <!-- ===================== 4) التصويت ===================== -->
-  <section class="screen" id="screen-vote">
-    <div class="panel">
-      <div class="sec-head">
-        <span class="sec-num">06</span>
-        <h2 class="sec-title">التصويت</h2>
-        <i class="sec-rule"></i>
-      </div>
-      <p class="lede">بعد انتهاء النقاش، اضغطوا على اسم اللاعب الذي تشكّون فيه أكثر من غيره. صوت واحد للمجموعة كاملة.</p>
-      <div class="vote-grid" id="voteGrid"></div>
-      <p class="note" id="voteHint">لم يتم اختيار أي لاعب بعد.</p>
-    </div>
-
-  </section>
-
-  <!-- ===================== 5) النتيجة ===================== -->
+  <!-- ===================== 4) النتيجة ===================== -->
   <section class="screen" id="screen-result">
     <div class="verdict" id="resultHero">
       <span class="verdict-ico" id="resultIcon"></span>
@@ -829,7 +777,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
   </section>
 
-  <p class="footer-note">من المحتال؟ <span class="mono">v2.0</span> — لعبة محلية بجهاز واحد · بلا حسابات وبلا إنترنت</p>
+  <p class="footer-note">من المحتال؟ <span class="mono">v3.0</span> — لعبة محلية بجهاز واحد · بلا حسابات وبلا إنترنت</p>
 </div>
 
 <!-- ===================== الشريط السفلي: الأمر الأساسي لكل شاشة ===================== -->
@@ -850,13 +798,8 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
     <!-- النقاش -->
     <div class="nav-group" data-screen="discuss">
-      <button class="btn btn-solid btn-grow" id="btnToVote">الانتقال إلى التصويت</button>
-    </div>
-
-    <!-- التصويت -->
-    <div class="nav-group" data-screen="vote">
-      <button class="btn btn-ghost" id="btnSkipVote">تخطّي</button>
-      <button class="btn btn-imp btn-grow" id="btnReveal" disabled>كشف النتيجة</button>
+      <p class="nav-status">النقاش مفتوح — اضغط عندما تنتهون</p>
+      <button class="btn btn-solid" id="btnEndGame">إنهاء اللعبة</button>
     </div>
 
     <!-- النتيجة -->
@@ -881,8 +824,8 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       <li><span class="rn">01</span><span>أضِفوا أسماء اللاعبين (3 على الأقل) واختاروا <b>التصنيفات</b> التي تحبونها.</span></li>
       <li><span class="rn">02</span><span>مرّروا الجهاز بين اللاعبين. كل لاعب <b>يضغط مطولاً</b> على الكرت ليرى دوره، ثم يُفلت فيُغلق الكرت فوراً.</span></li>
       <li><span class="rn">03</span><span><b>المدنيون</b> يرون الكلمة السرّية نفسها. <b>المحتال</b> لا يراها، ويرى أنّه المحتال فقط.</span></li>
-      <li><span class="rn">04</span><span>في <b>وقت النقاش</b>، كل لاعب يقول جملة واحدة تصف الكلمة دون ذكرها. المحتال يتصرّف كأنّه يعرفها.</span></li>
-      <li><span class="rn">05</span><span>صوّتوا على المشتبه به، ثم <b>اكشفوا النتيجة</b>: إن أخرجتم المحتال ربح المدنيون، وإن أخطأتم انتصر المحتال.</span></li>
+      <li><span class="rn">04</span><span>في <b>النقاش</b> كل لاعب يقول جملة واحدة تصف الكلمة دون ذكرها، والمحتال يتصرّف كأنّه يعرفها.</span></li>
+      <li><span class="rn">05</span><span>عندما تنتهون اضغطوا <b>«إنهاء اللعبة»</b> فيُكشف المحتال والكلمة السرّية للجميع.</span></li>
       <li><span class="rn">06</span><span><b>وضع الفوضى:</b> احتمال أن يصبح الجميع محتالين. لا أحد يعلم ذلك، والنتيجة تصبح صادمة للجميع.</span></li>
     </ul>
     <button class="btn btn-solid btn-block" id="btnRulesOk">فهمت، لنلعب</button>
@@ -925,7 +868,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     refresh:  '<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20.2 4v4.4h-4.4"/>',
     sliders:  '<path d="M4.5 8h9M17.5 8h2M4.5 16h3M11.5 16h8"/><circle cx="15.5" cy="8" r="2"/><circle cx="9.5" cy="16" r="2"/>',
     arrow:    '<path d="M14.5 6.5L9 12l5.5 5.5"/>',
-    vote:     '<rect x="4.5" y="4.5" width="15" height="15" rx="2"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
     burst:    '<path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4"/><path d="M6.6 6.6l2.8 2.8M14.6 14.6l2.8 2.8M17.4 6.6l-2.8 2.8M9.4 14.6l-2.8 2.8"/>',
     target:   '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
     shrug:    '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 15c1-1.2 2.1-1.8 3.5-1.8s2.5.6 3.5 1.8"/><path d="M9 9.8h.01M15 9.8h.01"/>'
@@ -1020,16 +962,14 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     chaos: false,
     chaosRate: 25,
     lastWord: null,
-    round: null,
-    vote: { accused: -1 },
-    timer: { total: 180, left: 180, running: false, id: null }
+    round: null
   };
 
   const $ = (id) => document.getElementById(id);
   const el = {
     screens: {
       setup: $('screen-setup'), reveal: $('screen-reveal'), discuss: $('screen-discuss'),
-      vote: $('screen-vote'), result: $('screen-result')
+      result: $('screen-result')
     },
     playerName: $('playerName'), playerTags: $('playerTags'), playersCount: $('playersCount'),
     playersHint: $('playersHint'), startHint: $('startHint'),
@@ -1040,11 +980,8 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     turnCounter: $('turnCounter'), turnCatBadge: $('turnCatBadge'), turnName: $('turnName'),
     turnBars: $('turnBars'), secretCard: $('secretCard'), cardHint: $('cardHint'),
     cardLock: $('cardLock'), cardRole: $('cardRole'), btnNextPlayer: $('btnNextPlayer'), revealNote: $('revealNote'),
-    discussList: $('discussList'), timerToggle: $('timerToggle'), timerSettings: $('timerSettings'),
-    noTimerNote: $('noTimerNote'), timerMinutes: $('timerMinutes'), timerMinutesLabel: $('timerMinutesLabel'),
-    timerDisplay: $('timerDisplay'), timerBar: $('timerBar'), timerModeHint: $('timerModeHint'),
-    btnTimerStart: $('btnTimerStart'), btnTimerReset: $('btnTimerReset'), btnToVote: $('btnToVote'),
-    voteGrid: $('voteGrid'), voteHint: $('voteHint'), btnReveal: $('btnReveal'), btnSkipVote: $('btnSkipVote'),
+    discussList: $('discussList'), discussNote: $('discussNote'),
+    btnEndGame: $('btnEndGame'),
     resultHero: $('resultHero'), resultIcon: $('resultIcon'), resultTitle: $('resultTitle'),
     resultSub: $('resultSub'), resultWord: $('resultWord'), resultCat: $('resultCat'),
     chaosBanner: $('chaosBanner'), resultList: $('resultList'),
@@ -1069,10 +1006,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
   const escapeHTML = (s) => String(s).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  const fmtTime = (sec) => {
-    const m = Math.floor(sec / 60), s = sec % 60;
-    return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-  };
+
 
   /* أرقام عربية بالصيغة الغربية (المستعملة في المغرب) */
   const catCount = () => state.categories.size + ' / ' + CAT_KEYS.length;
@@ -1348,7 +1282,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       i: 0,
       done: new Set()
     };
-    state.vote = { accused: -1 };
 
     el.turnCatBadge.innerHTML = svg(pool.icon, 'ico-sm') + '<span>' + escapeHTML(pool.catName) + '</span>';
     showScreen('reveal');
@@ -1469,141 +1402,41 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
   function goToDiscussion() {
     el.discussList.innerHTML = state.round.order.map((n, i) => playerRow(n, i)).join('');
-    syncTimerUI();
-    resetTimer();
+    el.discussNote.textContent = 'النقاش مفتوح بلا مؤقّت — عندما تنتهون اضغطوا «إنهاء اللعبة» في الشريط السفلي.';
     showScreen('discuss');
   }
 
-  function syncTimerUI() {
-    const on = el.timerToggle.checked;
-    el.timerSettings.hidden = !on;
-    el.noTimerNote.hidden = on;
-    el.timerModeHint.textContent = on
-      ? 'مدة محدّدة، ثم ننتقل للتصويت'
-      : 'وقت مفتوح بلا حدود — أنتم من يقرّر متى ننتقل';
-    if (!on) stopTimer();
-  }
-
-  function resetTimer() {
-    stopTimer();
-    const mins = parseInt(el.timerMinutes.value, 10) || 3;
-    state.timer.total = mins * 60;
-    state.timer.left = mins * 60;
-    renderTimer();
-    el.btnTimerStart.textContent = 'ابدأ المؤقّت';
-  }
-
-  function renderTimer() {
-    el.timerDisplay.textContent = fmtTime(state.timer.left);
-    const pct = state.timer.total ? (state.timer.left / state.timer.total) * 100 : 0;
-    el.timerBar.style.width = pct + '%';
-    const low = state.timer.left <= 30 && state.timer.left > 0;
-    el.timerDisplay.classList.toggle('low', low);
-    el.timerBar.classList.toggle('low', low);
-  }
-
-  function startTimer() {
-    if (state.timer.running) return;
-    if (state.timer.left <= 0) state.timer.left = state.timer.total;
-    state.timer.running = true;
-    el.btnTimerStart.textContent = 'إيقاف مؤقّت';
-    state.timer.id = setInterval(() => {
-      state.timer.left -= 1;
-      if (state.timer.left <= 0) {
-        state.timer.left = 0;
-        stopTimer();
-        renderTimer();
-        el.timerDisplay.classList.add('over');
-        el.btnTimerStart.textContent = 'ابدأ من جديد';
-        if (navigator.vibrate) { try { navigator.vibrate([60, 50, 60, 50, 120]); } catch (e) {} }
-        return;
-      }
-      renderTimer();
-    }, 1000);
-  }
-
-  function stopTimer() {
-    clearInterval(state.timer.id);
-    state.timer.id = null;
-    state.timer.running = false;
-    el.btnTimerStart.textContent = state.timer.left <= 0 ? 'ابدأ من جديد' : 'متابعة المؤقّت';
-  }
-
   /* ==========================================================================
-     10) التصويت
+     10) نهاية اللعبة وكشف النتيجة
      ========================================================================== */
-  function goToVote() {
-    stopTimer();
+  const imposterNames = (r) =>
+    r.order.filter((_, i) => r.imposterIdx.has(i)).join('، ');
+
+  function endGame() {
     const r = state.round;
-    el.voteGrid.innerHTML = '';
-    state.vote.accused = -1;
-    el.btnReveal.disabled = true;
-    el.voteHint.className = 'note';
-    el.voteHint.textContent = 'لم يتم اختيار أي لاعب بعد.';
+    if (!r) return;
 
-    r.order.forEach((name, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'vote-card';
-      b.dataset.idx = String(i);
-      b.innerHTML =
-        '<span class="v-check">' + svg('check', 'ico-sm') + '</span>' +
-        '<span class="v-ico">' + svg('mask', 'ico-lg') + '</span>' +
-        '<span class="v-name">' + escapeHTML(name) + '</span>';
-      b.addEventListener('click', () => {
-        state.vote.accused = i;
-        Array.from(el.voteGrid.children).forEach((c) => c.classList.toggle('sel', c === b));
-        el.btnReveal.disabled = false;
-        el.voteHint.className = 'note';
-        el.voteHint.textContent = 'صوّتتُم على: ' + name;
-      });
-      el.voteGrid.appendChild(b);
-    });
-
-    showScreen('vote');
-  }
-
-  /* ==========================================================================
-     11) النتيجة
-     ========================================================================== */
-  function revealResult(skipped) {
-    stopTimer();
-    const r = state.round;
-    const accused = skipped ? -1 : state.vote.accused;
-    const accusedIsImposter = accused >= 0 && r.imposterIdx.has(accused);
-    const civCount = r.order.length - r.imposterIdx.size;
-
-    let icon, title, sub, cls;
-    if (r.chaosOn) {
-      icon = 'burst'; title = 'فوضى كاملة!'; cls = 'lose';
-      sub = 'كل اللاعبين كانوا محتالين في هذه الجولة… ولا أحد كان يعرف الكلمة السرّية أصلاً.';
-    } else if (accused < 0) {
-      icon = 'shrug'; title = 'لا تصويت هذه الجولة'; cls = 'lose';
-      sub = 'لم تُخرجوا أحداً. المحتال يعيش ليجول مرة أخرى.';
-    } else if (accusedIsImposter) {
-      icon = 'target'; title = 'أمسكتم المحتال!'; cls = 'win';
-      sub = '«' + r.order[accused] + '» كان المحتال — ونجح المدنيون في كشفه.';
-      if (navigator.vibrate) { try { navigator.vibrate([25, 40, 25]); } catch (e) {} }
-    } else {
-      icon = 'mask'; title = 'المحتال انتصر!'; cls = 'lose';
-      sub = 'أخرجتُم «' + r.order[accused] + '» وكان مدنياً بريئاً… واستمرّ المحتال في اللعب.';
-    }
-
-    el.resultHero.className = 'verdict ' + cls;
-    el.resultIcon.innerHTML = svg(icon, 'ico-lg');
-    el.resultTitle.textContent = title;
-    el.resultSub.textContent = sub;
     el.resultWord.textContent = r.word;
-    el.resultCat.textContent = r.catName + ' · ' + civCount + ' مدني و ' + r.imposterIdx.size + ' محتال';
+    el.resultCat.textContent = r.catName + ' · ' + (r.order.length - r.imposterIdx.size) + ' مدني و ' + r.imposterIdx.size + ' محتال';
     el.chaosBanner.hidden = !r.chaosOn;
 
     el.resultList.innerHTML = r.order.map((name, i) => {
       const isImp = r.imposterIdx.has(i);
       const role = '<span class="role-chip ' + (isImp ? 'imp' : 'civ') + '">' +
         svg(isImp ? 'mask' : 'shield', '') + (isImp ? 'محتال' : 'مدني') + '</span>';
-      const mark = accused === i ? '<span class="mark-vote">صوّتتُم عليه</span>' : '';
-      return playerRow(name, i, mark + role);
+      return playerRow(name, i, role);
     }).join('');
+
+    /* شاشة الكشف: الكلمة السرّية + من كان المحتال — بلا حكم فائز */
+    const who = imposterNames(r);
+    el.resultIcon.innerHTML = svg(r.chaosOn ? 'burst' : 'mask', 'ico-lg');
+    el.resultHero.className = 'verdict ' + (r.chaosOn ? 'lose' : 'reveal');
+    el.resultTitle.textContent = r.chaosOn ? 'فوضى كاملة!' : 'المحتال: ' + who;
+    el.resultSub.textContent = r.chaosOn
+      ? 'كل اللاعبين كانوا محتالين… ولا أحد كان يعرف الكلمة السرّية أصلاً.'
+      : (r.imposterIdx.size > 1
+          ? 'كان معكم ' + r.imposterIdx.size + ' محتالين في هذه الجولة.'
+          : 'كان بينكم محتال واحد… والكلمة السرّية ظهرت الآن للجميع.');
 
     showScreen('result');
   }
@@ -1669,7 +1502,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
   el.btnHome.addEventListener('click', () => {
     if (state.round && !confirm('العودة للقائمة الرئيسية ستلغي الجولة الحالية. متابعة؟')) return;
-    stopTimer();
     state.round = null;
     showScreen('setup');
   });
@@ -1701,20 +1533,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
   el.btnNextPlayer.addEventListener('click', nextPlayer);
 
-  el.timerToggle.addEventListener('change', () => { syncTimerUI(); if (el.timerToggle.checked) resetTimer(); });
-  el.timerMinutes.addEventListener('input', () => {
-    const m = parseInt(el.timerMinutes.value, 10);
-    el.timerMinutesLabel.textContent = m + (m === 1 ? ' دقيقة' : (m === 2 ? ' دقيقتان' : ' دقائق'));
-    if (!state.timer.running) resetTimer();
-  });
-  el.btnTimerStart.addEventListener('click', () => {
-    if (state.timer.running) { stopTimer(); renderTimer(); } else startTimer();
-  });
-  el.btnTimerReset.addEventListener('click', () => { stopTimer(); resetTimer(); });
-  el.btnToVote.addEventListener('click', () => { stopTimer(); goToVote(); });
-
-  el.btnReveal.addEventListener('click', () => { if (state.vote.accused >= 0) revealResult(false); });
-  el.btnSkipVote.addEventListener('click', () => revealResult(true));
+  el.btnEndGame.addEventListener('click', endGame);
 
   $('btnNewRound').addEventListener('click', startRound);
   $('btnBackSetup').addEventListener('click', () => { state.round = null; showScreen('setup'); syncHints(); });
@@ -1733,8 +1552,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     syncSettingsUI();
     syncHints();
     updateStartState();
-    el.timerMinutesLabel.textContent = el.timerMinutes.value + ' دقائق';
-    resetTimer();
     showScreen('setup');
   }
   init();
