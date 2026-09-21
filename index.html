@@ -1834,6 +1834,9 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     lastHelloAt: 0,
     joinWatch: null,      // مؤقّت: هل وجدنا الغرفة فعلاً؟
     busy: false,          // عملية إنشاء/انضمام جارية
+    hostWarned: false,    // نبّهنا اللاعب أن المضيف انقطع؟
+    hostTimeoutMs: 30000, // كم ننتظر بلا رسالة من المضيف قبل التنبيه
+    playerTimeoutMs: 90000, // مهلة إسقاط لاعب صامت (في غرفة الانتظار فقط)
     phase: 'lobby',       // lobby | role | discuss | result
     players: [],          // [{id, name, seen}]
     myRole: null,         // {imp:bool, word?:string, cat?:string}
@@ -2060,6 +2063,18 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     clearInterval(O.pingId);
     O.pingId = setInterval(() => {
       const now = Date.now();
+      /* لا نُبقي لاعباً اختفى في غرفة الانتظار (من أغلق الصفحة بلا وداع) */
+      if (O.isHost && O.phase === 'lobby' && O.room) {
+        const before = O.players.length;
+        O.players = O.players.filter(p => p.id === O.pid || !p.lastSeen || now - p.lastSeen < O.playerTimeoutMs);
+        if (O.players.length !== before) publishState();
+      }
+      /* اللاعب: هل انقطع المضيف؟ */
+      if (!O.isHost && O.active && O.hostSeen && O.lastStateAt && !O.hostWarned &&
+          now - O.lastStateAt > O.hostTimeoutMs) {
+        O.hostWarned = true;
+        setStatus('يبدو أن المضيف خرج من اللعبة — إن لم تعُد الغرفة خلال لحظات، اطلب منه فتح غرفة جديدة.', 'off');
+      }
       if (O.isHost) {
         if (!O.room) return;
         const gap = O.players.length < 2 ? 1800 : 5000;   // وحيداً: نشر أسرع ليجدنا الآخرون
@@ -2099,20 +2114,18 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 
     /* --- من اللاعبين إلى المضيف --- */
     if (O.isHost && (fromAll || fromHostTopic)) {
-      if (msg.t === 'hello' || msg.t === 'ping') {
+      if (msg.t === 'hello' || msg.t === 'ping' || msg.t === 'roleq') {
         if (msg.id && msg.id !== O.pid) {
           const p = O.players.find(x => x.id === msg.id);
-          if (!p) O.players.push({ id: msg.id, name: (msg.name || 'لاعب').slice(0, 16), seen: false });
-          else p.name = (msg.name || p.name).slice(0, 16);
+          if (!p) O.players.push({ id: msg.id, name: (msg.name || 'لاعب').slice(0, 16), seen: false, lastSeen: Date.now() });
+          else { p.name = (msg.name || p.name).slice(0, 16); p.lastSeen = Date.now(); }
           publishState();
           // إن كانت الجولة جارية: أعد إرسال الدور لهذا اللاعب
           if (O.phase !== 'lobby' && O.game) sendRoleTo(msg.id);
         }
-      } else if (msg.t === 'roleq') {
-        if (O.phase !== 'lobby' && O.game) sendRoleTo(msg.id);
       } else if (msg.t === 'ready') {
         const p = O.players.find(x => x.id === msg.id);
-        if (p) { p.seen = true; publishState(); }
+        if (p) { p.seen = true; p.lastSeen = Date.now(); publishState(); }
         if (O.players.length >= 3 && O.players.every(x => x.seen)) {
           setTimeout(() => { if (O.phase === 'role') hostGoDiscuss(); }, 800);
         }
@@ -2205,6 +2218,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       const inp = $('roomCodeInput');
       if (inp) inp.classList.remove('err');
     }
+    if (O.hostWarned) { O.hostWarned = false; setStatus('متصل بالغرفة', 'live'); }
     O.hostSeen = true;
     O.lastStateAt = Date.now();
     O.players = msg.players || [];
@@ -2537,7 +2551,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     }
     clearInterval(O.pingId);
     setTimeout(() => { O.clients.forEach(r => { try { r.client.end(true); } catch (e) {} }); }, silent ? 0 : 120);
-    O.clients = []; O.client = null; O.connected = false; O.backend = ''; O.seenMsg.clear(); O.players = []; O.myRole = null; O.hostSeen = false; O.lastStateAt = 0; lobbySig = readySig = '';
+    O.clients = []; O.client = null; O.connected = false; O.backend = ''; O.seenMsg.clear(); O.players = []; O.myRole = null; O.hostSeen = false; O.lastStateAt = 0; O.hostWarned = false; lobbySig = readySig = '';
     O.phase = 'lobby'; O.isHost = false; O.mode = 'local'; O.busy = false;
     if ($('btnEndGame')) $('btnEndGame').hidden = false;
     if ($('btnBackLobby')) $('btnBackLobby').hidden = true;
