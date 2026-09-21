@@ -391,6 +391,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 .screen{ display:none; flex-direction:column; gap:13px; }
 .screen.active{ display:flex; flex:1 1 auto; animation:screenIn .18s ease both; }
 #screen-mode{ justify-content:center; padding-bottom:6px; }
+/* أونلاين: نختصر البانر حتى يظهر صندوق الغرفة كاملاً بلا تمرير */
+#screen-setup.online #heroSetup .title-sub,
+#screen-setup.online #heroSetup .meta-row{ display:none; }
+#screen-setup.online #heroSetup{ padding-block:12px; }
+#screen-setup.online #heroSetup .title{ font-size:clamp(26px,7.4vw,34px); }
 @keyframes screenIn{ from{ opacity:0; transform:translateY(5px); } to{ opacity:1; transform:none; } }
 
 /* ===================== شاشة الكشف ===================== */
@@ -589,6 +594,22 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   box-shadow:var(--sh); line-height:0;
 }
 .qr-wrap svg{ width:150px; height:150px; display:block; }
+/* مسار الانضمام برمز */
+.join-pane{ display:flex; flex-direction:column; align-items:center; gap:9px; padding:13px; border-radius:var(--r);
+  background:var(--teal-t); border:2px dashed var(--line); animation:tagIn .18s ease both; }
+.code-label{ font-size:12px; font-weight:800; color:var(--ink); }
+.code-input{
+  width:100%; max-width:220px; padding:11px 16px 11px 22px; text-align:center;
+  font-family:var(--mono); font-size:29px; font-weight:800; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink); background:var(--card); border:2px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--sh); outline:none;
+}
+.code-input::placeholder{ color:#c9c9d1; letter-spacing:.3em; }
+.code-input:focus{ border-color:var(--teal); box-shadow:var(--sh), 0 0 0 3px var(--teal-t); }
+.code-input.err{ border-color:var(--coral-d); background:var(--coral-t); }
+.code-input.err, .field.err{ border-color:var(--coral-d); background:var(--coral-t); }
+.code-input[readonly]{ background:var(--bg-2); color:var(--ink-2); }
+.btn-grow{ flex:1 1 auto; }
 .online-status{
   display:flex; align-items:center; gap:7px;
   font-size:11.5px; font-weight:700; color:var(--ink-2);
@@ -707,16 +728,16 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   <!-- ===================== 1) الإعداد ===================== -->
   <section class="screen" id="screen-setup">
 
-    <div class="panel hero">
+    <div class="panel hero" id="heroSetup">
       <div class="brand-block">
-        <p class="eyebrow">لعبة استنتاج جماعية · جهاز واحد</p>
+        <p class="eyebrow" id="heroEyebrow">لعبة استنتاج جماعية · جهاز واحد</p>
         <h1 class="title">من المحتال؟</h1>
         <p class="title-sub">كلمة سرّية واحدة يعرفها الجميع… إلا واحد. صِفوا، شكّوا، واصطادوا المحتال قبل أن يصطادكم.</p>
       </div>
       <div class="meta-row">
-        <div class="meta-cell"><span class="meta-k">PLAYERS</span><span class="meta-v">3 وأكثر</span></div>
+        <div class="meta-cell"><span class="meta-k">PLAYERS</span><span class="meta-v" id="metaPlayers">3 وأكثر</span></div>
         <div class="meta-cell"><span class="meta-k">MODES</span><span class="meta-v">عادي · فوضى</span></div>
-        <div class="meta-cell"><span class="meta-k">NETWORK</span><span class="meta-v">بدون إنترنت</span></div>
+        <div class="meta-cell"><span class="meta-k">NETWORK</span><span class="meta-v" id="metaNetwork">بدون إنترنت</span></div>
       </div>
     </div>
 
@@ -729,18 +750,24 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       </div>
       <div class="input-row">
         <input class="field" id="onlineName" type="text" placeholder="اسمك في اللعبة…" maxlength="16"
-               autocomplete="off" autocapitalize="off" spellcheck="false">
+               autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="اسمك في اللعبة">
       </div>
+
       <div class="btn-row" id="onlineActions">
         <button class="btn btn-solid" id="btnCreateRoom">إنشاء غرفة</button>
-        <button class="btn btn-ghost" id="btnShowJoin">انضمام برمز</button>
+        <button class="btn btn-ghost" id="btnShowJoin">الانضمام برمز</button>
       </div>
-      <div class="input-row" id="joinRow" hidden>
-        <input class="field mono" id="roomCodeInput" type="text" placeholder="رمز الغرفة" maxlength="5"
-               autocomplete="off" autocapitalize="characters" spellcheck="false"
-               style="text-transform:uppercase;letter-spacing:.18em;text-align:center;font-weight:800">
-        <button class="btn btn-solid btn-sm" id="btnJoinGo">دخول</button>
+
+      <!-- مسار الانضمام: رمز من ٤ رموز أو رابط دعوة كامل -->
+      <div class="join-pane" id="joinRow" hidden>
+        <label class="code-label" for="roomCodeInput">رمز الغرفة</label>
+        <input class="code-input" id="roomCodeInput" type="text" inputmode="latin" maxlength="6"
+               placeholder="AB12" autocomplete="off" autocapitalize="characters" spellcheck="false"
+               enterkeyhint="go" aria-label="رمز الغرفة المكوّن من 4 رموز">
+        <p class="note" id="joinHint">اكتب الرمز الرباعي، أو الصق رابط الدعوة كاملاً.</p>
+        <button class="btn btn-solid btn-grow" id="btnJoinGo" disabled>انضمام إلى الغرفة</button>
       </div>
+
       <p class="note" id="onlineNote">أدخل اسمك ثم أنشئ غرفة، أو انضم برمز شاركه معك المضيف.</p>
     </div>
 
@@ -1343,6 +1370,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       ? 'اختر تصنيفاً واحداً على الأقل لسحب الكلمة السرّية.'
       : 'مجموع الكلمات المتاحة: ' + totalWords() + ' كلمة من ' + state.categories.size + ' تصنيف.';
     el.catsCount.textContent = catCount();
+    if (window.Online && window.Online.O && window.Online.O.mode === 'online') window.Online.syncHints();
   }
 
   function totalWords() {
@@ -1363,6 +1391,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     } else {
       el.startHint.textContent = 'اختر تصنيفاً واحداً على الأقل';
     }
+    if (window.Online && window.Online.O && window.Online.O.mode === 'online') window.Online.syncHints();
   }
 
   /* ==========================================================================
@@ -1803,6 +1832,8 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     lastStateAt: 0,       // وقت آخر حالة وصلت للمضيف
     lastPubAt: 0,         // آخر مرة نشر المضيف الحالة (لكبح التكرار)
     lastHelloAt: 0,
+    joinWatch: null,      // مؤقّت: هل وجدنا الغرفة فعلاً؟
+    busy: false,          // عملية إنشاء/انضمام جارية
     phase: 'lobby',       // lobby | role | discuss | result
     players: [],          // [{id, name, seen}]
     myRole: null,         // {imp:bool, word?:string, cat?:string}
@@ -1851,6 +1882,76 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       return JSON.parse(fromUtf8(out));
     } catch (e) { return null; }
   }
+
+  /* ------------------------------------------------------------------
+     3ب) رمز الغرفة: قراءة، تنظيف، تحقّق
+     ------------------------------------------------------------------ */
+  const CODE_ALPHABET_SET = CODE_ALPHABET;
+  const isCodeChar = (ch) => CODE_ALPHABET_SET.indexOf(ch) >= 0;
+
+  function readCode(raw) {
+    let v = String(raw || '').trim();
+    const m = v.match(/[?&]room=([A-Za-z0-9]+)/i);     // لصق رابط دعوة كامل
+    if (m) v = m[1];
+    else {
+      const m2 = v.match(/\b([A-Za-z0-9]{4,5})\b\s*$/); // آخر كلمة في الرابط
+      if (m2 && /[\/:]/.test(v)) v = m2[1];
+    }
+    return v.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
+  }
+
+  function syncCodeInput() {
+    const inp = $('roomCodeInput');
+    if (!inp) return '';
+    const code = readCode(inp.value);
+    if (inp.value !== code) inp.value = code;
+    const wrong = code.split('').filter(ch => !isCodeChar(ch));
+    const ok = code.length >= 4 && wrong.length === 0;
+    inp.classList.toggle('err', code.length > 0 && !ok);
+    if ($('btnJoinGo')) $('btnJoinGo').disabled = !ok;
+    if ($('joinHint')) {
+      $('joinHint').textContent = !code.length
+        ? 'اكتب الرمز الرباعي، أو الصق رابط الدعوة كاملاً.'
+        : wrong.length
+          ? 'الرموز 0 و 1 و I و O غير مستخدمة في الرموز — راجع المضيف.'
+          : code.length < 4
+            ? 'الرمز يتكوّن من 4 رموز — تبقّى ' + (4 - code.length) + '.'
+            : 'الرمز ' + code + ' جاهز — اضغط انضمام.';
+      $('joinHint').className = 'note' + (wrong.length ? ' err' : '');
+    }
+    return ok ? code : '';
+  }
+
+  /* فتح/إغلاق مسار الانضمام مع إبراز المسار المختار */
+  function openJoinPane(show) {
+    if ($('joinRow')) $('joinRow').hidden = !show;
+    const create = $('btnCreateRoom'), join = $('btnShowJoin');
+    if (create && join) {
+      create.className = show ? 'btn btn-ghost' : 'btn btn-solid';
+      join.className = show ? 'btn btn-solid' : 'btn btn-ghost';
+    }
+    if (show) {
+      const inp = $('roomCodeInput');
+      if (inp && !inp.readOnly) setTimeout(() => { try { inp.focus(); inp.select(); } catch (e) {} }, 30);
+      syncCodeInput();
+    }
+  }
+
+  /* بعد الانضمام: إن لم يظهر المضيف خلال ثوانٍ فالرمز غالباً غير صحيح */
+  function startJoinWatch() {
+    clearTimeout(O.joinWatch);
+    O.joinWatch = setTimeout(() => {
+      if (!O.active || O.isHost || O.hostSeen) return;
+      setStatus('لم نجد غرفة نشطة بالرمز ' + O.room + '. تأكد من الرمز، أو اطلب من المضيف أن يفتح غرفته من جديد.', 'off');
+      openJoinPane(true);
+      const inp = $('roomCodeInput');
+      if (inp) { inp.readOnly = false; inp.classList.add('err'); }
+      if ($('btnJoinGo')) $('btnJoinGo').disabled = false;
+      G.showScreen('setup');
+      G.syncHints();
+    }, 9000);
+  }
+  function stopJoinWatch() { clearTimeout(O.joinWatch); O.joinWatch = null; }
 
   /* ------------------------------------------------------------------
      4) تحميل المكتبات عند الطلب
@@ -2099,6 +2200,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
      8) الضيف: تطبيق حالة المضيف
      ------------------------------------------------------------------ */
   function applyState(msg) {
+    if (!O.hostSeen) {
+      stopJoinWatch();
+      const inp = $('roomCodeInput');
+      if (inp) inp.classList.remove('err');
+    }
     O.hostSeen = true;
     O.lastStateAt = Date.now();
     O.players = msg.players || [];
@@ -2202,6 +2308,24 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     if ($('btnSeenRole')) $('btnSeenRole').hidden = false;
   }
 
+  /* نصوص الواجهة تتغيّر بحسب الوضع: تلميحات الرأس وشريط البدء */
+  function syncOnlineHints() {
+    if (O.mode !== 'online') return;
+    const eb = $('heroEyebrow');
+    if (eb) eb.textContent = 'لعبة استنتاج جماعية · على هواتفكم';
+    if ($('metaNetwork')) $('metaNetwork').textContent = 'يحتاج إنترنت';
+    if ($('metaPlayers')) {
+      $('metaPlayers').textContent = (O.active && O.players.length)
+        ? O.players.length + ' في الغرفة'
+        : 'على هواتفكم';
+    }
+    if ($('startHint')) {
+      $('startHint').textContent = !O.active
+        ? 'أدخل اسمك ثم أنشئ غرفة أو انضم برمز'
+        : (O.isHost ? 'أنت المضيف — شارك رمز الغرفة مع أصدقائك' : 'بانتظار المضيف ليبدأ الجولة…');
+    }
+  }
+
   /* المضيف فقط يملك أزرار القيادة: إنهاء اللعبة، العودة للغرفة، بدء الجولة */
   function syncOnlineUI() {
     const online = (O.mode === 'online');
@@ -2211,6 +2335,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     if ($('btnLobbyStart')) $('btnLobbyStart').hidden = !host;
     if ($('btnSeenRole')) $('btnSeenRole').hidden = !(online && O.phase === 'role' && O.myRole);
     if ($('onlineWaitNote')) $('onlineWaitNote').hidden = !online || host;
+    syncOnlineHints();
   }
 
   function renderOnlineDiscussion(game) {
@@ -2336,32 +2461,40 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   }
 
   function createRoom(name) {
+    if (O.busy) return;
+    O.busy = true;
     O.mode = 'online'; O.isHost = true; O.active = true;
     O.room = randCode(4);
     O.pid = 'h' + randCode(6);
     O.myName = name;
     O.players = [{ id: O.pid, name: name, seen: false }];
-    O.hostSeen = true; O.lastStateAt = Date.now(); lobbySig = readySig = '';
+    O.hostSeen = true; O.lastStateAt = Date.now(); lobbySig = readySig = ''; stopJoinWatch(); rememberName(name);
     O.phase = 'lobby';
     connect().then(() => {
+      O.busy = false;
       publishState();
       openLobby();
-    }).catch(connError);
+    }).catch((e) => { O.busy = false; connError(e); });
   }
 
   function joinRoom(name, code) {
+    if (O.busy) return;
+    O.busy = true;
     O.mode = 'online'; O.isHost = false; O.active = true;
     O.room = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
     O.pid = 'p' + randCode(6);
     O.myName = name;
     O.players = []; O.hostSeen = false; O.lastStateAt = 0; lobbySig = readySig = '';
     connect().then(() => {
+      O.busy = false;
       send(tHost(), { t: 'hello', id: O.pid, name: name });
       send(tAll(), { t: 'hello', id: O.pid, name: name });
-      openLobby();
-      setStatus('انضممت للغرفة — بانتظار المضيف…', 'wait');
+      /* لا ننقل الشاشة بعد: ننتظر أول حالة من المضيف.
+         لو كان الرمز خاطئاً يبقى اللاعب أمام حقل الرمز لتصحيحه. */
+      openLobby(true);
+      setStatus('نبحث عن الغرفة ' + O.room + '…', 'wait');
       try { sessionStorage.setItem('imp_room', O.room); sessionStorage.setItem('imp_pid', O.pid); sessionStorage.setItem('imp_name', name); } catch (e) {}
-    }).catch(connError);
+    }).catch((e) => { O.busy = false; connError(e); });
   }
 
   function connError(err) {
@@ -2369,7 +2502,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     if ($('onlineActions')) $('onlineActions').hidden = false;
   }
 
-  function openLobby() {
+  function openLobby(stayOnSetup) {
     $('roomCodeBig').textContent = O.room;
     $('lobbyNavStatus').textContent = O.isHost ? 'شارك الرمز مع أصدقائك' : 'بانتظار المضيف…';
     renderLobby();
@@ -2383,7 +2516,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
         wrap.hidden = false;
       }
     }).catch(() => {});
-    G.showScreen('lobby');
+    if (!stayOnSetup) G.showScreen('lobby');
     syncOnlineUI();
     updateUrlRoom();
   }
@@ -2397,6 +2530,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   }
 
   function leaveRoom(silent) {
+    stopJoinWatch();
     if (O.active) {
       if (O.connected && O.pid) send(O.isHost ? tAll() : tHost(), { t: 'bye', id: O.pid });
       O.active = false;
@@ -2404,7 +2538,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     clearInterval(O.pingId);
     setTimeout(() => { O.clients.forEach(r => { try { r.client.end(true); } catch (e) {} }); }, silent ? 0 : 120);
     O.clients = []; O.client = null; O.connected = false; O.backend = ''; O.seenMsg.clear(); O.players = []; O.myRole = null; O.hostSeen = false; O.lastStateAt = 0; lobbySig = readySig = '';
-    O.phase = 'lobby'; O.isHost = false; O.mode = 'local';
+    O.phase = 'lobby'; O.isHost = false; O.mode = 'local'; O.busy = false;
     if ($('btnEndGame')) $('btnEndGame').hidden = false;
     if ($('btnBackLobby')) $('btnBackLobby').hidden = true;
     if ($('btnSeenRole')) $('btnSeenRole').hidden = true;
@@ -2425,9 +2559,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     if ($('startHint')) $('startHint').textContent = online ? 'أنشئ غرفة أو انضم برمز' : '';
     if ($('readyList')) $('readyList').hidden = !online;
     if (!online) leaveRoom(true);
+    G.el.screens.setup.classList.toggle('online', online);   // بانر مختصر في الأونلاين
     G.showScreen('setup');
     G.syncHints();
     G.updateStartState();
+    if (online) syncOnlineHints();
   }
 
   /* ------------------------------------------------------------------
@@ -2448,20 +2584,47 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     createRoom(name);
   });
 
+  /* نتذكّر الاسم حتى لا يُكتب في كل مرة */
+  const NAME_KEY = 'imp_lastname';
+  function rememberName(name) { try { localStorage.setItem(NAME_KEY, name); } catch (e) {} }
+  function recallName() { try { return localStorage.getItem(NAME_KEY) || ''; } catch (e) { return ''; } }
+
   $('btnShowJoin').addEventListener('click', () => {
-    if ($('joinRow')) $('joinRow').hidden = false;
-    if ($('roomCodeInput')) $('roomCodeInput').focus();
+    openJoinPane(true);
+    setStatus('اكتب رمز الغرفة المكوّن من 4 رموز — أو الصق رابط الدعوة.', 'wait');
   });
+  $('btnCreateRoom').addEventListener('click', () => openJoinPane(false));
+
+  /* رمز الغرفة: تنظيف فوري + زر يتفعّل عند ٤ رموز */
+  $('roomCodeInput').addEventListener('input', syncCodeInput);
+  $('roomCodeInput').addEventListener('paste', () => setTimeout(syncCodeInput, 0));
+  $('roomCodeInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !$('btnJoinGo').disabled) doJoin();
+  });
+  $('onlineName').addEventListener('input', () => $('onlineName').classList.remove('err'));
+  syncCodeInput();
 
   const doJoin = () => {
     const name = ($('onlineName').value || '').trim().slice(0, 16);
-    const code = ($('roomCodeInput').value || '').trim().toUpperCase();
-    if (!name) { window.alert('اكتب اسمك أولاً.'); return; }
-    if (code.length < 4) { window.alert('رمز الغرفة من 4 أحرف.'); return; }
+    const code = syncCodeInput();
+    if (!name) { window.alert('اكتب اسمك أولاً.'); flashName(); return; }
+    if (!code) { setStatus('رمز الغرفة غير مكتمل — الرمز من 4 رموز.', 'off'); return; }
     $('onlineActions').hidden = true;
-    setStatus('جارٍ الانضمام…', 'wait');
+    setStatus('جارٍ الانضمام إلى الغرفة ' + code + '…', 'wait');
+    rememberName(name);
     joinRoom(name, code);
+    startJoinWatch();
+    if ($('btnJoinGo')) $('btnJoinGo').disabled = true;   // لا انضمام مزدوج
+    setStatus('نبحث عن الغرفة ' + code + '…', 'wait');
   };
+
+  function flashName() {
+    const inp = $('onlineName');
+    if (!inp) return;
+    inp.classList.add('err');
+    try { inp.focus(); } catch (e) {}
+    setTimeout(() => inp.classList.remove('err'), 1400);
+  }
   $('btnJoinGo').addEventListener('click', doJoin);
   $('roomCodeInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
   $('onlineName').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('btnCreateRoom').click(); });
@@ -2526,10 +2689,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     let saved = null;
     try { if (sessionStorage.getItem('imp_room') === room) saved = sessionStorage.getItem('imp_name'); } catch (e) {}
     setMode('online');
-    if ($('joinRow')) $('joinRow').hidden = false;
+    openJoinPane(true);
     if ($('roomCodeInput')) $('roomCodeInput').value = room;
-    if ($('onlineName')) $('onlineName').value = saved || '';
-    if (saved) joinRoom(saved, room);
+    syncCodeInput();
+    if ($('onlineName')) $('onlineName').value = saved || recallName();
+    if (saved) { joinRoom(saved, room); startJoinWatch(); }
     else {
       setStatus('أدخل اسمك للانضمام إلى الغرفة ' + room, 'wait');
       $('onlineActions').hidden = true;
@@ -2543,7 +2707,9 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   /* ------------------------------------------------------------------
      15) التهيئة
      ------------------------------------------------------------------ */
-  window.Online = { O, setMode, hostStartRound, hostGoDiscuss, hostEndGame, createRoom, joinRoom, leaveRoom, joinUrl, autoJoinFromUrl };
+  if ($('onlineName') && !$('onlineName').value) $('onlineName').value = recallName();
+
+  window.Online = { O, setMode, hostStartRound, syncHints: syncOnlineHints, hostGoDiscuss, hostEndGame, createRoom, joinRoom, leaveRoom, joinUrl, autoJoinFromUrl };
   autoJoinFromUrl();
 })();
 </script>
