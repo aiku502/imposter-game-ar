@@ -385,11 +385,12 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   overflow:hidden; text-overflow:ellipsis;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
 }
-@media (max-width:380px){ .nav-status{ display:none; } }
+@media (max-width:380px){ .nav-status:not(.nav-status-solo){ display:none; } }
 
 /* ===================== الشاشات ===================== */
 .screen{ display:none; flex-direction:column; gap:13px; }
 .screen.active{ display:flex; flex:1 1 auto; animation:screenIn .18s ease both; }
+#screen-mode{ justify-content:center; padding-bottom:6px; }
 @keyframes screenIn{ from{ opacity:0; transform:translateY(5px); } to{ opacity:1; transform:none; } }
 
 /* ===================== شاشة الكشف ===================== */
@@ -543,6 +544,69 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   background:var(--coral); border:2px solid var(--line); border-radius:var(--r); box-shadow:var(--sh);
 }
 
+/* ===================== بطاقات اختيار الوضع ===================== */
+.mode-card{
+  position:relative; display:flex; align-items:center; gap:13px; width:100%;
+  padding:16px; border-radius:var(--r-lg); cursor:pointer; text-align:start;
+  background:var(--card); border:3px solid var(--line); box-shadow:var(--sh-lg);
+  font-family:var(--font); color:var(--ink);
+  transition:transform .08s ease, box-shadow .08s ease, background .12s ease;
+}
+.mode-card:hover{ background:var(--yellow-t); }
+.mode-card:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--line); }
+.mode-card.mode-online{ background:var(--teal-t); }
+.mode-card.mode-online:hover{ background:#d3f2e8; }
+.mode-ico{
+  width:52px; height:52px; flex:0 0 auto; display:grid; place-items:center;
+  border:3px solid var(--line); border-radius:14px; background:var(--yellow);
+}
+.mode-card.mode-online .mode-ico{ background:var(--teal); color:#fff; }
+.mode-ico svg{ width:26px; height:26px; }
+.mode-body{ display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
+.mode-title{ font-family:var(--head); font-size:19px; font-weight:800; }
+.mode-desc{ font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.mode-arrow{ color:var(--ink); opacity:.5; }
+.mode-badge{
+  position:absolute; top:-9px; inset-inline-start:14px;
+  font-family:var(--mono); font-size:9.5px; font-weight:700;
+  background:var(--coral); color:#fff; border:2px solid var(--line);
+  border-radius:99px; padding:1px 9px;
+}
+
+/* ===================== غرفة الانتظار ===================== */
+.room-box{
+  display:flex; flex-direction:column; align-items:center; gap:9px;
+  padding:15px; border-radius:var(--r-lg);
+  background:var(--yellow-t); border:2px dashed var(--line);
+}
+.room-k{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--ink-2); font-weight:700; }
+.room-code{
+  font-family:var(--head); font-size:44px; font-weight:800; letter-spacing:.14em;
+  line-height:1.1; color:var(--ink);
+}
+.qr-wrap{
+  padding:9px; background:#fff; border:2px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--sh); line-height:0;
+}
+.qr-wrap svg{ width:150px; height:150px; display:block; }
+.online-status{
+  display:flex; align-items:center; gap:7px;
+  font-size:11.5px; font-weight:700; color:var(--ink-2);
+}
+.dot-live{
+  width:9px; height:9px; border-radius:50%; display:inline-block;
+  background:var(--teal); border:2px solid var(--line);
+}
+.dot-live.off{ background:var(--coral); }
+.dot-live.wait{ background:var(--yellow); animation:blink 1s ease-in-out infinite; }
+@keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+.row.ready .avatar{ background:var(--teal) !important; color:#fff; }
+.row.me{ border-color:var(--coral-d); box-shadow:2px 2px 0 var(--coral-d); }
+.ready-tag{
+  font-size:11px; font-weight:800; color:#0d6a54;
+  background:var(--teal-t); border:2px solid var(--line); border-radius:99px; padding:1px 8px;
+}
+
 /* ===================== نافذة القواعد ===================== */
 .modal{
   position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center; padding:16px;
@@ -577,6 +641,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   .panel{ padding:13px; }
   .chips{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   .secret-card{ min-height:300px; }
+  /* شاشة صغيرة: نضغط صندوق الغرفة قليلاً حتى يظهر الرمز ورمز QR بلا تمرير طويل */
+  .room-box{ padding:12px; gap:7px; }
+  .qr-wrap svg{ width:132px; height:132px; }
+  .mode-card{ padding:13px; }
+  .mode-desc{ font-size:12px; }
 }
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration:.001s !important; transition-duration:.06s !important; }
@@ -603,8 +672,40 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     </div>
   </header>
 
+  <!-- ===================== 0) اختيار الوضع ===================== -->
+  <section class="screen active" id="screen-mode">
+    <div class="panel hero">
+      <div class="brand-block">
+        <p class="eyebrow">لعبة استنتاج جماعية</p>
+        <h1 class="title">من المحتال؟</h1>
+        <p class="title-sub">كلمة سرّية واحدة يعرفها الجميع… إلا واحد. صِفوا، شكّوا، واصطادوا المحتال قبل أن يصطادكم.</p>
+      </div>
+    </div>
+
+    <button class="mode-card" id="modeLocal">
+      <span class="mode-ico" id="modeLocalIco"></span>
+      <span class="mode-body">
+        <span class="mode-title">لعب محلي</span>
+        <span class="mode-desc">جهاز واحد يمرّ بين أيديكم — لا يحتاج إنترنت</span>
+      </span>
+      <span class="mode-arrow" id="modeLocalArrow"></span>
+    </button>
+
+    <button class="mode-card mode-online" id="modeOnline">
+      <span class="mode-ico" id="modeOnlineIco"></span>
+      <span class="mode-body">
+        <span class="mode-title">لعب أونلاين</span>
+        <span class="mode-desc">كل لاعب على هاتفه — عبر رمز غرفة أو QR</span>
+      </span>
+      <span class="mode-arrow" id="modeOnlineArrow"></span>
+      <span class="mode-badge">يحتاج إنترنت</span>
+    </button>
+
+    <p class="note" style="text-align:center">وضع اللعب الجماعي يربط الهواتف بغرفة واحدة — بلا حساب وبلا تسجيل.</p>
+  </section>
+
   <!-- ===================== 1) الإعداد ===================== -->
-  <section class="screen active" id="screen-setup">
+  <section class="screen" id="screen-setup">
 
     <div class="panel hero">
       <div class="brand-block">
@@ -619,8 +720,32 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       </div>
     </div>
 
+    <!-- صندوق اللعب الجماعي (أونلاين فقط) -->
+    <div class="panel" id="onlineBox" hidden>
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">الغرفة</h2>
+        <i class="sec-rule"></i>
+      </div>
+      <div class="input-row">
+        <input class="field" id="onlineName" type="text" placeholder="اسمك في اللعبة…" maxlength="16"
+               autocomplete="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="btn-row" id="onlineActions">
+        <button class="btn btn-solid" id="btnCreateRoom">إنشاء غرفة</button>
+        <button class="btn btn-ghost" id="btnShowJoin">انضمام برمز</button>
+      </div>
+      <div class="input-row" id="joinRow" hidden>
+        <input class="field mono" id="roomCodeInput" type="text" placeholder="رمز الغرفة" maxlength="5"
+               autocomplete="off" autocapitalize="characters" spellcheck="false"
+               style="text-transform:uppercase;letter-spacing:.18em;text-align:center;font-weight:800">
+        <button class="btn btn-solid btn-sm" id="btnJoinGo">دخول</button>
+      </div>
+      <p class="note" id="onlineNote">أدخل اسمك ثم أنشئ غرفة، أو انضم برمز شاركه معك المضيف.</p>
+    </div>
+
     <!-- اللاعبون -->
-    <div class="panel">
+    <div class="panel" id="playersPanel">
       <div class="sec-head">
         <span class="sec-num">01</span>
         <h2 class="sec-title">اللاعبون</h2>
@@ -707,6 +832,30 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 
   </section>
 
+  <!-- ===================== 1ب) غرفة الانتظار ===================== -->
+  <section class="screen" id="screen-lobby">
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">غرفة الانتظار</h2>
+        <i class="sec-rule"></i>
+        <span class="sec-meta" id="lobbyCount">0</span>
+      </div>
+      <div class="room-box">
+        <span class="room-k">رمز الغرفة</span>
+        <span class="room-code mono" id="roomCodeBig">----</span>
+        <div class="qr-wrap" id="qrWrap" hidden></div>
+        <span class="note" id="roomHint">شاركوا الرمز أو امسحوا رمز QR</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-sm" id="btnCopyLink">نسخ الرابط</button>
+        <button class="btn btn-ghost btn-sm" id="btnShareLink">مشاركة</button>
+      </div>
+      <ul class="list" id="lobbyList"></ul>
+      <p class="open-note" id="lobbyNote">بانتظار انضمام اللاعبين…</p>
+    </div>
+  </section>
+
   <!-- ===================== 2) كشف الهوية ===================== -->
   <section class="screen" id="screen-reveal">
     <div class="turn-head">
@@ -734,6 +883,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       <div class="layer layer-role" id="cardRole"></div>
     </div>
 
+    <ul class="list" id="readyList" hidden></ul>
   </section>
 
   <!-- ===================== 3) النقاش ===================== -->
@@ -747,6 +897,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       <p class="lede">بالترتيب، كل لاعب يقول جملة واحدة تصف الكلمة السرّية دون ذكرها. المحتال يستمع بذكاء ليمسك الكلمة من كلامكم… فلا تكونوا أوضح من اللازم.</p>
       <ul class="list" id="discussList"></ul>
       <p class="open-note" id="discussNote">النقاش مفتوح بلا عدّاد زمني — عندما تنتهون اضغطوا «إنهاء اللعبة» في الأسفل.</p>
+      <p class="note" id="onlineWaitNote" hidden></p>
     </div>
 
   </section>
@@ -777,23 +928,36 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 
   </section>
 
-  <p class="footer-note">من المحتال؟ <span class="mono">v3.0</span> — لعبة محلية بجهاز واحد · بلا حسابات وبلا إنترنت</p>
+  <p class="footer-note">من المحتال؟ <span class="mono">v4.0</span> — لعب محلي بجهاز واحد أو جماعي على هواتفكم · بلا حسابات</p>
 </div>
 
 <!-- ===================== الشريط السفلي: الأمر الأساسي لكل شاشة ===================== -->
 <nav class="navbar" aria-label="أوامر الشاشة">
   <div class="navbar-inner">
 
+    <!-- اختيار الوضع -->
+    <div class="nav-group active" data-screen="mode">
+      <p class="nav-status nav-status-solo">اختر طريقة اللعب للبدء</p>
+    </div>
+
     <!-- الإعداد -->
-    <div class="nav-group active" data-screen="setup">
+    <div class="nav-group" data-screen="setup">
       <p class="nav-status" id="startHint"></p>
       <button class="btn btn-solid" id="btnStart" disabled>ابدأ اللعبة</button>
+    </div>
+
+    <!-- غرفة الانتظار -->
+    <div class="nav-group" data-screen="lobby">
+      <p class="nav-status" id="lobbyNavStatus">بانتظار اللاعبين…</p>
+      <button class="btn btn-solid" id="btnLobbyStart" disabled hidden>ابدأ الجولة</button>
+      <button class="btn btn-ghost" id="btnLeaveRoom">خروج</button>
     </div>
 
     <!-- كشف الهوية -->
     <div class="nav-group" data-screen="reveal">
       <p class="nav-status" id="revealNote">اضغط مطوّلاً على الكرت لكشف دورك</p>
       <button class="btn btn-solid" id="btnNextPlayer" hidden>اللاعب التالي</button>
+      <button class="btn btn-solid" id="btnSeenRole" hidden>تم، حفظت دوري</button>
     </div>
 
     <!-- النقاش -->
@@ -806,6 +970,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     <div class="nav-group" data-screen="result">
       <button class="btn btn-ghost" id="btnBackSetup">تغيير اللاعبين</button>
       <button class="btn btn-solid btn-grow" id="btnNewRound">جولة جديدة</button>
+      <button class="btn btn-ghost" id="btnBackLobby" hidden>الغرفة</button>
     </div>
 
   </div>
@@ -827,6 +992,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       <li><span class="rn">04</span><span>في <b>النقاش</b> كل لاعب يقول جملة واحدة تصف الكلمة دون ذكرها، والمحتال يتصرّف كأنّه يعرفها.</span></li>
       <li><span class="rn">05</span><span>عندما تنتهون اضغطوا <b>«إنهاء اللعبة»</b> فيُكشف المحتال والكلمة السرّية للجميع.</span></li>
       <li><span class="rn">06</span><span><b>وضع الفوضى:</b> احتمال أن يصبح الجميع محتالين. لا أحد يعلم ذلك، والنتيجة تصبح صادمة للجميع.</span></li>
+      <li><span class="rn">07</span><span><b>لعب أونلاين:</b> المضيف يُنشئ غرفة والبقية ينضمّون برمز أو QR، وكل لاعب يرى دوره على هاتفه ثم النقاش والكشف أمام الجميع.</span></li>
     </ul>
     <button class="btn btn-solid btn-block" id="btnRulesOk">فهمت، لنلعب</button>
   </div>
@@ -968,8 +1134,8 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   const $ = (id) => document.getElementById(id);
   const el = {
     screens: {
-      setup: $('screen-setup'), reveal: $('screen-reveal'), discuss: $('screen-discuss'),
-      result: $('screen-result')
+      mode: $('screen-mode'), setup: $('screen-setup'), lobby: $('screen-lobby'),
+      reveal: $('screen-reveal'), discuss: $('screen-discuss'), result: $('screen-result')
     },
     playerName: $('playerName'), playerTags: $('playerTags'), playersCount: $('playersCount'),
     playersHint: $('playersHint'), startHint: $('startHint'),
@@ -1044,7 +1210,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     document.querySelectorAll('.nav-group').forEach((g) => {
       g.classList.toggle('active', g.dataset.screen === key);
     });
-    el.btnHome.hidden = (key === 'setup');
+    el.btnHome.hidden = (key === 'mode');
     try { window.scrollTo(0, 0); } catch (e) {}
   }
 
@@ -1500,17 +1666,35 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     updateStartState(); saveSetup();
   });
 
+  /* هل نحن في غرفة أونلاين نشطة؟ (منطق اللعب المحلي يتوقف حينها) */
+  function isOnline() {
+    const On = window.Online;
+    return !!(On && On.O && On.O.mode === 'online' && On.O.active);
+  }
+
   el.btnHome.addEventListener('click', () => {
+    const On = window.Online;
+    if (On && On.O && On.O.room && On.O.mode === 'online') {
+      if (!confirm('الخروج من الغرفة والعودة للقائمة الرئيسية؟')) return;
+      state.round = null;
+      On.leaveRoom(true);
+      On.setMode('local');
+      showScreen('mode');
+      return;
+    }
     if (state.round && !confirm('العودة للقائمة الرئيسية ستلغي الجولة الحالية. متابعة؟')) return;
     state.round = null;
-    showScreen('setup');
+    showScreen('mode');
   });
   $('btnRules').addEventListener('click', () => el.rulesModal.classList.add('open'));
   $('btnCloseRules').addEventListener('click', () => el.rulesModal.classList.remove('open'));
   $('btnRulesOk').addEventListener('click', () => el.rulesModal.classList.remove('open'));
   el.rulesModal.addEventListener('click', (e) => { if (e.target === el.rulesModal) el.rulesModal.classList.remove('open'); });
 
-  el.btnStart.addEventListener('click', () => { if (!el.btnStart.disabled) startRound(); });
+  el.btnStart.addEventListener('click', () => {
+    if (isOnline()) return;                       // الأونلاين يبدأ من غرفة الانتظار
+    if (!el.btnStart.disabled) startRound();
+  });
 
   /* كرت الكشف: لمس + فأرة + لوحة مفاتيح */
   const card = el.secretCard;
@@ -1531,11 +1715,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   document.addEventListener('mouseup', () => { if (holding || revealed) endHold(); });
   window.addEventListener('blur', () => { if (holding || revealed) endHold(); });
 
-  el.btnNextPlayer.addEventListener('click', nextPlayer);
+  el.btnNextPlayer.addEventListener('click', () => { if (isOnline()) return; nextPlayer(); });
 
-  el.btnEndGame.addEventListener('click', endGame);
+  el.btnEndGame.addEventListener('click', () => { if (isOnline()) return; endGame(); });
 
-  $('btnNewRound').addEventListener('click', startRound);
+  $('btnNewRound').addEventListener('click', () => { if (isOnline()) return; startRound(); });
   $('btnBackSetup').addEventListener('click', () => { state.round = null; showScreen('setup'); syncHints(); });
 
   document.addEventListener('touchmove', (e) => {
@@ -1545,6 +1729,15 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   /* ==========================================================================
      13) التهيئة
      ========================================================================== */
+  /* واجهة داخلية يستعملها وضع اللعب الجماعي (أونلاين) */
+  window.Game = {
+    state, el, $,
+    showScreen, startRound, nextPlayer, goToDiscussion, endGame,
+    renderTurn, resetCard, showRole, hideRole, playerRow, svg, escapeHTML,
+    pickWord, clamp, shuffle, rand, saveSetup, syncHints, updateStartState,
+    WORD_DB, CAT_KEYS, MIN_PLAYERS
+  };
+
   function init() {
     loadSetup();
     renderCategories();
@@ -1552,9 +1745,806 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     syncSettingsUI();
     syncHints();
     updateStartState();
-    showScreen('setup');
+    showScreen('mode');
   }
   init();
+})();
+/* ============================================================================
+   من المحتال؟ — وحدة اللعب الجماعي (أونلاين)
+   ----------------------------------------------------------------------------
+   • بلا خادم وبلا حساب: نستخدم وسيط MQTT عام عبر WebSocket.
+     - رمز الغرفة = مساحة الأسماء (topic namespace)
+     - المضيف هو المرجع: يوزّع الحالة والأدوار ويقود المراحل
+   • كل الرسائل تُعمّى (XOR + base64) بمفتاح مشتق من رمز الغرفة
+     → حماية من التطفّل العابر على الوسيط العام، وليست تشفيراً قوياً.
+   • تُحمّل مكتبتا mqtt.js و qrcode-generator عند الطلب فقط،
+     فيبقى اللعب المحلي يعمل بلا إنترنت تماماً.
+   ============================================================================ */
+(function () {
+  'use strict';
+
+  const G = window.Game;
+  if (!G) return;
+  const { state, el, $ } = G;
+
+  /* ------------------------------------------------------------------
+     1) الثوابت
+     ------------------------------------------------------------------ */
+  const TOPIC_ROOT = 'imposter-ar-v4';
+  const BROKERS = [
+    'wss://broker.emqx.io:8084/mqtt',
+    'wss://test.mosquitto.org:8081/mqtt',
+    'wss://broker.hivemq.com:8884/mqtt'
+  ];
+  const CDN = {
+    mqtt: 'https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js',
+    qr:   'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js'
+  };
+  const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // بلا حروف متشابهة
+  const PING_MS = 25000;
+
+  /* ------------------------------------------------------------------
+     2) حالة الوحدة
+     ------------------------------------------------------------------ */
+  const O = {
+    mode: 'local',        // 'local' | 'online'
+    isHost: false,
+    room: '',
+    pid: '',
+    myName: '',
+    client: null,         // أول عميل متصل (مرجع سريع)
+    clients: [],          // [{url, client, ok}] — نتصل بكل الوسطاء معاً
+    backend: '',
+    connected: false,
+    seenMsg: new Set(),   // لمنع تكرار الرسائل عند وصولها من أكثر من وسيط
+    active: false,
+    roundId: 0,           // رقم الجولة: يميّز أدوار الجولة الجديدة عن القديمة        // هل ما زلنا داخل الغرفة؟ (يمنع رسائل متأخرة من سحبنا لشاشة أخرى)
+    hostSeen: false,      // (لاعب) وصلتني حالة المضيف؟ أي: الغرفة موجودة
+    lastStateAt: 0,       // وقت آخر حالة وصلت للمضيف
+    lastPubAt: 0,         // آخر مرة نشر المضيف الحالة (لكبح التكرار)
+    lastHelloAt: 0,
+    phase: 'lobby',       // lobby | role | discuss | result
+    players: [],          // [{id, name, seen}]
+    myRole: null,         // {imp:bool, word?:string, cat?:string}
+    order: [],
+    seen: new Set(),
+    game: null,           // {order, word, imposters, catName, chaosOn}
+    pingId: null
+  };
+
+  /* ------------------------------------------------------------------
+     3) توليد الرموز والتعمية
+     ------------------------------------------------------------------ */
+  const randCode = (n) => Array.from({ length: n }, () => CODE_ALPHABET[G.rand(CODE_ALPHABET.length)]).join('');
+
+  function keyStream(len, seed) {
+    // مولّد بسيط (xorshift) — تعمية كافية لإخفاء الحمل على وسيط عام
+    let s = 2166136261 >>> 0;
+    for (let i = 0; i < seed.length; i++) { s ^= seed.charCodeAt(i); s = Math.imul(s, 16777619) >>> 0; }
+    const out = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0;
+      out[i] = s & 0xff;
+    }
+    return out;
+  }
+  const utf8 = (str) => new TextEncoder().encode(str);
+  const fromUtf8 = (bytes) => new TextDecoder().decode(bytes);
+
+  function encodeMsg(obj, room) {
+    const data = utf8(JSON.stringify(obj));
+    const ks = keyStream(data.length, 'imposter:' + room);
+    const buf = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; i++) buf[i] = data[i] ^ ks[i];
+    let bin = '';
+    for (let i = 0; i < buf.length; i++) bin += String.fromCharCode(buf[i]);
+    return btoa(bin);
+  }
+  function decodeMsg(text, room) {
+    try {
+      const bin = atob(text);
+      const buf = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+      const ks = keyStream(buf.length, 'imposter:' + room);
+      const out = new Uint8Array(buf.length);
+      for (let i = 0; i < buf.length; i++) out[i] = buf[i] ^ ks[i];
+      return JSON.parse(fromUtf8(out));
+    } catch (e) { return null; }
+  }
+
+  /* ------------------------------------------------------------------
+     4) تحميل المكتبات عند الطلب
+     ------------------------------------------------------------------ */
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector('script[data-lib="' + src + '"]')) return resolve();
+      const s = document.createElement('script');
+      s.src = src;
+      s.dataset.lib = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('فشل تحميل ' + src));
+      document.head.appendChild(s);
+    });
+  }
+  const ensureMqtt = () => (window.mqtt ? Promise.resolve() : loadScript(CDN.mqtt));
+  const ensureQR = () => (window.qrcode ? Promise.resolve() : loadScript(CDN.qr));
+
+  /* ------------------------------------------------------------------
+     5) الاتصال بالوسيط
+     ------------------------------------------------------------------ */
+  /* نتصل بكل الوسطاء العامّين في الوقت نفسه:
+     فإن تعثّر أحدهم — أو تعثّر لدى لاعب واحد — بقي الجميع في نفس الشبكة.
+     والرسائل المكرّرة تُصفّى عبر المعرّف mid. */
+  function meshClient(url) {
+    const c = window.mqtt.connect(url, {
+      clientId: 'imp_' + randCode(10),
+      clean: true,
+      connectTimeout: 9000,
+      reconnectPeriod: 4000,
+      keepalive: 30,
+      protocolVersion: 4
+    });
+    const rec = { url: url, client: c, ok: false };
+    O.clients.push(rec);
+
+    c.on('connect', () => {
+      rec.ok = true;
+      O.connected = true;
+      if (!O.client) O.client = c;
+      if (!O.backend) O.backend = url;
+      try {
+        c.subscribe(topic('all'), { qos: 0 });
+        if (O.isHost) c.subscribe(topic('host'), { qos: 1 });          // رسائل اللاعبين إليّ (ready/hello/bye)
+        else c.subscribe(topic('p/' + O.pid), { qos: 0 });             // قناة الدور الخاصة
+      } catch (e) {}
+      setStatus('متصل بالغرفة', 'live');
+      if (!O.room) return;
+      /* بعد كل (إعادة) اتصال: المضيف يعيد نشر الحالة، واللاعب يعرّف نفسه */
+      if (O.isHost) publishState();
+      else if (O.pid) send(tHost(), { t: 'hello', id: O.pid, name: O.myName });
+    });
+    c.on('message', (t, payload) => handleMessage(t, payload));
+    const drop = () => { rec.ok = false; refreshConn(); };
+    c.on('close', drop);
+    c.on('error', drop);
+    return rec;
+  }
+
+  function refreshConn() {
+    const any = O.clients.some(r => r.ok);
+    O.connected = any;
+    if (any) setStatus('متصل بالغرفة', 'live');
+    else setStatus('انقطع الاتصال — نحاول من جديد…', 'off');
+  }
+
+  function connect() {
+    return ensureMqtt().then(() => new Promise((resolve, reject) => {
+      setStatus('جارٍ الاتصال بخادم اللعب…', 'wait');
+      O.clients.forEach(r => { try { r.client.end(true); } catch (e) {} });
+      O.clients = []; O.client = null; O.backend = ''; O.connected = false;
+      BROKERS.forEach(meshClient);
+      let settled = false;
+      const t0 = Date.now();
+      const waiter = setInterval(() => {
+        if (settled) return;
+        if (O.clients.some(r => r.ok)) {
+          settled = true; clearInterval(waiter); startPing(); resolve();
+        } else if (Date.now() - t0 > 13000) {
+          settled = true; clearInterval(waiter);
+          O.clients.forEach(r => { try { r.client.end(true); } catch (e) {} });
+          reject(new Error('تعذّر الاتصال بخادم اللعب'));
+        }
+      }, 150);
+    }));
+  }
+  const topic = (branch) => TOPIC_ROOT + '/' + O.room + '/' + branch;
+  const tAll = () => topic('all');
+  const tHost = () => topic('host');
+  const tMe = () => topic('p/' + O.pid);
+
+  function send(branch, obj, opts) {
+    if (!O.clients.length) return;
+    const payload = encodeMsg(Object.assign({ mid: randCode(8) }, obj), O.room);
+    O.clients.forEach(r => {
+      if (!r.ok) return;
+      try { r.client.publish(branch, payload, Object.assign({ qos: 1, retain: false }, opts || {})); } catch (e) {}
+    });
+  }
+
+  /* الوسطاء العامّون يُسقطون الرسائل بلا إنذار،
+     لذلك: اللاعب يكرّر «أنا هنا» حتى يسمعه المضيف، والمضيف يعيد نشر الحالة دورياً. */
+  const HELLO_RETRY_MS = 2500;
+
+  function startPing() {
+    clearInterval(O.pingId);
+    O.pingId = setInterval(() => {
+      const now = Date.now();
+      if (O.isHost) {
+        if (!O.room) return;
+        const gap = O.players.length < 2 ? 1800 : 5000;   // وحيداً: نشر أسرع ليجدنا الآخرون
+        if (now - O.lastPubAt > gap) publishState();
+        return;
+      }
+      if (O.mode !== 'online' || !O.room || !O.pid) return;
+      const findHost = (!O.hostSeen || (O.phase === 'role' && !O.myRole));
+      if (findHost) {
+        if (now - O.lastHelloAt > HELLO_RETRY_MS) {
+          O.lastHelloAt = now;
+          send(tHost(), { t: O.hostSeen ? 'roleq' : 'hello', id: O.pid, name: O.myName });
+        }
+      } else if (now - O.lastHelloAt > PING_MS) {
+        O.lastHelloAt = now;
+        send(tHost(), { t: 'ping', id: O.pid, name: O.myName });
+      }
+    }, 1200);
+  }
+
+  /* ------------------------------------------------------------------
+     6) استقبال الرسائل
+     ------------------------------------------------------------------ */
+  function handleMessage(t, payload) {
+    if (!O.active) return;                       // غادرنا الغرفة: لا نستجيب لأي رسالة متأخرة
+    const msg = decodeMsg(payload.toString(), O.room);
+    if (!msg) return;
+    if (msg.round && msg.round < O.roundId) return;   // رسالة محفوظة من جولة سابقة
+    if (msg.mid) {                       // وصلت من أكثر من وسيط؟ نأخذها مرة واحدة
+      if (O.seenMsg.has(msg.mid)) return;
+      O.seenMsg.add(msg.mid);
+      if (O.seenMsg.size > 400) O.seenMsg.clear();
+    }
+    const fromAll = (t === tAll());
+    const fromMe = (t === tMe());
+    const fromHostTopic = (t === tHost());
+
+    /* --- من اللاعبين إلى المضيف --- */
+    if (O.isHost && (fromAll || fromHostTopic)) {
+      if (msg.t === 'hello' || msg.t === 'ping') {
+        if (msg.id && msg.id !== O.pid) {
+          const p = O.players.find(x => x.id === msg.id);
+          if (!p) O.players.push({ id: msg.id, name: (msg.name || 'لاعب').slice(0, 16), seen: false });
+          else p.name = (msg.name || p.name).slice(0, 16);
+          publishState();
+          // إن كانت الجولة جارية: أعد إرسال الدور لهذا اللاعب
+          if (O.phase !== 'lobby' && O.game) sendRoleTo(msg.id);
+        }
+      } else if (msg.t === 'roleq') {
+        if (O.phase !== 'lobby' && O.game) sendRoleTo(msg.id);
+      } else if (msg.t === 'ready') {
+        const p = O.players.find(x => x.id === msg.id);
+        if (p) { p.seen = true; publishState(); }
+        if (O.players.length >= 3 && O.players.every(x => x.seen)) {
+          setTimeout(() => { if (O.phase === 'role') hostGoDiscuss(); }, 800);
+        }
+      } else if (msg.t === 'bye') {
+        O.players = O.players.filter(x => x.id !== msg.id);
+        publishState();
+        renderLobby(); renderReadyList();
+      }
+      return;
+    }
+
+    /* --- من المضيف إلى الجميع --- */
+    if (!O.isHost && fromAll) {
+      if (msg.t === 'state') applyState(msg);
+      return;
+    }
+
+    /* --- رسالة خاصة لي (دوري) --- */
+    if (!O.isHost && fromMe && msg.t === 'role') {
+      if (O.myRole && O.phase === 'role' && (msg.round === undefined || msg.round === O.roundId)) return;  // الدور نفسه
+      if (msg.round) O.roundId = msg.round;
+      O.myRole = msg.imp ? { imp: true } : { imp: false, word: msg.word, cat: msg.cat, icon: msg.icon };
+      O.phase = 'role';
+      O.cardReady = false;
+      state.round = {
+        order: [O.myName || 'أنت'],
+        imposterIdx: msg.imp ? new Set([0]) : new Set(),
+        word: msg.word || '', catKey: msg.catKey || '', catName: msg.cat || '', icon: msg.icon || 'spark',
+        chaosOn: !!msg.chaos, i: 0, done: new Set()
+      };
+      renderMyCard();
+      G.showScreen('reveal');
+      setStatus('اضغط مطوّلاً على الكرت لكشف دورك', 'wait');
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     7) المضيف: توزيع الحالة والأدوار
+     ------------------------------------------------------------------ */
+  function publishState(opts) {
+    if (!O.isHost || !O.connected) return;
+    const now = Date.now();
+    if (!opts && now - O.lastPubAt < 900) return;   // لا نُغرق الوسيط
+    O.lastPubAt = now;
+    send(tAll(), {
+      t: 'state',
+      phase: O.phase,
+      round: O.roundId,
+      hostId: O.pid,
+      players: O.players.map(p => ({ id: p.id, name: p.name, seen: !!p.seen })),
+      settings: currentSettings(),
+      game: (O.phase === 'discuss' || O.phase === 'result') ? {
+        order: O.game ? O.game.order.map(i => playerNameById(i)) : [],
+        word: O.phase === 'result' ? O.game.word : '',
+        catName: O.game.catName,
+        imposters: O.phase === 'result' ? O.game.imposterNames : [],
+        chaosOn: O.game.chaosOn
+      } : null
+    }, Object.assign({ retain: true }, opts || {}));
+    /* المضيف لا يستقبل حالته من نفسه، فنرسم واجهة الغرفة هنا */
+    if (O.phase === 'lobby') { renderLobby(); renderReadyList(); }
+  }
+
+  const currentSettings = () => ({
+    catKeys: [...state.categories],
+    imposterCount: state.imposterCount,
+    chaos: state.chaos,
+    chaosRate: state.chaosRate
+  });
+
+  function sendRoleTo(pid) {
+    if (!O.game) return;
+    const idx = O.game.playerIds.indexOf(pid);
+    if (idx < 0) return;
+    const isImp = O.game.imposterIdx.has(idx);
+    send(
+      TOPIC_ROOT + '/' + O.room + '/p/' + pid,
+      isImp ? { t: 'role', imp: true, chaos: O.game.chaosOn, round: O.roundId }
+            : { t: 'role', imp: false, word: O.game.word, cat: O.game.catName, icon: O.game.icon, catKey: O.game.catKey, chaos: O.game.chaosOn, round: O.roundId },
+      { qos: 1 }
+    );
+  }
+
+  /* ------------------------------------------------------------------
+     8) الضيف: تطبيق حالة المضيف
+     ------------------------------------------------------------------ */
+  function applyState(msg) {
+    O.hostSeen = true;
+    O.lastStateAt = Date.now();
+    O.players = msg.players || [];
+    O.phase = msg.phase || 'lobby';
+    if (msg.round && msg.round !== O.roundId) {      // جولة جديدة: انسَ الدور القديم
+      O.roundId = msg.round; O.myRole = null; O.game = null; O.cardReady = false;
+    }
+    renderLobby();
+    renderReadyList();
+
+    if (O.phase === 'lobby') {
+      G.showScreen('lobby');
+    } else if (O.phase === 'role') {
+      if (O.myRole) {
+        const already = G.el.screens.reveal.classList.contains('active');
+        renderMyCard();
+        if (!already) G.showScreen('reveal');
+      }
+      else { G.showScreen('lobby'); setStatus('تبدأ الجولة الآن…', 'wait'); }
+    } else if (O.phase === 'discuss') {
+      O.game = msg.game || O.game;
+      renderOnlineDiscussion(msg.game);
+      G.showScreen('discuss');
+    } else if (O.phase === 'result') {
+      renderOnlineResult(msg.game);
+      G.showScreen('result');
+    }
+    syncOnlineUI();
+  }
+
+  /* ------------------------------------------------------------------
+     9) أدوات واجهة
+     ------------------------------------------------------------------ */
+  function setStatus(text, kind) {
+    const node = $('onlineNote');
+    if (node) { node.textContent = text; node.className = 'note' + (kind === 'off' ? ' err' : kind === 'wait' ? ' warn' : ''); }
+    const nav = $('lobbyNavStatus');
+    if (nav) {
+      nav.textContent = text;
+      nav.className = 'nav-status' + (kind === 'off' ? ' err' : kind === 'wait' ? ' warn' : '');
+    }
+  }
+
+  let lobbySig = '', readySig = '';
+
+  function renderLobby() {
+    const list = $('lobbyList');
+    const sig = O.players.map(p => p.id + ':' + p.name + (p.seen ? '1' : '0')).join('|');
+    if (sig === lobbySig && list && list.children.length) return;
+    lobbySig = sig;
+    if (list) {
+      list.innerHTML = O.players.map((p, i) =>
+        '<li class="row' + (p.id === O.pid ? ' me' : '') + (p.seen ? ' ready' : '') + '">' +
+          '<span class="avatar">' + G.escapeHTML((p.name || '؟').trim().charAt(0)) + '</span>' +
+          '<span class="row-name">' + G.escapeHTML(p.name) + (p.id === O.pid ? ' (أنت)' : '') + '</span>' +
+          (p.seen ? '<span class="ready-tag">جاهز</span>' : '') +
+          '<span class="row-idx">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '</li>').join('');
+    }
+    if ($('lobbyCount')) $('lobbyCount').textContent = String(O.players.length);
+    if ($('lobbyNote')) {
+      $('lobbyNote').textContent = O.isHost
+        ? (O.players.length >= G.MIN_PLAYERS
+            ? 'جاهزون! يمكنك بدء الجولة.'
+            : 'تحتاج ' + (G.MIN_PLAYERS - O.players.length) + ' لاعبين إضافيين على الأقل.')
+        : 'بانتظار أن يبدأ المضيف الجولة…';
+    }
+    if ($('btnLobbyStart')) {
+      $('btnLobbyStart').hidden = !O.isHost;
+      $('btnLobbyStart').disabled = O.players.length < G.MIN_PLAYERS;
+    }
+  }
+
+  function renderReadyList() {
+    const sig = O.players.map(p => p.id + ':' + p.name + (p.seen ? '1' : '0')).join('|') + '@' + O.phase;
+    if (sig === readySig) return;
+    readySig = sig;
+    const node = $('readyList');
+    if (!node) return;
+    if (O.mode !== 'online') { node.hidden = true; return; }
+    node.hidden = false;
+    node.innerHTML = O.players.map(p =>
+      '<li class="row' + (p.id === O.pid ? ' me' : '') + (p.seen ? ' ready' : '') + '">' +
+        '<span class="avatar">' + G.escapeHTML((p.name || '؟').trim().charAt(0)) + '</span>' +
+        '<span class="row-name">' + G.escapeHTML(p.name) + (p.id === O.pid ? ' (أنت)' : '') + '</span>' +
+        '<span class="role-chip ' + (p.seen ? 'civ' : '') + '">' + (p.seen ? 'رأى دوره' : 'بانتظار…') + '</span>' +
+      '</li>').join('');
+  }
+
+  function renderMyCard() {
+    if (!O.myRole) return;
+    $('turnName').textContent = O.myName || 'أنت';
+    $('turnCounter').textContent = 'دورك أنت';
+    $('turnBars').innerHTML = '';
+    if (!O.cardReady) { O.cardReady = true; G.resetCard(); }
+    el.btnNextPlayer.hidden = true;
+    el.btnNextPlayer.textContent = '';
+    if ($('btnSeenRole')) $('btnSeenRole').hidden = false;
+    renderReadyList();
+    syncOnlineUI();
+    if ($('btnSeenRole')) $('btnSeenRole').hidden = false;
+  }
+
+  /* المضيف فقط يملك أزرار القيادة: إنهاء اللعبة، العودة للغرفة، بدء الجولة */
+  function syncOnlineUI() {
+    const online = (O.mode === 'online');
+    const host = online && O.isHost;
+    if ($('btnEndGame')) $('btnEndGame').hidden = online ? !host : false;
+    if ($('btnBackLobby')) $('btnBackLobby').hidden = !host || O.phase === 'lobby';
+    if ($('btnLobbyStart')) $('btnLobbyStart').hidden = !host;
+    if ($('btnSeenRole')) $('btnSeenRole').hidden = !(online && O.phase === 'role' && O.myRole);
+    if ($('onlineWaitNote')) $('onlineWaitNote').hidden = !online || host;
+  }
+
+  function renderOnlineDiscussion(game) {
+    if (!game) return;
+    $('discussList').innerHTML = (game.order || []).map((n, i) => G.playerRow(n, i)).join('');
+    const isMine = (game.order || []).includes(O.myName);
+    $('discussNote').textContent = O.isHost
+      ? 'ناقشوا، وعندما تنتهون اضغطوا «إنهاء اللعبة» في الأسفل.'
+      : 'تابعوا النقاش — المضيف سيُظهر النتيجة عندما تنتهون.';
+    if ($('onlineWaitNote')) {
+      $('onlineWaitNote').hidden = O.isHost;
+      $('onlineWaitNote').textContent = 'بانتظار المضيف ليُظهر النتيجة…';
+    }
+    $('btnEndGame').hidden = !O.isHost;
+  }
+
+  function renderOnlineResult(game) {
+    if (!game) return;
+    const names = game.imposters || [];
+    el.resultWord.textContent = game.word || '—';
+    el.resultCat.textContent = (game.catName || '') + ' · ' + (game.order || []).length + ' لاعبين';
+    el.chaosBanner.hidden = !game.chaosOn;
+    el.resultHero.className = 'verdict ' + (game.chaosOn ? 'lose' : 'reveal');
+    el.resultIcon.innerHTML = G.svg(game.chaosOn ? 'burst' : 'mask', 'ico-lg');
+    el.resultTitle.textContent = game.chaosOn ? 'فوضى كاملة!' : 'المحتال: ' + names.join('، ');
+    el.resultSub.textContent = game.chaosOn
+      ? 'كل اللاعبين كانوا محتالين… ولا أحد كان يعرف الكلمة السرّية أصلاً.'
+      : 'انتهت الجولة — الكلمة السرّية ظهرت الآن للجميع.';
+    el.resultList.innerHTML = (game.order || []).map((n, i) => {
+      const isImp = names.includes(n);
+      const role = '<span class="role-chip ' + (isImp ? 'imp' : 'civ') + '">' +
+        G.svg(isImp ? 'mask' : 'shield', '') + (isImp ? 'محتال' : 'مدني') + '</span>';
+      return G.playerRow(n, i, role);
+    }).join('');
+    $('btnNewRound').hidden = !O.isHost;
+    $('btnBackLobby').hidden = !O.isHost;
+    $('btnBackSetup').hidden = O.isHost && O.mode === 'online';
+  }
+
+  /* ------------------------------------------------------------------
+     10) دوال المضيف لقيادة الجولة
+     ------------------------------------------------------------------ */
+  function hostStartRound() {
+    const pool = G.pickWord();
+    if (!pool) { window.alert('اختر تصنيفاً واحداً على الأقل.'); return; }
+    const ids = O.players.map(p => p.id);
+    const n = ids.length;
+    const chaosOn = state.chaos && (Math.random() * 100 < state.chaosRate);
+    let impSet;
+    if (chaosOn) impSet = new Set(ids.map((_, i) => i));
+    else impSet = new Set(G.shuffle(ids.map((_, i) => i)).slice(0, G.clamp(state.imposterCount, 1, Math.max(1, n - 1))));
+
+    O.game = {
+      playerIds: ids,
+      order: ids.slice(),
+      imposterIdx: impSet,
+      word: pool.word,
+      catName: pool.catName,
+      chaosOn: chaosOn,
+      icon: pool.icon, catKey: pool.catKey,
+      impasterNames: ids.filter((id, i) => impSet.has(i)).map(id => playerNameById(id)),
+      imposterNames: ids.filter((id, i) => impSet.has(i)).map(id => playerNameById(id))
+    };
+    O.players.forEach(p => { p.seen = false; });
+    O.roundId++;
+    O.phase = 'role';
+    O.myRole = null;
+
+    publishState();
+    ids.forEach(sendRoleTo);
+
+    /* المضيف يلعب أيضاً */
+    const myIdx = ids.indexOf(O.pid);
+    const iAmImp = myIdx >= 0 && impSet.has(myIdx);
+    if (myIdx >= 0) O.myRole = iAmImp ? { imp: true } : { imp: false, word: pool.word, cat: pool.catName, icon: pool.icon };
+    O.cardReady = false;
+    state.round = {
+      order: [O.myName || 'أنت'],
+      imposterIdx: iAmImp ? new Set([0]) : new Set(),
+      word: pool.word, catKey: pool.catKey, catName: pool.catName, icon: pool.icon,
+      chaosOn: chaosOn, i: 0, done: new Set()
+    };
+    renderMyCard();
+    G.showScreen('reveal');
+    syncOnlineUI();
+    setStatus('اضغط مطوّلاً على الكرت لكشف دورك', 'wait');
+  }
+
+  function hostGoDiscuss() {
+    O.phase = 'discuss';
+    publishState();
+    renderOnlineDiscussion({
+      order: O.game.order.map(playerNameById), word: '', catName: O.game.catName,
+      imposters: [], chaosOn: O.game.chaosOn
+    });
+    G.showScreen('discuss');
+    syncOnlineUI();
+  }
+
+  function hostEndGame() {
+    if (!O.game) { O.phase = 'lobby'; publishState(); openLobby(); return; }
+    O.phase = 'result';
+    publishState();
+    renderOnlineResult({
+      order: O.game.order.map(playerNameById), word: O.game.word, catName: O.game.catName,
+      imposters: O.game.imposterNames, chaosOn: O.game.chaosOn
+    });
+    G.showScreen('result');
+    syncOnlineUI();
+  }
+
+  const playerNameById = (id) => {
+    const p = O.players.find(x => x.id === id);
+    return p ? p.name : 'لاعب';
+  };
+
+  /* ------------------------------------------------------------------
+     11) الانضمام والإنشاء والخروج
+     ------------------------------------------------------------------ */
+  function joinUrl() {
+    const base = location.origin + location.pathname;
+    return base + '?room=' + O.room;
+  }
+
+  function createRoom(name) {
+    O.mode = 'online'; O.isHost = true; O.active = true;
+    O.room = randCode(4);
+    O.pid = 'h' + randCode(6);
+    O.myName = name;
+    O.players = [{ id: O.pid, name: name, seen: false }];
+    O.hostSeen = true; O.lastStateAt = Date.now(); lobbySig = readySig = '';
+    O.phase = 'lobby';
+    connect().then(() => {
+      publishState();
+      openLobby();
+    }).catch(connError);
+  }
+
+  function joinRoom(name, code) {
+    O.mode = 'online'; O.isHost = false; O.active = true;
+    O.room = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
+    O.pid = 'p' + randCode(6);
+    O.myName = name;
+    O.players = []; O.hostSeen = false; O.lastStateAt = 0; lobbySig = readySig = '';
+    connect().then(() => {
+      send(tHost(), { t: 'hello', id: O.pid, name: name });
+      send(tAll(), { t: 'hello', id: O.pid, name: name });
+      openLobby();
+      setStatus('انضممت للغرفة — بانتظار المضيف…', 'wait');
+      try { sessionStorage.setItem('imp_room', O.room); sessionStorage.setItem('imp_pid', O.pid); sessionStorage.setItem('imp_name', name); } catch (e) {}
+    }).catch(connError);
+  }
+
+  function connError(err) {
+    setStatus('تعذّر الاتصال بخادم اللعب. تأكد من الإنترنت ثم أعد المحاولة.', 'off');
+    if ($('onlineActions')) $('onlineActions').hidden = false;
+  }
+
+  function openLobby() {
+    $('roomCodeBig').textContent = O.room;
+    $('lobbyNavStatus').textContent = O.isHost ? 'شارك الرمز مع أصدقائك' : 'بانتظار المضيف…';
+    renderLobby();
+    ensureQR().then(() => {
+      const wrap = $('qrWrap');
+      if (wrap && window.qrcode) {
+        const qr = window.qrcode(0, 'M');
+        qr.addData(joinUrl());
+        qr.make();
+        wrap.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+        wrap.hidden = false;
+      }
+    }).catch(() => {});
+    G.showScreen('lobby');
+    syncOnlineUI();
+    updateUrlRoom();
+  }
+
+  function updateUrlRoom() {
+    try {
+      const u = new URL(location.href);
+      u.searchParams.set('room', O.room);
+      history.replaceState(null, '', u.toString());
+    } catch (e) {}
+  }
+
+  function leaveRoom(silent) {
+    if (O.active) {
+      if (O.connected && O.pid) send(O.isHost ? tAll() : tHost(), { t: 'bye', id: O.pid });
+      O.active = false;
+    }
+    clearInterval(O.pingId);
+    setTimeout(() => { O.clients.forEach(r => { try { r.client.end(true); } catch (e) {} }); }, silent ? 0 : 120);
+    O.clients = []; O.client = null; O.connected = false; O.backend = ''; O.seenMsg.clear(); O.players = []; O.myRole = null; O.hostSeen = false; O.lastStateAt = 0; lobbySig = readySig = '';
+    O.phase = 'lobby'; O.isHost = false; O.mode = 'local';
+    if ($('btnEndGame')) $('btnEndGame').hidden = false;
+    if ($('btnBackLobby')) $('btnBackLobby').hidden = true;
+    if ($('btnSeenRole')) $('btnSeenRole').hidden = true;
+    if ($('onlineWaitNote')) $('onlineWaitNote').hidden = true;
+    try { sessionStorage.removeItem('imp_room'); } catch (e) {}
+    try { const u = new URL(location.href); u.searchParams.delete('room'); history.replaceState(null, '', u.toString()); } catch (e) {}
+  }
+
+  /* ------------------------------------------------------------------
+     12) الانتقال بين الأوضاع
+     ------------------------------------------------------------------ */
+  function setMode(mode) {
+    O.mode = mode;
+    const online = (mode === 'online');
+    if ($('playersPanel')) $('playersPanel').hidden = online;
+    if ($('onlineBox')) $('onlineBox').hidden = !online;
+    if ($('btnStart')) $('btnStart').hidden = online;
+    if ($('startHint')) $('startHint').textContent = online ? 'أنشئ غرفة أو انضم برمز' : '';
+    if ($('readyList')) $('readyList').hidden = !online;
+    if (!online) leaveRoom(true);
+    G.showScreen('setup');
+    G.syncHints();
+    G.updateStartState();
+  }
+
+  /* ------------------------------------------------------------------
+     13) ربط الأحداث
+     ------------------------------------------------------------------ */
+  $('modeLocalIco').innerHTML = G.svg('users', 'ico');
+  $('modeLocalArrow').innerHTML = G.svg('arrow', 'ico');
+  $('modeOnlineIco').innerHTML = G.svg('globe', 'ico');
+  $('modeOnlineArrow').innerHTML = G.svg('arrow', 'ico');
+
+  $('modeLocal').addEventListener('click', () => setMode('local'));
+  $('modeOnline').addEventListener('click', () => setMode('online'));
+
+  $('btnCreateRoom').addEventListener('click', () => {
+    const name = ($('onlineName').value || '').trim().slice(0, 16) || 'المضيف';
+    $('onlineActions').hidden = true;
+    setStatus('جارٍ إنشاء الغرفة…', 'wait');
+    createRoom(name);
+  });
+
+  $('btnShowJoin').addEventListener('click', () => {
+    if ($('joinRow')) $('joinRow').hidden = false;
+    if ($('roomCodeInput')) $('roomCodeInput').focus();
+  });
+
+  const doJoin = () => {
+    const name = ($('onlineName').value || '').trim().slice(0, 16);
+    const code = ($('roomCodeInput').value || '').trim().toUpperCase();
+    if (!name) { window.alert('اكتب اسمك أولاً.'); return; }
+    if (code.length < 4) { window.alert('رمز الغرفة من 4 أحرف.'); return; }
+    $('onlineActions').hidden = true;
+    setStatus('جارٍ الانضمام…', 'wait');
+    joinRoom(name, code);
+  };
+  $('btnJoinGo').addEventListener('click', doJoin);
+  $('roomCodeInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
+  $('onlineName').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('btnCreateRoom').click(); });
+
+  $('btnLobbyStart').addEventListener('click', () => { if (O.isHost) hostStartRound(); });
+  /* في الأونلاين: «جولة جديدة» تبدأ جولة شبكية جديدة للجميع */
+  $('btnNewRound').addEventListener('click', () => {
+    if (O.isHost && O.mode === 'online') setTimeout(hostStartRound, 0);
+  });
+  $('btnLeaveRoom').addEventListener('click', () => { leaveRoom(); setMode('local'); });
+  $('btnBackLobby').addEventListener('click', () => { if (O.isHost) { O.phase = 'lobby'; O.players.forEach(p => p.seen = false); publishState(); openLobby(); } });
+
+  $('btnSeenRole').addEventListener('click', () => {
+    if (O.isHost) {
+      const me = O.players.find(p => p.id === O.pid);
+      if (me) me.seen = true;
+      publishState();
+      renderReadyList();
+      $('btnSeenRole').hidden = true;
+      setStatus('تم — بانتظار بقية اللاعبين…', 'wait');
+      if (O.players.length >= 3 && O.players.every(p => p.seen)) setTimeout(hostGoDiscuss, 700);
+    } else {
+      send(tHost(), { t: 'ready', id: O.pid });
+      $('btnSeenRole').hidden = true;
+      setStatus('تم — بانتظار بقية اللاعبين…', 'wait');
+    }
+  });
+
+  $('btnEndGame').addEventListener('click', () => { if (O.isHost && O.mode === 'online') setTimeout(hostEndGame, 0); });
+
+  $('btnCopyLink').addEventListener('click', () => {
+    const link = joinUrl();
+    const done = () => { $('roomHint').textContent = 'تم نسخ الرابط ✅'; setTimeout(() => { $('roomHint').textContent = 'شاركوا الرمز أو امسحوا رمز QR'; }, 2000); };
+    if (navigator.clipboard) navigator.clipboard.writeText(link).then(done).catch(() => fallbackCopy(link, done));
+    else fallbackCopy(link, done);
+  });
+  function fallbackCopy(text, done) {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  $('btnShareLink').addEventListener('click', () => {
+    const link = joinUrl();
+    if (navigator.share) navigator.share({ title: 'من المحتال؟', text: 'انضم إلى غرفتي: ' + O.room, url: link }).catch(() => {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(link).then(() => { $('roomHint').textContent = 'تم نسخ الرابط ✅'; });
+  });
+
+  window.addEventListener('beforeunload', () => { if (O.connected && O.pid) send(O.isHost ? tAll() : tHost(), { t: 'bye', id: O.pid }); });
+
+  /* ------------------------------------------------------------------
+     14) الانضمام التلقائي عبر رابط ?room=CODE
+     ------------------------------------------------------------------ */
+  function autoJoinFromUrl() {
+    let room = '';
+    try { room = new URL(location.href).searchParams.get('room') || ''; } catch (e) {}
+    if (!room) return false;
+    room = room.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
+    if (room.length < 4) return false;
+
+    let saved = null;
+    try { if (sessionStorage.getItem('imp_room') === room) saved = sessionStorage.getItem('imp_name'); } catch (e) {}
+    setMode('online');
+    if ($('joinRow')) $('joinRow').hidden = false;
+    if ($('roomCodeInput')) $('roomCodeInput').value = room;
+    if ($('onlineName')) $('onlineName').value = saved || '';
+    if (saved) joinRoom(saved, room);
+    else {
+      setStatus('أدخل اسمك للانضمام إلى الغرفة ' + room, 'wait');
+      $('onlineActions').hidden = true;
+      $('joinRow').hidden = false;
+      $('btnJoinGo').textContent = 'انضمام';
+      $('roomCodeInput').readOnly = true;
+    }
+    return true;
+  }
+
+  /* ------------------------------------------------------------------
+     15) التهيئة
+     ------------------------------------------------------------------ */
+  window.Online = { O, setMode, hostStartRound, hostGoDiscuss, hostEndGame, createRoom, joinRoom, leaveRoom, joinUrl, autoJoinFromUrl };
+  autoJoinFromUrl();
 })();
 </script>
 </body>
