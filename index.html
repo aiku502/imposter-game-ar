@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d11">
+<meta name="description" content="من المحتال؟ — لعبة استنتاج جماعية بجهاز واحد، تعمل محلياً بدون إنترنت.">
+<title>من المحتال؟ — لعبة الاستنتاج الجماعية</title>
+
+<!-- PWA / iOS: تثبيت على الشاشة الرئيسية (بدون أي تكلفة) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="من المحتال؟">
+<meta name="format-detection" content="telephone=no">
+
+<!-- أيقونة التطبيق + بيان PWA (مضمّنة كـ data URI لتبقى اللعبة ملفاً واحداً) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+IDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiBmaWxsPSIjMGIwZDExIi8+IDxyZWN0IHg9IjE0IiB5PSIxNCIgd2lkdGg9IjQ4NCIgaGVpZ2h0PSI0ODQiIHJ4PSI5NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMyODMwIiBzdHJva2Utd2lkdGg9IjYiLz4gPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTllZGYyIiBzdHJva2Utd2lkdGg9IjI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPiA8cGF0aCBkPSJNMTI4IDE1MCBIMzg0IFYyNTAgQzM4NCAzMzAgMzAwIDQwMiAyNTYgNDAyIEMyMTIgNDAyIDEyOCAzMzAgMTI4IDI1MCBaIi8+IDxwYXRoIGQ9Ik0yNTYgMjUwIEwyNTYgMjUwIi8+IDwvZz4gPGNpcmNsZSBjeD0iMjA1IiBjeT0iMjI4IiByPSIxNiIgZmlsbD0iI2U5ZWRmMiIvPiA8Y2lyY2xlIGN4PSIzMDciIGN5PSIyMjgiIHI9IjE2IiBmaWxsPSIjZTllZGYyIi8+IDxwYXRoIGQ9Ik0yMTIgMzAwIEMyMzIgMzIyIDI4MCAzMjIgMzAwIDMwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNWNiM2ExIiBzdHJva2Utd2lkdGg9IjI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4gPGNpcmNsZSBjeD0iMzkyIiBjeT0iMTIwIiByPSIxNyIgZmlsbD0iIzVjYjNhMSIvPiA8L3N2Zz4=">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogItmF2YYg2KfZhNmF2K3Yqtin2YTYnyDigJQg2YTYudio2Kkg2KfZhNin2LPYqtmG2KrYp9isINin2YTYrNmF2KfYudmK2KkiLCAic2hvcnRfbmFtZSI6ICLZhdmGINin2YTZhdit2KrYp9mE2J8iLCAibGFuZyI6ICJhciIsICJkaXIiOiAicnRsIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYjBkMTEiLCAidGhlbWVfY29sb3IiOiAiIzBiMGQxMSIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBMU1USWdOVEV5SWlCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUkrSUR4eVpXTjBJSGRwWkhSb1BTSTFNVElpSUdobGFXZG9kRDBpTlRFeUlpQm1hV3hzUFNJak1HSXdaREV4SWk4K0lEeHlaV04wSUhnOUlqRTBJaUI1UFNJeE5DSWdkMmxrZEdnOUlqUTROQ0lnYUdWcFoyaDBQU0kwT0RRaUlISjRQU0k1TmlJZ1ptbHNiRDBpYm05dVpTSWdjM1J5YjJ0bFBTSWpNak15T0RNd0lpQnpkSEp2YTJVdGQybGtkR2c5SWpZaUx6NGdQR2NnWm1sc2JEMGlibTl1WlNJZ2MzUnliMnRsUFNJalpUbGxaR1l5SWlCemRISnZhMlV0ZDJsa2RHZzlJakkySWlCemRISnZhMlV0YkdsdVpXTmhjRDBpY205MWJtUWlJSE4wY205clpTMXNhVzVsYW05cGJqMGljbTkxYm1RaVBpQThjR0YwYUNCa1BTSk5NVEk0SURFMU1DQklNemcwSUZZeU5UQWdRek00TkNBek16QWdNekF3SURRd01pQXlOVFlnTkRBeUlFTXlNVElnTkRBeUlERXlPQ0F6TXpBZ01USTRJREkxTUNCYUlpOCtJRHh3WVhSb0lHUTlJazB5TlRZZ01qVXdJRXd5TlRZZ01qVXdJaTgrSUR3dlp6NGdQR05wY21Oc1pTQmplRDBpTWpBMUlpQmplVDBpTWpJNElpQnlQU0l4TmlJZ1ptbHNiRDBpSTJVNVpXUm1NaUl2UGlBOFkybHlZMnhsSUdONFBTSXpNRGNpSUdONVBTSXlNamdpSUhJOUlqRTJJaUJtYVd4c1BTSWpaVGxsWkdZeUlpOCtJRHh3WVhSb0lHUTlJazB5TVRJZ016QXdJRU15TXpJZ016SXlJREk0TUNBek1qSWdNekF3SURNd01DSWdabWxzYkQwaWJtOXVaU0lnYzNSeWIydGxQU0lqTldOaU0yRXhJaUJ6ZEhKdmEyVXRkMmxrZEdnOUlqSTBJaUJ6ZEhKdmEyVXRiR2x1WldOaGNEMGljbTkxYm1RaUx6NGdQR05wY21Oc1pTQmplRDBpTXpreUlpQmplVDBpTVRJd0lpQnlQU0l4TnlJZ1ptbHNiRDBpSXpWallqTmhNU0l2UGlBOEwzTjJaejQ9IiwgInNpemVzIjogImFueSIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLCAicHVycG9zZSI6ICJhbnkifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFNQUFBQURBQ0FJQUFBRGR2dnRRQUFBUUFFbEVRVlI0bk95ZENYeFRWZmJIYi9LeWIwMjZsN0sxQll0dFdVUmsyRUYyOFMreXF1RDRHZjg0Q3Y2SFJjc3FPczZJak9Nb2pBTXFpamdLaUF1S2dDaUxLSTRDWmFDc0JTa2d0RlNrREtWcm1qVDc4ai9KYzBwVGtwczk3NzMwZmduOXZPVGR2THprL2Q2NTU1NXpGNEZjcVVFRVFxandFWUVRQmtSQWhMQWdBaUtFaFFERkJCNlBSMUVDK0EvdytYelk1cnMyS0VTSUJBNkgzV0VIYkE3QTV0NTIySnhPSjRvK1VSUVFqOGNYaVNWaWlWUXNrWUJpRUNHMjJHMDJzOWxvTmhrdFpyUFQ2VURSZ1JmeFZoZ2xFTktpRVl1bHQrNTEzU1gyWDRIN0JoRWlnY3VtMDliZDljZkx2V28ybTh3bWc5bGtzdHVzS0tKRVVrQWlrVVNSb0JHSlJDMWZOTUVkWURKWnJXWmFPb2dRZlZ3eTRzTjlMSUo3R0c3bWxydXNGb3RPVzJleG1GR0VpSXlBQkFLaE1rRXRsc2pvcHhhckdVUURxcmVhVFlqQU5GQWppRjIraEVRb0ZOT3ZtSTJHUm0wOTNOSW9iTUlWRUk5UHFWUnFpVXdPYmpJOHRaaE5qZG82bXpYQ2RwSVFFUVJDa1FxcUNMRUV0c0hGTmhyMGVtMkRJenozS0N3QmdYbE0wQ1JEcXdxNXJZNWVxN1dZallqQWJrUmlLVlFYUXFITDA0QkdtN2ErQmh4dEZDcVV5SnVyNnhmUXIwcWxVV21Td1BDQXQ5L1lVQWNQUnlSTUlpSGFRTTFsME92Z3FnbEZJbkNXSkZJWkQvR2d2VWJYSWNFU2lvQ2dmWjZZbkNhVksyRGJaRFRVMTFiWnJKYlFQcDdBQ0hDeGJEYXJzVWtQZGtnQS84VVNlTGpzVVBDaG82QUZCSitYbEpJT0h3cEdTTmZZb05QV0l3Sm5NUm1iSEE0bnFBZWFRVktaSENKR3djWldnaE9RVktiUUpLVkExQUVhNVBXMU44Q1pSd1NPQXhFV2FQcElwRklJSU1IMWhhck5Ga3lzS0FnQndkRVQzRTRQTk5GcmE2dmdreEFoTGdCellEQTBRUUFQN0JDNFJLNmNpTlVTNEhzREZaQklKTllrcGNJR1ZKd045ZFVvSm5rV1F1eHd0ZXFiK0pCR2dIQ3dWQVkyeVI1WTFEZWdiRHdZTjdWYlBYQmNiVU10SXNRcGpRMjFabmZzRnk0M05OQUNlWXQvQVVHZEJXMHVDUFpBblFWK0R5TEVOUTIxTjhBSmdzdXRTVW9McEdYdFgwQlFjMUVDQVVTYzZtcXFuS1RtaW5mZ0VrTmNCaTQzTkxmcGFnZVBIeDlJcFU2Q0d0RjkwQnMyRzBsUXRBbWNEb2ZWWW9iMEZQalVrS3V5WUJPYU9Bc0VqclBNSFMyRUtMTTFjdmxiQXZ1QmREMWNkTmhRS0ZVUVo4U1V4QWxJbWVCS2s0RlhCVmszUkdoandFV25iUTh0QTEvNEZKQllMS1dscDNNcmtkQUdvZE1NVUJHSkpCSmZaWHdLaU5ZZHhBYUk2OU5tc1ZvdFJtTVRiS2hVaWI3S2VCZVFXQ29ESnh4OFozMGpTWFcxYWZTTkRTQURFQU8wcGJ3VzhDNGcxYS9tUjJjbm5WRGJOaEQ4b3oxZ3BjcTdKK1JGUU5Dd2g5Q3oyL3hvRWFITm85ZHBRUXdRQy9UcUNYa1JFQ1JtNGEvUmxlaVAxbGdRQW9lQVZLdko1T3AySVpGNENSbDZFNUM3Yjd6RlJEcW5FbjZGN3ZQYVBHaWlKYTBGQk80U242TEFaSm1KZ0FqL2hSWURPRGFRclcrMXE3V0FhSlZCM0pta3ZRak4wTWtONUswV2F5MGd1Z1F4UDRSVy9MY1d3d3FJejZmbzZMT1pqTTRoZUdKeVN3TGt3ZU43YXFibEU0RjdyQkJVWG1Sa0lLRVZOb3Vya3l1UHg2TkYwb3lubWlqWFU5SjZKM2pGYm5jSmc4SllJRDZQY3BjajBXZUNGeHdPMXpBS3ZtZFhWeThXeUVsbVhTRjRnN1lzRkE4aklQZVVZV1FTRnBZRDhSVkZSaW84WWh4b29ZWFJ5Z0o1VEVaRWQ4UzNPOGlBTDVZaVMwdktmK2krdE82NVFwbXJPVzAxR0t2T1hEajd5WmVHcWxnTWxYSFNBdkwwZ1R6NlJNc1ZLdENReVdpd0JqeXVqQkFiZUFMQjdaUEczRFg3RVhYSFRFcjRhemdZTmxUdDA3TkdET0JSVk8zRkNoVGwxZzlrS1NBTzVIUTZXdlpROVZBVDNjUjNPRWtyakhWb3NqdmtUaGpWTEoyV3dJdTNqUitwYk9kL0JFV1kwTUxnOFgzN1FBUjJRb2xGZDg2YTNpcUM1MUZBS09qejVNTThpb0ZaYjRtQU9BQ1lIMFY2Q3I1TVFxZk1wTnM2bzVoRFp0L2xBR0sxS29MRklnc1JFQWVBMWxZRWkwVVdJaUFPMEZCUkdjRmlrWVg0UUJ6QW90VmRPM1lHWHdZS1FERVVjNGlBdU1IcERWdnR2cnRJd0s2UzlaOGpKaUFDNGdiRzJ2cWZkdXp6dFJkMm1lb2FFQk40UktKbENoVUVxazBtQStrUHhFSnF6bDI2Y2VhbjFJS3VkQjZEeGxCVGQraVZkYjhjUElxaWowRG9tcnpNNFhBWW1tN1dsU3h5b3U4ZVByeHo1ODRxRlFOdFVRNmhMYW44Ulh1NnJLNEt0dXZMZjlGZXVZWVk3Yi9GQ2dIbDVlZS90bXBWMXk1ZEVTRXd6bDg0djZDd3NLTGlLbUlhNW4wZ2pVYXo4WU5OUkQxQjBTMjMyM3Z2cjJlRHRXWmVRUC8zaDltSmlZbUlFQ1NwcWFrelp6MkptSWI1S2l5L29BQVJRcUo3ais2SWFaZ1hVR1ptSmlLRVJNZU9uUkRUTUM4Z3NrcEx5UEQ1ekhzZ0pKQklDQXNpSUVKWUVBRVJ3b0xWM1RscXFxdm56cG1OMmphclgzOGpPU1VGc1JWV0M4aGtOaDgrZkJpMWJlQkhRQ3lHVkdHRXNDQUNJb1FGRVJBaExJaUFDR0ZCQkVRSUN5SWdRbGdRQVJIQ2dnaUlFQlpFUUlTd0lBSWloQVVSRUNFc2lJQUlZVUVFUkFnTElpQkNXQkFCRWNLQ0NJZ1FGbkUrd1JSRlVYbjUrYjE2OXRJMzZVK2RPbm01L0RLS1B0azUyVDE3OWxMSUZhZEtUcFdlUFJ2ZlMwZkVzNEJHalJyOTR2TGxxV2xwemErY0xpbFp2R2pSaFF2blVYVEl6ZTMydDFkZTZkR3paL01yTjZxcS92amNjOTk4c3hmRktmRlpoYVdrcHI2OTlwMjE2OWExVkE4QWwzYkhWMThWenA4dkVFVDR6aEdKUlBNWExvU0R0MVFQQUNjQXB3RW5rNmpSb0hna1BnWFVzV1BIa2FOR2VkMGxGQXFuVEowcUVvdFJSSkhKcEZNbVR4RjZtd2djR0RGeVpGcEdCb3BINGxOQXMyZlB4b3phVEUvUGVQaTN2MFVSNWNHSHBxZWxwL3ZhQzY3WWdnVUxVVHdTaHo0UWo4ZkxLL0F6NjBCQnBHZDB5TXZQd3hmbzNwMzVpUkNpUVJ4YW9PeXM3SlRrWkh5WnZMeDhGRkh1dUtNM3ZrQnlTa3I3OXUxUjNCR0hBaW9yTDZ1cHJzYVhLUzA5aXlKS2Vka2xmQUU0cGF0WG1aOVFMT0xFcHcva1Z4L25TcytoQ0g5aXFiOENFWllzUzRoUEFhMTdaeDFtcjFhcjNiTGxNeFJSM252dnZZWUczRVM3NzZ4OUI4VWo4U21nb3FLRGNFVjk3VjI4Y0tIZk9tNzgvUk8yYmYvaVpNbHBlTURHZmVQdng1ZUhBeTVkc3NUWFhqaVpRNGVLVUR3U3Q3bXc1Y3RlbVBuNDR4QUlidmtpUktMdkdUTm03OTZ2TVcvTXpNemNzSEhqUDFhdDZ0bXJWNEliMkZpMWVqVzhpSjlNYmMrZTNYQncrSWlXTDhJSndHbkF5YUE0Slo1VEdaQkErTzY3ZmMyNXNKS1NVK1ZsNVg3ZmxaOWZNSGpJMEZ0Zmh4ZGhWMlVsYmtFVFNKSk11SDk4Vm5aV3IxNTNrRnhZUEFBWDc4enAwL0FJL0MzMzN2Yy9tRjE0NjBVREtkdllaRzNaQVBNQ2NqcGp2SHExSHpBaG9pNDVYUkNiWU1OUHg3d1BaRFQ1WENaTklwV2ltRk41OVJkZnU2cXJiNkNZZy9rUk1EOWR6R0JlUUUzNkpsKzdGSEk1aWptSER4L3h0YXVvaUlHV0ZDYU4zNlRUSTZaaGdZQ2FmUDRLRW9razlwTUF2L2ZQZDY5ZDgrSXBsNVdWYlZpL0hzVVdrVWlFeVFycjlReXNNTmNLNWdXazErTnVvNFNFV0M4SFliRllYdmpUbjI5OS9jVmx5MkFYaWkxS3BSS3pWNmRuM2dJeDcwUmpxakFnTFMyam9VR0xZZ3UwLzIvcmtqTjI3RDFEaHcyRHB6OTgvejNFZUd3Mkc0bzVtQzRpZ0U3SHZBVmlYa0JWbnJHK1Z1VGs1RVN2QnlvR2tNdFhYMzBKRDhRb09kazVtTDAzc0Q5ZGJHQmVRT1hsWlppOVdkblpxQTJUbllQNyt2aWZMall3TDZETGwzRXhON0JBcUEyVGpmMzZaUUVFMXFNTjh3SzYrTk5QbUwxdFhFRDRLcXk4akhrTHhJcFdXRjE5dmErOXQrZmxRVk1XdFVta1VtbHV0MjYrOWxaZHYyNHdHQkRUc0NJYmY5bjNuU1FRQ1BvUEdJRGFKUDBIRHFBb3l0ZmVzbkxtNnkvRUVnR1ZlSGFCYUlYWDNIaGJZUERnSVppOXAwdE9JUmJBQ2dFZE9MQWZzM2Z3a01Hb1RUSmtNTzdPT1hqZ0lHSUJyQkRRdnc4ZHdvVHB1bmJwMnE1ZE85VEdTRTlQejhyTzhyWFhiRFlmTzNZVXNRQlc5QWVDRkVGeGNmRUEzNzdPdUh2dmZYZmRPaFFHdVJOSGR4alVSNW1SV251aC9KZWk0NWUvalh4YU5HdmtRUGlJcE51eWROZHUvTHoveU1VZCsxQVkzRDloSW1adjhaSERzYytyZUlVdFhWcUxEaHpBN0owMmJUb0tnOThVUHBZM2RSeW9CN2FUY3JON3paZzZZTWxNb1R4aWZVWGdVQU9XUGdtSEJmWEFVMlc3MUlLSDd1djc5QXdVQnI5OTVCSE0zb01IV1ZGL0lmWUk2TUJCbklBZ0h0MnZYejhVRXAyRzlXdlhwL1dvMExRZXR3OWJWaWhQUzBaaEkwOVBIdlppWVZwQmJxdlhNKy9xMFdGSVh4UVNBd2NPd3ZlL1BvQzkzMklKV3dUMDQ1a3psZGh4ZHc5TkQ5RUlaWTN3WGpNcU1sTGd3aWZlbG9YQ0lLbGJ6dDNMRnlqU3ZhOG9tRFc4UHdxSmFRL2p2bXhGUmNYNWN4RWUxeFl5TEJxVnNXblRKc3plY2VQdURjMlZsbWY0WEM5U3BKQU4vZk84L2d1ZmFIZFhEeFFrOEpZQmkyY09lWDZPVUNieFZVYVptWTZDSnlNalk4eVlzWmdDSDMvMElXSU5MT3BVLytubVR3cm56L2MxUXdwRUZPZk1tL2ZNNHNVb1NJeTE5U0laenQxSnZ5TVBIaWFkdnZyMGhhb3o1NnRPbGxwMDNudVlpRldLMUY1NWFUMjdwUmJraXBYK2Uwc2FhK3BROEJUT1g0Q0pIMEp6OWJOUFAwV3NnVVVDcXErdi8vYmJiKzY1WjV5dkFwTW5UM2w5MWFwcjE2NmhZTGl5djdqN3d4UDhGcE1vRlIwRzNna1AyTGFaTFRhajBXSXdnWkw0Zkw1QUxoWEpKQUtwVkNBT0xxbFM4YStnRjN6dDBLSER4RW1UTUFYMjdObU5Id0liWTlnMXNQRGpqejdHN0FVajlOVFRoU2hJTHUzOHZycjBVbEJ2QWFGSTFBbXFkbW5KdWRtSlhUdkRCandOVmozVjU4cks5d2J0Nmo3MVZDR21EeXZ3Q2ZZbmlqM3NFdERCQS9zdlhyeUlLVEJoNHNST25UcWhJRG4wOGx1VmgyTWErTDlXWEZMMDBob1VKR0IrN3ArSU01Ym5Ta3ZaTmtTYWRVT2IvNzVpQldZdkdLRVhscjJJZ3NSaHN4ZXZYbi9oaTI5UVREaS9iZStSZjd6dkRINUE2bDllK2l2ZS9Qejl0WldJWmJCT1FGOS92UWR2aElZTUhZcnhrekNVYnQ1NVl1M0hUb2NEUlEwNCtMRTFtODU5dGdzRnovajdKd3dhak12Nmdmblo5ODIzaUdWUUl2SE5Gb3BNb1lJN3dHUXkyS3hXeEJ6WHIvL252dkhqTVFYNi9xYnY1czJiTFdZekNoTHR6NVZYLzMxU3JKSXIyNmRIZHNBUVNPZnF2MDhVcjlwUVUzb3hoTGNybGNyMUd6WktzUU1wbjFteUNOOTdNOW9JaENLSlZPWndPQXhOTnp2enMxRkE1ZVhsSTBlTlNrMU45VlZBTHBkcjFPcDkrMEpKTmxuMFRlQ2dWQjRwRWF1VnluWnA0Y3ZJNlhSV0ZwY2NYYjJoWXQ4aEMzYUVDWWFYWG5xNTk1MjRTZkxBL1B4bCtYTEVLRjRGeEpNcmJ3NThURTdMQkNlam9iN0daQWp4aDRnVXZYdjMzckoxRzc3TWpFY2YvZjc3ZjZFd0VLdFZHWGQyeitpZG4xTFFsZklSZi9LRjNXS3BQbnZ4UDhmUC91ZkVqK2FHUmhRR2NMZThzKzVkZkpuSkV5ZWVQSGtDTVlwRUpsZHJraUVRVlZOMWMrQWxTd1VFdkxwaTVlUXBVekFGR2h1MVkwZVB2bjc5T2dvYnZraVkxajAzbzI4dlZXWXFSQXZoUWQzU2p4YUNReEFXTWpmcWRGZXZWeGFmdnZIakJZY2xBblk2czMzNzNYdStWaWdVbURLYk4zOFNRZ1ExNG5CTVFCcU41bDgvL0tCU0pXREtsSnc2TldYeXBHaE13RU5KeEJCckZxbGMxOVhTcURmcm11eW1vRjB1LzU5Q1VUdSsvT3IyUE53VXdSQmZIVFowaUs0eExDTVhFYndLaUkwK0VJM0paS3FycS9jMTRUeE5lbnE2V0N3cWlrTGZCcWZOYmpVWVRmVmFlTUFHUEVWUjRKbWx6NDRaT3haZjVybG5sOEo5Z2xpQVZ4K0kxVlBjUVhicytQSGorREl6T2t3Wi9BQUFDZTFKUkVGVVp6MDViTmpkaUlOQVBPTDNqeitPTDNQaXhQRnRXN2NpRnNQMk9SSVhMVnpndDRaYTlmcnJuVHQzUnB3aU95Zm45VGZleEplQnltTGhnZ1dJM2JCZFFKZkx5MWU4K2lxK0RBUlJObTdhcE9IT2NqaHdxcHMrL0FnLzh3YncwbCtXWDJiSDJCME1ISmlsZGUzYmJ4M1l2eDlmcG4zN0R1OXYyQ2lPOUJvODBRQk9jc01IbTlMVC9YUVYydmZ0dCt2ZmZ4K3hIbTVNOHp0NzloOHEvYTBUMEtOSGp6Zlh2Qlg3Q2FtQ0FrNXZ6ZHR2KzEzcXBhS2lZdDdjT1lnTGNFTkEwSWlkT2ZNSnY4V0dqeGp4OHQ5ZVFTem0xVmRYM24zM2NML0ZaajN4QkJ1R0xRY0NaeVlhTHoxNzl0bWxTLzBXbS9yQUErLys4NzJJTDBnWVBpS1JDRTVzMHBUSmZrc3VXYlRvcDU4dUlJN0EzampRcmZ4NDVreGlZbUxQbnIzd3hiS3lzL3ZjZGRmdVhic1ltVlBNSzVBbC9lRERqd1lPR3VTMzVBY2JON3o1eGh1SWxYQXZEblFyZjNyKytWMDdkL290MXIvL2dFKzNiRkdxWWoyL29sZlVhaldjVEo4K2ZmeVdoSzhHWHhCeEN1NnRsUUhlNWRHai9rZjE1dWNYYk4yMkxTVWxCVEZLUmtiRzF1MWZ3TW40TFhub1VCRlhIT2VXY0U5QUVGZWM4ZWp2TGx6dzd5WGs1SFRaOXNXT0VMckFSZ3I0YURpQlFJS2NaOC8rK1BoamozRnhWUTFPcnRiVDFOVDB5TVBUcjF5NTRyZGt1M2J0UHR1NkRaK3RqQkw1QlFWZ2V6QzltcHFCTC9Mb0k0OFlqY3hQT3g4Q1hGM3VxYWFtNXFFSHBrSzh4Ry9KNUtTa3o3WjhQdU94eDFDc2dHRFBFN05tZmZyWmxrQ0M0NkNlQjZkT3FhMExaUVFaRytEd2VtSFhyMTkvWU9xVVFEUWtrOG1lKytQejIzZDhtUlA5MVZMZ0k3N2N1WFBKa21la0FTejBBZXFaUEdsaUZRdG02dzBaYmk4NFYxTmRIYUNHa0R0VXZYUDM3dGx6NWtZcFNnU0hmYnF3Y05lZVBRRXVDVjFlVmdicXFhMnBRVnlHOHlzVzBob3FLd3RvNkNCRTh3cm56NGRySEhHdkNBNEloNTB6ZDU0d3NLNnhvSjZwVXlaelhUMG9QcGE4ZEdsb3l1VGp4NDRGV0w1TGw2NDdkKzFldEhpeExCS3JBY0ZCbmxuNkxCd1FEaHZnVzRxTGl5ZE5uRkR2ZTI1YURzR2xTRFFHazhtMGZkdTJ6bG1kYzNOekEzd0xSS3NmbkRZTk9aMlFKQWt0WmkyUlNHYjgvdmV2djdsbVVBQWg1bWErMkw1OTFoT1B3d2tqcnNHWllUMmhBVjlzeis3ZE5wdDlRTURUQXN1azBzR0Roenc0YlRyaVFaMXl5UlJ3cjJlMU91RjNqODRBNll3ZVBWb1d6S3A0SzFlc2VISFpDMnhicERGQXVEU3NKeHlHanhpK1l1VnJrRUJBUWJKcjE4NVBQdnI0SUhhdXRFR0RCajgwZmRxNGNmZWlJSUVLYTk3Y3VRY1A3RWVjaFdPak1zSWhMUzM5elRWcmV0OTVKd29lcUZ6QW5UcDgrREJFaDgrY1BrMVJndHZ6Ymk4bzZONnZmLytCQXdlaWtBQ25aODdzUDFUZllHREZ6QWpTaGdTRTNDTm01aTlZTUhQV2s4eDJNWVBhYXMyYU4xOWJ1ZElSelRINXNZRmp3M3JDQks1Y1VWRVJaQ2gvMDY5ZlFrSUNZZ0tJRTg3NDMwZTNmZjQ1UjUyZVZzUkRkNDVnT1hiMDZPaVJJOWF0WFJ2alBDVjgzTnEzMzRLUFBuWHlKSXByNGx4QXlEMkwrVi8vK3RMNCsvN24wcVZRNXMwSWdmUG56OFBIL2UzbGwxa3lGM2hVaVg4QjBad3JMUjA5Y3VUeUY1ZlYxTmFpcUFFSGgxYjZ1TEZqNE9OUTI4RERCNUxLNU5Eb3NKaE5WbXQ4M2pvblQ1NzhZT09HUnAwdUx6OC9xUGlOWDBBNnEvN3gydFB6NWg0N3lvb2xMS0tCU0NRUlM2UjJtOVZvdUxsYXRJZUFKQktwUUNpMFdzMGh6TjNFRmFBUmNlTDQ4UTgzYlRJWURDQWppQ2FqOElBQXp4dXJWejgxZDg2UkkwZlkwd3M3R29pbFVwRllZck5ZVE1hYkkwWThtdkVKNmlTcFhHRm8wamMyUk5IT3N3ZFF6NmpSWXlaTW1EQjR5SkJnVS9SV3EzWC9EL3QzZkxGOTc5NnZ6ZkY3djdYa1Yzbm9kWTNhbTcyWFBBU2tVQ1VvbEdxejBWQmZWNDNhRXBDYUdETDA3cjU5N3hvd1lHRG5MTnppQnhXWEwwTm80TWpoSXdjTy9CRDdCZTJaUlpPWUlwYks5RG90R0pqbUZ6MEVKSk1yVmVwRXE4VmNXeDJCV1pzNFNsSmlZczg3ZW5YczBER3pmWWRPblRwQkNPZm5uMysrVm5uMTV5dFhUcDg2eGQydWcrR1RsSkloRklrYUcrcGF4b0U4N0RZZExjWFBOQnYzZ0VTKzIvY2RJdHdDbjNJSncrRVpVZk1Va04zbUxzZTZZWjBFTnNEbnUxYndzRHM4Qk9SaGJLRDFEaFlia2tjc0hCcE1ZQlpLSUFSaGdEeHNuaUVlRHdIQmJuQ0FZRU1za1NFQ29RV1FCVU91c0w2NVZWNnZ0YnRqTmhtYlN4TUl6VWpjTnNWOHkrQzExZ0l5dVFVa0ZJbnBDbzlBUUc3dlIraWU5OWhpOWljZ0NGVFRiallFclJHQjRFYmlUdnZZN1JCcGI5M1B4MHVMM1dReU5MK0hRQUJFN3ZxclpRYWpHUzhDb3VzNXlKRlJwQzFHY0xXL0JHS3hLMk5vTm5zWnZlOU5RR1lqR0N0b3N5bFVRZmRMSjhRZlNwVUd4QURWbDhYYlVDVHZRV2VkMWpYbVRTcVZDNFRCcmZOSWlET2dPVVUzeVdsSjNJcDNBVUZ0UjNjSlVpVndadkpsUWpTZ0JRRFJRZG96dmhXZmFTOWRnMHR4b0wrV0hZWUliUXFSUkFJV0NEWWF0VDVIWWZzVWtNVmlvb09LeWdUaUNiVlJWS3BFNUdwVUdlajhoRmR3aVhlNjJoTUtSWElsTThOaUNBeWlVS29GUWlFa0xuU051R1hxS1V3TjVYQTRuSzZwK1NYd0FKZklIdGY5TlFrdEFjODVRWk1FRy9yR0Jyb2k4b1dmcmo5Tk9pMzlmblZpc2tBUTNLS1FCSTRDaVhlNDNNamRsbXJTKzFub3puL2ZzWWE2YWpBL1BCNWZrNVFLZnhFaHJvRkxuT2krMERhcnBhSE8vL3hYL2dVQnRXQjk3UTJId3c0UlNVMFN3OU11RTZJTlhHSzQwSEM1NjJwdndNWDNXNTRLcEpVT0dySll6REs1QWc3TnB3VDRTcEhBWFJMVVNYVFlzSzY2S2tDWGx3b3d6QU1wZWdDT0RtbDlpQTJZVGR4WVM0WVFJSkNzU0V4T285V2pyYS8xbXZieUNoVjRuQkFxUmRDUTJEMzRFRDRKTkJRZmswNFFLRXFRbUpJT2RnRXVhR05EWGN1QnAvN2ZHMVNnR1RRRVFXMVFEM3lrVkNhSEp3NE96czVQYUFub0J0UURGeFQ4SG5CMmcvVlBxR0F6RmFBWWFOMkJIYUkxNUlDcWt2dVRDYlZacERLRk9qR0Z6K2ZEVmF5cnZuNXJmekcvVUNHa3VweE9CMWc1a1VnTWtTR1hWeVFVV2ExV0ovZG40R3BUZ0I4QzBwRXJWT0Q5Z05XcHI2a0tiUTQxS3VSY0tjU1krRHkrU0N5R1UzRTEwQ2pYckF6RUsySS9mSXBTcVJOVkNZbDBaTGdKVWhYMW9jOTM3akcwT1FTZ0JvV01QNTJ6QmZVWTlEb0lYanVjeEJxeEViamg1U28xM08zMHZKR1FJb1UwT3laUkdnamhDb2hHTEpZcUVoS0VRcmVNSEE1WDd4R3owV3cwT2h6RXhXWWVNRGtTaVZRc2tVRjFRZWNTTEZhelhxdTFtQ01RejR1TWdKRGIvRWpsQ2xjS3QwVlBhcWpVb0g0Rk9ZR2tXTDRnZDV3Qmx3T2NWTEhVcFJ0aGkyNmwwT0xSNnhvZ3h4V3B5eEV4QVRVRHB5dVd5aVFTbWNCejJSR2J6V2EzMjZEVkJzRWtPaXhKN0ZPazRJT1JvU2ozSC9ncmdBWnlxOEhwb0J1VHlXRCtiMGZUQ0JKNUFUVURYd1BrTDVGS1FWSEUvTVFlZXFDNnlRZzFnTUZ1ajFaWG5DZ0txQ1VnSmo3Y0ZKVHJIK1crUmVBbW9jZzBJSkVBaEFLMjNPNDI4SzZIKzUvRFpmQnRNYmhyWTNRSjZlOUdBbzZ4SkRZMm4vVHZJWVFGRVJBaExJaUFDR0h4L3dBQUFQLy8zc0Z0ckFBQUFBWkpSRUZVQXdBWnFZc3dzM1JrdUFBQUFBQkpSVTVFcmtKZ2dnPT0iLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XX0=">
+
+<!-- ===== Tailwind CSS (CDN) ===== -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  if (window.tailwind) {
+    tailwind.config = {
+      theme: { extend: { colors: { ink: '#0b0d11', civil: '#5cb3a1', imp: '#cf6152' } } },
+    };
+  }
+</script>
+
+<!-- ===== الخطوط: IBM Plex Sans Arabic + IBM Plex Mono ===== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================================
+   من المحتال؟ — نمط «تحريري / خطوط خارجية» Outline Editorial
+   كل التنسيقات الحرجة مكتوبة هنا، فاللعبة تعمل كاملة حتى بدون الشبكة.
+   ============================================================================ */
+
+:root{
+  --bg:        #0b0d11;
+  --surface:   #111419;
+  --surface-2: #161a20;
+  --surface-3: #1b2027;
+  --line:      #232830;
+  --line-2:    #343b45;
+  --line-3:    #4a535f;
+
+  --text:      #e9edf2;
+  --dim:       #98a2ae;
+  --faint:     #6a7480;
+
+  --civil:     #5cb3a1;
+  --civil-line:rgba(92,179,161,.55);
+  --civil-tint:rgba(92,179,161,.08);
+
+  --imp:       #cf6152;
+  --imp-line:  rgba(207,97,82,.58);
+  --imp-tint:  rgba(207,97,82,.10);
+
+  --r-sm: 8px;
+  --r:    10px;
+  --r-lg: 14px;
+
+  --font:  'IBM Plex Sans Arabic','Cairo','Segoe UI',Tahoma,system-ui,sans-serif;
+  --mono:  'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+[hidden]{ display:none !important; }
+
+html,body{ margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  font-weight:400;
+  font-size:15px;
+  line-height:1.75;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* عناصر مساعدة */
+.mono{ font-family:var(--mono); font-weight:500; }
+.num{ font-family:var(--mono); font-variant-numeric:tabular-nums; }
+.dim{ color:var(--dim); }
+.faint{ color:var(--faint); }
+.ico{ width:18px; height:18px; flex:0 0 auto; display:block; }
+.ico-sm{ width:15px; height:15px; }
+.ico-lg{ width:26px; height:26px; }
+
+svg{ stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+
+::selection{ background:rgba(92,179,161,.3); }
+
+/* التخطيط */
+.app{
+  width:100%; max-width:680px; margin:0 auto;
+  padding:16px 16px calc(48px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; gap:14px;
+}
+
+/* ===================== الشريط العلوي ===================== */
+.topbar{
+  position:sticky; top:0; z-index:30;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:11px 14px; margin:0 -2px;
+  background:rgba(11,13,17,.92);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--line); border-radius:var(--r-lg);
+}
+.brand-mark{ display:flex; align-items:center; gap:10px; }
+.brand-glyph{
+  width:30px; height:30px; display:grid; place-items:center;
+  border:1px solid var(--line-2); border-radius:var(--r-sm); color:var(--dim);
+}
+.brand-name{ font-size:15px; font-weight:600; }
+.brand-tag{ font-size:10.5px; color:var(--faint); }
+.top-actions{ display:flex; gap:8px; }
+
+/* ===================== الأسطح ===================== */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:16px;
+  display:flex; flex-direction:column; gap:14px;
+}
+.hero{ padding:22px 18px; }
+
+/* ترويسة الأقسام: 01 — العنوان ————— */
+.sec-head{ display:flex; align-items:center; gap:10px; }
+.sec-num{ font-family:var(--mono); font-size:11.5px; color:var(--faint); letter-spacing:.06em; }
+.sec-title{ margin:0; font-size:15px; font-weight:600; white-space:nowrap; }
+.sec-rule{ flex:1; height:1px; background:var(--line); }
+.sec-meta{ font-family:var(--mono); font-size:11.5px; color:var(--dim); white-space:nowrap; }
+
+.lede{ margin:0; color:var(--dim); font-size:14px; line-height:1.85; }
+.note{ margin:0; font-size:12.5px; color:var(--faint); line-height:1.7; }
+.note.warn{ color:#c9a227; }
+.note.err{ color:var(--imp); }
+
+/* ===================== العنوان الرئيسي ===================== */
+.brand-block{ display:flex; flex-direction:column; gap:10px; padding:6px 2px 2px; }
+.eyebrow{
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--faint);
+}
+.eyebrow::before{ content:""; width:22px; height:1px; background:var(--line-2); }
+.title{ margin:0; font-size:clamp(30px,8.5vw,38px); font-weight:700; letter-spacing:-.02em; line-height:1.25; }
+.title-sub{ margin:0; color:var(--dim); max-width:44ch; }
+.meta-row{ display:flex; flex-wrap:wrap; gap:0; margin-top:4px; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; }
+.meta-cell{
+  flex:1 1 auto; min-width:120px; padding:9px 12px;
+  border-inline-start:1px solid var(--line);
+  display:flex; align-items:center; gap:8px;
+}
+.meta-cell:first-child{ border-inline-start:0; }
+.meta-k{ font-family:var(--mono); font-size:10.5px; color:var(--faint); letter-spacing:.06em; }
+.meta-v{ font-size:13px; font-weight:500; }
+
+/* ===================== الأزرار ===================== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 16px; border-radius:var(--r);
+  border:1px solid var(--line-2); background:transparent; color:var(--text);
+  font-family:var(--font); font-size:14.5px; font-weight:600;
+  cursor:pointer; user-select:none; text-align:center;
+  transition:background .15s ease, border-color .15s ease, color .15s ease, transform .1s ease, opacity .15s ease;
+}
+.btn:hover{ background:var(--surface-2); border-color:var(--line-3); }
+.btn:active{ transform:translateY(1px); }
+.btn:disabled{ opacity:.38; cursor:not-allowed; }
+.btn:disabled:hover{ background:transparent; border-color:var(--line-2); }
+.btn:focus-visible{ outline:2px solid var(--civil); outline-offset:2px; }
+
+.btn-solid{ background:var(--text); border-color:var(--text); color:#0b0d11; }
+.btn-solid:hover{ background:#fff; border-color:#fff; }
+.btn-solid:disabled:hover{ background:var(--text); border-color:var(--text); }
+
+.btn-civil{ border-color:var(--civil-line); color:#9fded1; }
+.btn-civil:hover{ background:var(--civil-tint); border-color:var(--civil); }
+
+.btn-imp{ border-color:var(--imp-line); color:#e9aaa0; }
+.btn-imp:hover{ background:var(--imp-tint); border-color:var(--imp); }
+
+.btn-ghost{ border-color:var(--line); color:var(--dim); }
+.btn-ghost:hover{ color:var(--text); }
+
+.btn-sm{ padding:9px 12px; font-size:13px; border-radius:var(--r-sm); }
+.btn-block{ width:100%; }
+.btn-lg{ padding:15px 18px; font-size:16px; }
+.btn-row{ display:flex; gap:8px; }
+.btn-row .btn{ flex:1; }
+
+.icon-btn{
+  width:34px; height:34px; padding:0; border-radius:var(--r-sm);
+  display:grid; place-items:center; color:var(--dim);
+  background:transparent; border:1px solid var(--line); cursor:pointer;
+  transition:color .15s, border-color .15s, background .15s;
+}
+.icon-btn:hover{ color:var(--text); border-color:var(--line-2); background:var(--surface-2); }
+.icon-btn:active{ transform:translateY(1px); }
+
+.link-btn{
+  background:none; border:0; padding:2px 4px; cursor:pointer;
+  font-family:var(--font); font-size:12.5px; font-weight:500; color:var(--dim);
+  border-bottom:1px solid transparent; transition:color .15s, border-color .15s;
+}
+.link-btn:hover{ color:var(--text); border-bottom-color:var(--line-3); }
+
+/* ===================== الحقول ===================== */
+.input-row{ display:flex; gap:8px; }
+.field{
+  flex:1; min-width:0; padding:11px 13px; border-radius:var(--r);
+  background:var(--bg); border:1px solid var(--line-2); color:var(--text);
+  font-family:var(--font); font-size:15px; font-weight:500; outline:none;
+  transition:border-color .15s ease;
+}
+.field::placeholder{ color:var(--faint); font-weight:400; }
+.field:focus{ border-color:var(--civil); }
+
+/* ===================== وسوم اللاعبين ===================== */
+.tags{ display:flex; flex-wrap:wrap; gap:7px; }
+.tag{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:5px 5px 5px 11px; border-radius:99px;
+  background:var(--surface-2); border:1px solid var(--line-2);
+  font-size:13.5px; font-weight:500;
+  animation:tagIn .18s ease both;
+}
+@keyframes tagIn{ from{ opacity:0; transform:translateY(3px); } to{ opacity:1; transform:none; } }
+.tag-idx{ font-family:var(--mono); font-size:10.5px; color:var(--faint); }
+.tag-x{
+  width:20px; height:20px; padding:0; display:grid; place-items:center; cursor:pointer;
+  border-radius:50%; background:transparent; border:1px solid var(--line-2); color:var(--faint);
+  transition:color .15s, border-color .15s, background .15s;
+}
+.tag-x:hover{ color:var(--imp); border-color:var(--imp-line); background:var(--imp-tint); }
+.tag-x svg{ width:11px; height:11px; stroke-width:2; }
+
+.empty{
+  padding:18px 14px; text-align:center; border:1px dashed var(--line-2);
+  border-radius:var(--r); color:var(--faint); font-size:13px;
+}
+
+/* ===================== شرائح التصنيفات ===================== */
+.chips{ display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr)); gap:8px; }
+.chip{
+  position:relative; cursor:pointer; text-align:start;
+  display:flex; align-items:center; gap:10px;
+  padding:11px 12px; border-radius:var(--r);
+  background:var(--surface-2); border:1px solid var(--line);
+  color:var(--text); font-family:var(--font);
+  transition:border-color .15s, background .15s, transform .1s;
+}
+.chip:hover{ border-color:var(--line-3); }
+.chip:active{ transform:translateY(1px); }
+.chip:focus-visible{ outline:2px solid var(--civil); outline-offset:2px; }
+.chip-ico{ color:var(--dim); display:grid; place-items:center; }
+.chip-body{ display:flex; flex-direction:column; gap:1px; min-width:0; flex:1; }
+.chip-name{ font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chip-count{ font-family:var(--mono); font-size:10.5px; color:var(--faint); }
+.chip-box{
+  width:15px; height:15px; flex:0 0 auto; border:1px solid var(--line-2);
+  border-radius:4px; display:grid; place-items:center; color:transparent;
+}
+.chip-box svg{ width:10px; height:10px; stroke-width:2.4; }
+.chip.on{ background:var(--civil-tint); border-color:var(--civil-line); }
+.chip.on .chip-ico{ color:var(--civil); }
+.chip.on .chip-count{ color:var(--civil); opacity:.85; }
+.chip.on .chip-box{ background:var(--civil); border-color:var(--civil); color:#08221d; }
+
+/* ===================== المفتاح (Switch) ===================== */
+.setting-row{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:12px 13px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2);
+}
+.setting-text{ display:flex; flex-direction:column; gap:1px; min-width:0; }
+.setting-title{ font-size:14px; font-weight:600; display:flex; align-items:center; gap:7px; }
+.setting-sub{ font-size:11.5px; color:var(--faint); }
+
+.switch{ position:relative; flex:0 0 auto; cursor:pointer; display:inline-block; }
+.switch input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; z-index:2; }
+.switch .track{
+  display:block; width:46px; height:26px; border-radius:99px;
+  background:var(--bg); border:1px solid var(--line-2); position:relative;
+  transition:border-color .18s ease, background .18s ease;
+}
+.switch .thumb{
+  position:absolute; top:3px; inset-inline-end:3px; width:18px; height:18px; border-radius:50%;
+  background:var(--faint); transition:transform .18s ease, background .18s ease;
+}
+.switch input:checked + .track{ background:var(--imp-tint); border-color:var(--imp-line); }
+.switch input:checked + .track .thumb{ transform:translateX(-20px); background:var(--imp); }
+
+/* مُحدِّد العدد */
+.stepper{ display:flex; align-items:center; border:1px solid var(--line-2); border-radius:var(--r-sm); overflow:hidden; }
+.step-btn{
+  width:34px; height:34px; padding:0; display:grid; place-items:center; cursor:pointer;
+  background:var(--surface-3); border:0; color:var(--dim);
+  transition:background .15s, color .15s;
+}
+.step-btn:hover{ background:var(--line); color:var(--text); }
+.step-btn:active{ background:var(--line-2); }
+.step-val{ min-width:38px; text-align:center; font-family:var(--mono); font-size:15px; font-weight:600; }
+
+/* الشريط الفوضوي */
+.chaos-box{
+  display:none; flex-direction:column; gap:10px;
+  padding:13px; border:1px solid var(--imp-line); border-radius:var(--r);
+  background:var(--imp-tint);
+}
+.chaos-box.open{ display:flex; }
+.chaos-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.chaos-label{ font-size:12.5px; color:var(--dim); }
+.chaos-pct{ font-family:var(--mono); font-size:16px; font-weight:600; color:var(--imp); }
+
+input[type="range"]{
+  -webkit-appearance:none; appearance:none; width:100%; height:22px; background:transparent; outline:none; cursor:pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track{ height:2px; background:var(--line-3); border-radius:2px; }
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:16px; height:16px; margin-top:-7px; border-radius:50%;
+  background:var(--text); border:0;
+}
+input[type="range"]::-moz-range-track{ height:2px; background:var(--line-3); border-radius:2px; }
+input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border-radius:50%; background:var(--text); }
+
+/* ===================== الشاشات ===================== */
+.screen{ display:none; flex-direction:column; gap:14px; }
+.screen.active{ display:flex; animation:screenIn .22s ease both; }
+@keyframes screenIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+
+/* ===================== شاشة الكشف ===================== */
+.turn-head{ display:flex; flex-direction:column; gap:10px; }
+.turn-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.pill{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 10px; border-radius:99px; border:1px solid var(--line-2);
+  font-family:var(--mono); font-size:11px; color:var(--dim);
+}
+.pill-cat{ font-family:var(--font); font-size:12px; }
+.turn-title{ margin:0; font-size:clamp(19px,5.4vw,23px); font-weight:600; line-height:1.4; }
+.turn-title b{ font-weight:700; }
+.bars{ display:flex; gap:4px; margin-top:2px; }
+.bar-seg{
+  height:3px; flex:1; border-radius:2px; background:var(--line);
+  transition:background .2s ease;
+}
+.bar-seg.done{ background:var(--civil); }
+.bar-seg.current{ background:var(--text); }
+
+/* الكرت */
+.secret-card{
+  position:relative; width:100%; min-height:360px; flex:1 0 auto;
+  display:grid; place-items:center; text-align:center;
+  padding:34px 22px; border-radius:18px; cursor:pointer;
+  background:var(--surface); border:1px solid var(--line-2);
+  user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;
+  touch-action:none; outline:none;
+  transition:border-color .2s ease, background .2s ease, transform .15s ease;
+}
+.secret-card:focus-visible{ border-color:var(--civil); }
+.secret-card.arming{ transform:scale(.994); }
+.secret-card.revealed{ cursor:default; }
+.secret-card.revealed.civil{
+  border-color:var(--civil-line); background:var(--civil-tint);
+  background-image:linear-gradient(180deg, var(--civil-tint), transparent 62%);
+}
+.secret-card.revealed.imposter{
+  border-color:var(--imp-line);
+  background-image:linear-gradient(180deg, var(--imp-tint), transparent 62%);
+  animation:tap .34s ease both;
+}
+@keyframes tap{
+  0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-3px); }
+  50%{ transform:translateX(3px); } 75%{ transform:translateX(-2px); }
+}
+
+/* أقواس الزوايا */
+.corner{ position:absolute; width:16px; height:16px; border:1px solid var(--line-2); pointer-events:none; transition:border-color .2s ease; }
+.corner.tl{ top:10px; inset-inline-start:10px; border-inline-end:0; border-bottom:0; border-start-start-radius:6px; }
+.corner.tr{ top:10px; inset-inline-end:10px; border-inline-start:0; border-bottom:0; border-start-end-radius:6px; }
+.corner.bl{ bottom:10px; inset-inline-start:10px; border-inline-end:0; border-top:0; border-end-start-radius:6px; }
+.corner.br{ bottom:10px; inset-inline-end:10px; border-inline-start:0; border-top:0; border-end-end-radius:6px; }
+.secret-card.revealed.civil .corner{ border-color:var(--civil-line); }
+.secret-card.revealed.imposter .corner{ border-color:var(--imp-line); }
+
+.layer{
+  grid-area:1/1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:12px; width:100%; transition:opacity .16s ease, transform .18s ease;
+}
+.layer-role{ opacity:0; transform:scale(.98); pointer-events:none; }
+.secret-card.revealed .layer-front{ opacity:0; transform:scale(.98); }
+.secret-card.revealed .layer-role { opacity:1; transform:none; }
+
+.card-kicker{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--faint); }
+.card-lock{ color:var(--dim); }
+.card-hint{ margin:0; font-size:18px; font-weight:600; }
+.hold-line{ width:min(200px,64%); height:2px; background:var(--line-2); border-radius:2px; overflow:hidden; }
+.hold-line i{ display:block; height:100%; width:0; background:var(--civil); }
+.secret-card.arming .hold-line i{ animation:fillHold .34s linear forwards; }
+@keyframes fillHold{ to{ width:100%; } }
+
+.role-word{
+  margin:0; font-size:clamp(38px,11.5vw,54px); font-weight:700; line-height:1.3;
+  color:#dff2ed; word-break:break-word;
+}
+.role-imp{
+  margin:0; font-size:clamp(34px,10.5vw,48px); font-weight:700; line-height:1.3;
+  color:#f3d2cb; animation:impIn .26s ease both;
+}
+@keyframes impIn{ from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:none; } }
+.role-note{ margin:0; max-width:32ch; font-size:12.5px; color:var(--dim); line-height:1.8; }
+.cat-chip{
+  display:inline-flex; align-items:center; gap:6px; padding:3px 10px;
+  border:1px solid var(--line-2); border-radius:99px; font-size:11.5px; color:var(--dim);
+}
+
+/* ===================== القوائم ===================== */
+.list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px; }
+.row{
+  display:flex; align-items:center; gap:11px; padding:10px 12px;
+  border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2);
+  animation:tagIn .2s ease both;
+}
+.avatar{
+  width:32px; height:32px; flex:0 0 auto; display:grid; place-items:center;
+  border:1px solid var(--line-2); border-radius:var(--r-sm);
+  font-size:13.5px; font-weight:600; color:var(--dim); background:var(--bg);
+}
+.row-name{ flex:1; min-width:0; font-size:14.5px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.row-idx{ font-family:var(--mono); font-size:11px; color:var(--faint); }
+.role-chip{
+  display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:99px;
+  font-size:11.5px; font-weight:600; border:1px solid var(--line-2); color:var(--dim);
+}
+.role-chip svg{ width:13px; height:13px; }
+.role-chip.civ{ color:var(--civil); border-color:var(--civil-line); background:var(--civil-tint); }
+.role-chip.imp{ color:var(--imp); border-color:var(--imp-line); background:var(--imp-tint); }
+.mark-vote{ font-size:11px; color:var(--faint); border-inline-end:1px solid var(--line-2); padding-inline-end:9px; }
+
+/* ===================== المؤقت ===================== */
+.timer-display{
+  text-align:center; font-family:var(--mono); font-size:clamp(42px,13vw,56px);
+  font-weight:500; direction:ltr; font-variant-numeric:tabular-nums;
+  color:var(--text); line-height:1.1;
+  transition:color .2s ease;
+}
+.timer-display.low{ color:var(--imp); }
+.timer-display.over{ color:var(--imp); }
+.timer-bar{ height:2px; background:var(--line); border-radius:2px; overflow:hidden; }
+.timer-bar i{ display:block; height:100%; width:100%; background:var(--civil); transition:width .95s linear, background .2s; }
+.timer-bar i.low{ background:var(--imp); }
+.open-note{
+  padding:12px; border:1px dashed var(--line-2); border-radius:var(--r);
+  text-align:center; font-size:13px; color:var(--dim);
+}
+
+/* ===================== التصويت ===================== */
+.vote-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(132px,1fr)); gap:8px; }
+.vote-card{
+  position:relative; cursor:pointer; padding:14px 12px; border-radius:var(--r);
+  background:var(--surface-2); border:1px solid var(--line); color:var(--text);
+  font-family:var(--font); display:flex; flex-direction:column; align-items:center; gap:8px;
+  transition:border-color .15s, background .15s, transform .1s;
+}
+.vote-card:hover{ border-color:var(--line-3); }
+.vote-card:active{ transform:translateY(1px); }
+.vote-card .v-name{ font-size:14px; font-weight:600; }
+.vote-card .v-ico{ color:var(--faint); }
+.vote-card.sel{ border-color:var(--imp-line); background:var(--imp-tint); }
+.vote-card.sel .v-ico{ color:var(--imp); }
+.vote-card .v-check{
+  position:absolute; top:8px; inset-inline-end:8px; color:var(--imp);
+  opacity:0; transition:opacity .15s;
+}
+.vote-card.sel .v-check{ opacity:1; }
+
+/* ===================== النتيجة ===================== */
+.verdict{
+  padding:24px 18px; border:1px solid var(--line-2); border-radius:16px;
+  background:var(--surface); text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.verdict.win{ border-color:var(--civil-line); background-image:linear-gradient(180deg, var(--civil-tint), transparent 55%); }
+.verdict.lose{ border-color:var(--imp-line); background-image:linear-gradient(180deg, var(--imp-tint), transparent 55%); }
+.verdict-ico{ color:var(--dim); }
+.verdict.win .verdict-ico{ color:var(--civil); }
+.verdict.lose .verdict-ico{ color:var(--imp); }
+.verdict-title{ margin:0; font-size:clamp(23px,7vw,30px); font-weight:700; line-height:1.35; }
+.verdict-sub{ margin:0; color:var(--dim); font-size:14px; max-width:42ch; }
+.word-box{
+  margin-top:6px; padding:12px 22px; border:1px solid var(--line-2); border-radius:var(--r);
+  background:var(--bg); display:flex; flex-direction:column; align-items:center; gap:3px; min-width:190px;
+}
+.word-box .wk{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--faint); }
+.word-box .wv{ font-size:23px; font-weight:700; }
+.word-box .wm{ font-size:11.5px; color:var(--faint); }
+.chaos-note{
+  padding:12px 14px; border:1px solid var(--imp-line); border-radius:var(--r);
+  background:var(--imp-tint); font-size:13px; color:#e9bcb3; text-align:center;
+}
+
+/* ===================== نافذة القواعد ===================== */
+.modal{
+  position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center; padding:16px;
+  background:rgba(5,7,10,.82); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+}
+.modal.open{ display:flex; animation:fadeIn .16s ease both; }
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+.modal-card{
+  width:100%; max-width:520px; max-height:86vh; overflow-y:auto;
+  padding:18px; border-radius:16px; background:var(--surface); border:1px solid var(--line-2);
+  animation:screenIn .2s ease both;
+}
+.rules{ list-style:none; margin:14px 0 16px; padding:0; display:flex; flex-direction:column; gap:0; }
+.rules li{
+  display:flex; gap:12px; padding:11px 0; border-top:1px solid var(--line);
+  font-size:13.5px; line-height:1.8; color:var(--dim);
+}
+.rules li:first-child{ border-top:0; }
+.rules .rn{ font-family:var(--mono); font-size:11.5px; color:var(--faint); padding-top:3px; }
+.rules b{ color:var(--text); font-weight:600; }
+
+.footer-note{ text-align:center; font-size:11px; color:var(--faint); padding-top:4px; }
+.footer-note .mono{ font-size:10.5px; }
+
+@media (max-width:520px){
+  .app{ padding:10px 10px calc(40px + env(safe-area-inset-bottom)); gap:12px; }
+  .panel{ padding:14px; }
+  .chips{ grid-template-columns:repeat(auto-fill,minmax(146px,1fr)); }
+  .vote-grid{ grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); }
+  .secret-card{ min-height:320px; }
+  .meta-cell{ min-width:100%; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001s !important; transition-duration:.06s !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===================== الشريط العلوي ===================== -->
+  <header class="topbar">
+    <div class="brand-mark">
+      <span class="brand-glyph" id="brandGlyph"></span>
+      <span style="display:flex;flex-direction:column;line-height:1.3">
+        <span class="brand-name">من المحتال؟</span>
+        <span class="brand-tag mono">PASS &amp; PLAY</span>
+      </span>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="btnRules" aria-label="كيف نلعب؟" title="كيف نلعب؟"></button>
+      <button class="icon-btn" id="btnHome" aria-label="القائمة الرئيسية" title="القائمة الرئيسية" hidden></button>
+    </div>
+  </header>
+
+  <!-- ===================== 1) الإعداد ===================== -->
+  <section class="screen active" id="screen-setup">
+
+    <div class="panel hero">
+      <div class="brand-block">
+        <p class="eyebrow">لعبة استنتاج جماعية · جهاز واحد</p>
+        <h1 class="title">من المحتال؟</h1>
+        <p class="title-sub">كلمة سرّية واحدة يعرفها الجميع… إلا واحد. صِفوا، شكّوا، واصطادوا المحتال قبل أن يصطادكم.</p>
+      </div>
+      <div class="meta-row">
+        <div class="meta-cell"><span class="meta-k">PLAYERS</span><span class="meta-v">3 وأكثر</span></div>
+        <div class="meta-cell"><span class="meta-k">MODES</span><span class="meta-v">عادي · فوضى</span></div>
+        <div class="meta-cell"><span class="meta-k">NETWORK</span><span class="meta-v">بدون إنترنت</span></div>
+      </div>
+    </div>
+
+    <!-- اللاعبون -->
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">اللاعبون</h2>
+        <i class="sec-rule"></i>
+        <span class="sec-meta" id="playersCount">0</span>
+      </div>
+
+      <div class="input-row">
+        <input class="field" id="playerName" type="text" placeholder="اكتب اسم اللاعب…" maxlength="16"
+               autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
+        <button class="btn btn-solid btn-sm" id="btnAddPlayer">إضافة</button>
+      </div>
+
+      <div class="tags" id="playerTags"></div>
+
+      <div style="display:flex;gap:8px;">
+        <button class="link-btn" id="btnDemo">أسماء تجريبية</button>
+        <button class="link-btn" id="btnClearPlayers">حذف الكل</button>
+      </div>
+
+      <p class="note" id="playersHint"></p>
+    </div>
+
+    <!-- التصنيفات -->
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">التصنيفات</h2>
+        <i class="sec-rule"></i>
+        <span class="sec-meta" id="catsCount">0 / 9</span>
+      </div>
+
+      <div class="chips" id="categoryChips"></div>
+
+      <div style="display:flex;gap:8px;">
+        <button class="link-btn" id="btnAllCats">تحديد الكل</button>
+        <button class="link-btn" id="btnNoCats">إلغاء الكل</button>
+      </div>
+
+      <p class="note" id="catsHint"></p>
+    </div>
+
+    <!-- الإعدادات -->
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">الإعدادات</h2>
+        <i class="sec-rule"></i>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-title">عدد المحتالين</span>
+          <span class="setting-sub">في الوضع العادي فقط</span>
+        </div>
+        <div class="stepper">
+          <button class="step-btn" id="btnImpMinus" aria-label="تقليل"></button>
+          <span class="step-val" id="impCount">1</span>
+          <button class="step-btn" id="btnImpPlus" aria-label="زيادة"></button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-title">وضع الفوضى</span>
+          <span class="setting-sub">احتمال أن يصبح الجميع محتالين</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="chaosToggle">
+          <span class="track"><span class="thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="chaos-box" id="chaosBox">
+        <div class="chaos-head">
+          <span class="chaos-label">نسبة الفوضى في كل جولة</span>
+          <span class="chaos-pct" id="chaosPct">25%</span>
+        </div>
+        <input type="range" id="chaosRate" min="10" max="50" step="5" value="25">
+        <p class="note warn">عند التفعيل: قد يصبح كل اللاعبين محتالين، ولا أحد يعلم بالأمر — ولا حتى المحتال نفسه.</p>
+      </div>
+    </div>
+
+    <button class="btn btn-solid btn-lg btn-block" id="btnStart" disabled>ابدأ اللعبة</button>
+    <p class="note" id="startHint" style="text-align:center"></p>
+  </section>
+
+  <!-- ===================== 2) كشف الهوية ===================== -->
+  <section class="screen" id="screen-reveal">
+    <div class="turn-head">
+      <div class="turn-top">
+        <span class="pill" id="turnCounter">اللاعب 1 من 1</span>
+        <span class="pill pill-cat" id="turnCatBadge">—</span>
+      </div>
+      <h2 class="turn-title">دور اللاعب: <b id="turnName">—</b></h2>
+      <div class="bars" id="turnBars"></div>
+    </div>
+
+    <div class="secret-card" id="secretCard" tabindex="0" role="button" aria-label="اضغط مطولاً لكشف هويتك">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+
+      <div class="layer layer-front">
+        <span class="card-kicker">بطاقة سرّية</span>
+        <span class="card-lock" id="cardLock"></span>
+        <h3 class="card-hint" id="cardHint">اضغط مطولاً لكشف هويتك</h3>
+        <div class="hold-line"><i></i></div>
+        <p class="note">استمر بالضغط… وأفلت ليعود الكرت مغلقاً</p>
+        <p class="note">لا تُظهر الشاشة لأي لاعب آخر</p>
+      </div>
+
+      <div class="layer layer-role" id="cardRole"></div>
+    </div>
+
+    <p class="note" id="revealNote" style="text-align:center">أمسك الجهاز، اضغط على الكرت، احفظ دورك، ثم أفلت.</p>
+    <button class="btn btn-solid btn-lg btn-block" id="btnNextPlayer" hidden>اللاعب التالي</button>
+  </section>
+
+  <!-- ===================== 3) النقاش ===================== -->
+  <section class="screen" id="screen-discuss">
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">وقت النقاش</h2>
+        <i class="sec-rule"></i>
+      </div>
+      <p class="lede">كل لاعب يصف الكلمة السرّية بجملة واحدة دون ذكرها صراحة. المحتال يستمع بذكاء ليخمّن الكلمة ويقلّدكم… فلا تكونوا أوضح من اللازم.</p>
+      <ul class="list" id="discussList"></ul>
+    </div>
+
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2 class="sec-title">المؤقّت</h2>
+        <i class="sec-rule"></i>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-title">مؤقّت النقاش</span>
+          <span class="setting-sub" id="timerModeHint">مدة محدّدة، ثم ننتقل للتصويت</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="timerToggle" checked>
+          <span class="track"><span class="thumb"></span></span>
+        </label>
+      </div>
+
+      <div id="timerSettings" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+          <span class="chaos-label">مدة النقاش</span>
+          <span class="chaos-pct" id="timerMinutesLabel" style="color:var(--text)">3 دقائق</span>
+        </div>
+        <input type="range" id="timerMinutes" min="1" max="10" step="1" value="3">
+        <div class="timer-display" id="timerDisplay">03:00</div>
+        <div class="timer-bar"><i id="timerBar"></i></div>
+        <div class="btn-row">
+          <button class="btn btn-civil" id="btnTimerStart">ابدأ المؤقّت</button>
+          <button class="btn btn-ghost" id="btnTimerReset">تصفير</button>
+        </div>
+      </div>
+
+      <div class="open-note" id="noTimerNote" hidden>الوقت مفتوح — لا يوجد عدّاد. ناقشوا بحرية حتى تجهزوا للتصويت.</div>
+    </div>
+
+    <button class="btn btn-solid btn-lg btn-block" id="btnToVote">الانتقال إلى التصويت</button>
+  </section>
+
+  <!-- ===================== 4) التصويت ===================== -->
+  <section class="screen" id="screen-vote">
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">06</span>
+        <h2 class="sec-title">التصويت</h2>
+        <i class="sec-rule"></i>
+      </div>
+      <p class="lede">بعد انتهاء النقاش، اضغطوا على اسم اللاعب الذي تشكّون فيه أكثر من غيره. صوت واحد للمجموعة كاملة.</p>
+      <div class="vote-grid" id="voteGrid"></div>
+      <p class="note" id="voteHint">لم يتم اختيار أي لاعب بعد.</p>
+    </div>
+
+    <button class="btn btn-imp btn-lg btn-block" id="btnReveal" disabled>كشف النتيجة</button>
+    <button class="btn btn-ghost btn-block" id="btnSkipVote">تخطّي التصويت (لا أحد خارجاً)</button>
+  </section>
+
+  <!-- ===================== 5) النتيجة ===================== -->
+  <section class="screen" id="screen-result">
+    <div class="verdict" id="resultHero">
+      <span class="verdict-ico" id="resultIcon"></span>
+      <h2 class="verdict-title" id="resultTitle">—</h2>
+      <p class="verdict-sub" id="resultSub">—</p>
+      <div class="word-box">
+        <span class="wk">SECRET WORD</span>
+        <span class="wv" id="resultWord">—</span>
+        <span class="wm" id="resultCat">—</span>
+      </div>
+    </div>
+
+    <div class="chaos-note" id="chaosBanner" hidden>وضع الفوضى اشتغل! كل اللاعبين كانوا محتالين… ولا أحد كان يعرف الكلمة السرّية.</div>
+
+    <div class="panel">
+      <div class="sec-head">
+        <span class="sec-num">07</span>
+        <h2 class="sec-title">الأدوار الحقيقية</h2>
+        <i class="sec-rule"></i>
+      </div>
+      <ul class="list" id="resultList"></ul>
+    </div>
+
+    <button class="btn btn-solid btn-lg btn-block" id="btnNewRound">جولة جديدة بنفس اللاعبين</button>
+    <button class="btn btn-ghost btn-block" id="btnBackSetup">تغيير اللاعبين والإعدادات</button>
+  </section>
+
+  <p class="footer-note">من المحتال؟ <span class="mono">v2.0</span> — لعبة محلية بجهاز واحد · بلا حسابات وبلا إنترنت</p>
+</div>
+
+<!-- ===================== نافذة القواعد ===================== -->
+<div class="modal" id="rulesModal">
+  <div class="modal-card">
+    <div class="sec-head">
+      <span class="sec-num">؟</span>
+      <h2 class="sec-title">كيف نلعب؟</h2>
+      <i class="sec-rule"></i>
+      <button class="icon-btn" id="btnCloseRules" aria-label="إغلاق" style="border:0"></button>
+    </div>
+    <ul class="rules">
+      <li><span class="rn">01</span><span>أضِفوا أسماء اللاعبين (3 على الأقل) واختاروا <b>التصنيفات</b> التي تحبونها.</span></li>
+      <li><span class="rn">02</span><span>مرّروا الجهاز بين اللاعبين. كل لاعب <b>يضغط مطولاً</b> على الكرت ليرى دوره، ثم يُفلت فيُغلق الكرت فوراً.</span></li>
+      <li><span class="rn">03</span><span><b>المدنيون</b> يرون الكلمة السرّية نفسها. <b>المحتال</b> لا يراها، ويرى أنّه المحتال فقط.</span></li>
+      <li><span class="rn">04</span><span>في <b>وقت النقاش</b>، كل لاعب يقول جملة واحدة تصف الكلمة دون ذكرها. المحتال يتصرّف كأنّه يعرفها.</span></li>
+      <li><span class="rn">05</span><span>صوّتوا على المشتبه به، ثم <b>اكشفوا النتيجة</b>: إن أخرجتم المحتال ربح المدنيون، وإن أخطأتم انتصر المحتال.</span></li>
+      <li><span class="rn">06</span><span><b>وضع الفوضى:</b> احتمال أن يصبح الجميع محتالين. لا أحد يعلم ذلك، والنتيجة تصبح صادمة للجميع.</span></li>
+    </ul>
+    <button class="btn btn-solid btn-block" id="btnRulesOk">فهمت، لنلعب</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   من المحتال؟ — منطق اللعبة (Vanilla JS) — النسخة 2.0
+   ============================================================================ */
+(function () {
+  'use strict';
+
+  /* ==========================================================================
+     0) مجموعة الأيقونات الخطية (SVG) — بديل عن الإيموجي
+     ========================================================================== */
+  const P = {
+    chat:     '<path d="M4.5 5.5h15v10h-9l-6 4z"/>',
+    box:      '<path d="M12 3.5l8.5 4v9l-8.5 4-8.5-4v-9z"/><path d="M3.5 7.5l8.5 4 8.5-4M12 11.5v9"/>',
+    pin:      '<path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/>',
+    globe:    '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.6 2.4 14.4 0 17M12 3.5c-2.4 2.6-2.4 14.4 0 17"/>',
+    food:     '<path d="M7 3.5v7a2 2 0 0 0 4 0v-7M9 10.5v10"/><path d="M17 3.5c-1.4 2-2 3.8-2 5.5s.9 2.8 2 3.2v8.3"/>',
+    fruit:    '<circle cx="12" cy="14" r="6.5"/><path d="M12 7.5V4.5M12 4.5c1.6 0 3-.9 3-2M8.5 6.5c-1-1.2-2.6-1.4-3.6-.9"/>',
+    paw:      '<circle cx="6.6" cy="9.4" r="1.9"/><circle cx="12" cy="7.2" r="2"/><circle cx="17.4" cy="9.4" r="1.9"/><path d="M12 11c3 0 5 2 5 4.4S14.9 20 12 20s-5-2.2-5-4.6S9 11 12 11z"/>',
+    person:   '<circle cx="12" cy="8" r="3.8"/><path d="M4.5 20.5c0-3.9 3.4-5.8 7.5-5.8s7.5 1.9 7.5 5.8"/>',
+    spark:    '<path d="M12 3.5l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>',
+    lock:     '<rect x="4.5" y="10" width="15" height="9.5" rx="2"/><path d="M8 10V7.4a4 4 0 0 1 8 0V10"/><path d="M12 13.6v2.4"/>',
+    mask:     '<path d="M4.5 5.5h15v5.6c0 4.6-3.4 8.4-7.5 8.4S4.5 15.7 4.5 11.1z"/><path d="M9 10.2h.01M15 10.2h.01"/><path d="M9.6 14c1.5 1.1 3.3 1.1 4.8 0"/>',
+    shield:   '<path d="M12 3.5l7 2.8v5.9c0 4.4-3 7.6-7 8.8-4-1.2-7-4.4-7-8.8V6.3z"/><path d="M9.2 12.2l2 2 3.6-4"/>',
+    users:    '<circle cx="9.5" cy="8.5" r="3.2"/><path d="M3.5 20c0-3.3 2.7-5.2 6-5.2s6 1.9 6 5.2"/><path d="M16.5 5.8a3 3 0 0 1 0 5.6M17.5 20c0-2.3-.7-3.9-2-4.8"/>',
+    check:    '<path d="M5 12.5l4.2 4.2L19 7"/>',
+    x:        '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+    plus:     '<path d="M12 5.5v13M5.5 12h13"/>',
+    minus:    '<path d="M5.5 12h13"/>',
+    help:     '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.8.4-1 .9-1 1.6"/><path d="M12 16.8h.01"/>',
+    home:     '<path d="M4 11l8-7 8 7"/><path d="M6.2 10v10h11.6V10"/>',
+    clock:    '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.2v5l3 2"/>',
+    search:   '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/>',
+    refresh:  '<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20.2 4v4.4h-4.4"/>',
+    sliders:  '<path d="M4.5 8h9M17.5 8h2M4.5 16h3M11.5 16h8"/><circle cx="15.5" cy="8" r="2"/><circle cx="9.5" cy="16" r="2"/>',
+    arrow:    '<path d="M14.5 6.5L9 12l5.5 5.5"/>',
+    vote:     '<rect x="4.5" y="4.5" width="15" height="15" rx="2"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+    burst:    '<path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4"/><path d="M6.6 6.6l2.8 2.8M14.6 14.6l2.8 2.8M17.4 6.6l-2.8 2.8M9.4 14.6l-2.8 2.8"/>',
+    target:   '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
+    shrug:    '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 15c1-1.2 2.1-1.8 3.5-1.8s2.5.6 3.5 1.8"/><path d="M9 9.8h.01M15 9.8h.01"/>'
+  };
+  const svg = (name, cls) =>
+    '<svg class="' + (cls || 'ico') + '" viewBox="0 0 24 24" aria-hidden="true">' + (P[name] || '') + '</svg>';
+
+  /* ==========================================================================
+     1) قاعدة بيانات الكلمات العربية
+     ========================================================================== */
+  const WORD_DB = {
+    general: {
+      name: 'مواضيع عامة', icon: 'chat',
+      words: ['كرة القدم','السباحة','القراءة','السفر','التصوير','الطبخ','الموسيقى','التكنولوجيا','التاريخ',
+              'الرياضيات','الطب','الفضاء','التعليم','السينما','الجري','اليوغا','البرمجة','الصحافة','الطيران',
+              'الصيد البحري','الخياطة','البستنة','الشطرنج','الكاراتيه','التزلّج','الغوص','ركوب الخيل','التخييم',
+              'الرسم','الخط العربي','علم النفس','علم الفلك']
+    },
+    objects: {
+      name: 'أشياء', icon: 'box',
+      words: ['طائرة','ساعة','مرآة','مفتاح','هاتف','حاسوب','كتاب','مظلّة','حقيبة','نظّارة','سكين','ملعقة',
+              'كرسي','مصباح','شبكة','سلك','طائرة ورقية','حزام','خاتم','مسطرة','مفك','فرشاة أسنان','منبّه',
+              'محفظة','حذاء','قلم','ممحاة','بوصلة','تلسكوب','مروحة','ثلاجة','مكواة','باب','نافذة']
+    },
+    places: {
+      name: 'أماكن', icon: 'pin',
+      words: ['المستشفى','المدرسة','المطار','الشاطئ','السوق','المكتبة','المطعم','الجامعة','المسجد','الحديقة',
+              'الملعب','محطة القطار','الفندق','المتحف','السجن','الصيدلية','المخبز','البنك','المصنع','الميناء',
+              'الصحراء','الجبال','الغابة','المقهى','القاعة الرياضية','المسرح','محطة الوقود','القصر','النهر',
+              'الكهف','المزرعة','المركز التجاري']
+    },
+    countries: {
+      name: 'دول', icon: 'globe',
+      words: ['المغرب','مصر','السعودية','اليابان','البرازيل','فرنسا','كندا','تركيا','إيطاليا','الهند','ألمانيا',
+              'الصين','إسبانيا','المكسيك','أستراليا','النرويج','كينيا','الأرجنتين','روسيا','كوريا الجنوبية','تونس',
+              'الجزائر','الإمارات','إندونيسيا','تايلاند','البرتغال','سويسرا','هولندا','السنغال','نيوزيلندا','العراق',
+              'الأردن','لبنان','السويد']
+    },
+    food: {
+      name: 'أطعمة', icon: 'food',
+      words: ['البيتزا','الباستا','السوشي','الكسكس','الطاجين','الحريرة','الشاورما','الفلافل','الحمّص','الكبسة',
+              'المنسف','الملوخية','البامية','الشكشوكة','المقلوبة','المسمن','البغرير','الرغايف','البقلاوة','الكنافة',
+              'أم علي','العصير','الشاي','القهوة','الخبز','الجبن','الزيتون','التمر','البطيخ','الفراولة','الشوكولاتة',
+              'المثلجات','الفشار','العسل']
+    },
+    fruits: {
+      name: 'فواكه', icon: 'fruit',
+      words: ['تفاح','موز','برتقال','عنب','بطيخ','شمّام','فراولة','مانجو','أناناس','رمّان','تين','التين الشوكي',
+              'خوخ','مشمش','كرز','كمّثرى','ليمون','جريب فروت','كيوي','أفوكادو','جوافة','تمر','جوز الهند','توت',
+              'برقوق','يوسفي','سفرجل','توت أزرق','نكتارين','عنب أحمر','مندرين','أناناس طازج']
+    },
+    animals: {
+      name: 'حيوانات', icon: 'paw',
+      words: ['أسد','نمر','فهد','فيل','زرافة','قرد','حصان','جمل','كلب','قط','أرنب','ذئب','ثعلب','دب','غزال','حمار',
+              'بقرة','خروف','ماعز','دجاجة','ديك','بطة','حمامة','نسر','بومة','ببغاء','طاووس','نعامة','تمساح','ثعبان',
+              'سلحفاة','ضفدع','قرش','دلفين','حوت','أخطبوط','نحلة','فراشة','نملة','عنكبوت','عقرب','فأر','خفاش','قنفذ',
+              'غراب','كنغر','باندا','وحيد القرن','فرس النهر','حمار وحشي','ديناصور']
+    },
+    people: {
+      name: 'شخصيات مشهورة', icon: 'person',
+      words: ['أم كلثوم','محمد عبد الوهاب','عبد الحليم حافظ','فيروز','كاظم الساهر','نانسي عجرم','إليسا','سميرة سعيد',
+              'سعد لمجرد','حاتم عمور','نجاة أعتابو','نعيمة سميح','محمد صلاح','حكيم زياش','أشرف حكيمي','ياسين بونو',
+              'كريستيانو رونالدو','ليونيل ميسي','نيمار','كيليان مبابي','محمد علي كلاي','أوسين بولت','مايكل جاكسون',
+              'توم كروز','جاكي شان','والت ديزني','ستيف جوبز','بيل غيتس','إيلون ماسك','ألبرت أينشتاين','إسحاق نيوتن',
+              'ليوناردو دافنشي','بابلو بيكاسو','شكسبير','نجيب محفوظ','طه حسين','الخوارزمي','ابن سينا','ابن خلدون',
+              'ابن بطوطة','ابن رشد','كليوباترا','نابليون','نيلسون مانديلا','مارتن لوثر كينغ','باراك أوباما',
+              'المهاتما غاندي','نيل أرمسترونغ','الملك محمد السادس','الملك الحسن الثاني','الملك محمد الخامس']
+    },
+    abstract: {
+      name: 'مفاهيم مجردة', icon: 'spark',
+      words: ['الحب','الخوف','الحلم','الوقت','الحرية','العدل','الصداقة','الغيرة','الأمل','الذاكرة','الفشل','النجاح',
+              'الصبر','الحظ','الوحدة','الغضب','الفرح','الحكمة','الثقة','الكرامة','الشجاعة','الإبداع','الفضول','الحنين',
+              'الندم','السلام','الفوضى','السلطة','المعرفة','الشك','الطموح','الأسرار']
+    }
+  };
+
+  const CAT_KEYS = Object.keys(WORD_DB);
+  const HOLD_MS = 340;
+  const MIN_PLAYERS = 3;
+  const MAX_PLAYERS = 20;
+  const STORE_KEY = 'imposter_ar_setup_v2';
+
+  /* ==========================================================================
+     2) الحالة
+     ========================================================================== */
+  const state = {
+    players: [],
+    categories: new Set(CAT_KEYS),
+    imposterCount: 1,
+    chaos: false,
+    chaosRate: 25,
+    lastWord: null,
+    round: null,
+    vote: { accused: -1 },
+    timer: { total: 180, left: 180, running: false, id: null }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const el = {
+    screens: {
+      setup: $('screen-setup'), reveal: $('screen-reveal'), discuss: $('screen-discuss'),
+      vote: $('screen-vote'), result: $('screen-result')
+    },
+    playerName: $('playerName'), playerTags: $('playerTags'), playersCount: $('playersCount'),
+    playersHint: $('playersHint'), startHint: $('startHint'),
+    categoryChips: $('categoryChips'), catsHint: $('catsHint'), catsCount: $('catsCount'),
+    impCount: $('impCount'), chaosToggle: $('chaosToggle'), chaosBox: $('chaosBox'),
+    chaosRate: $('chaosRate'), chaosPct: $('chaosPct'),
+    btnStart: $('btnStart'), btnHome: $('btnHome'),
+    turnCounter: $('turnCounter'), turnCatBadge: $('turnCatBadge'), turnName: $('turnName'),
+    turnBars: $('turnBars'), secretCard: $('secretCard'), cardHint: $('cardHint'),
+    cardLock: $('cardLock'), cardRole: $('cardRole'), btnNextPlayer: $('btnNextPlayer'), revealNote: $('revealNote'),
+    discussList: $('discussList'), timerToggle: $('timerToggle'), timerSettings: $('timerSettings'),
+    noTimerNote: $('noTimerNote'), timerMinutes: $('timerMinutes'), timerMinutesLabel: $('timerMinutesLabel'),
+    timerDisplay: $('timerDisplay'), timerBar: $('timerBar'), timerModeHint: $('timerModeHint'),
+    btnTimerStart: $('btnTimerStart'), btnTimerReset: $('btnTimerReset'), btnToVote: $('btnToVote'),
+    voteGrid: $('voteGrid'), voteHint: $('voteHint'), btnReveal: $('btnReveal'), btnSkipVote: $('btnSkipVote'),
+    resultHero: $('resultHero'), resultIcon: $('resultIcon'), resultTitle: $('resultTitle'),
+    resultSub: $('resultSub'), resultWord: $('resultWord'), resultCat: $('resultCat'),
+    chaosBanner: $('chaosBanner'), resultList: $('resultList'),
+    rulesModal: $('rulesModal')
+  };
+
+  /* ==========================================================================
+     3) أدوات مساعدة
+     ========================================================================== */
+  const rand = (n) => Math.floor(Math.random() * n);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = rand(i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const escapeHTML = (s) => String(s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const fmtTime = (sec) => {
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  };
+
+  /* أرقام عربية بالصيغة الغربية (المستعملة في المغرب) */
+  const catCount = () => state.categories.size + ' / ' + CAT_KEYS.length;
+
+  function saveSetup() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        players: state.players, categories: [...state.categories],
+        imposterCount: state.imposterCount, chaos: state.chaos, chaosRate: state.chaosRate
+      }));
+    } catch (e) {}
+  }
+  function loadSetup() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      const d = JSON.parse(raw);
+      if (Array.isArray(d.players)) state.players = d.players.slice(0, MAX_PLAYERS).map(String);
+      if (Array.isArray(d.categories) && d.categories.length) {
+        state.categories = new Set(d.categories.filter((k) => WORD_DB[k]));
+        if (!state.categories.size) state.categories = new Set(CAT_KEYS);
+      }
+      if (typeof d.imposterCount === 'number') state.imposterCount = clamp(d.imposterCount, 1, 3);
+      if (typeof d.chaos === 'boolean') state.chaos = d.chaos;
+      if (typeof d.chaosRate === 'number') state.chaosRate = clamp(d.chaosRate, 10, 50);
+    } catch (e) {}
+  }
+
+  /* ==========================================================================
+     4) التنقّل بين الشاشات
+     ========================================================================== */
+  function showScreen(key) {
+    Object.keys(el.screens).forEach((k) => el.screens[k].classList.toggle('active', k === key));
+    el.btnHome.hidden = (key === 'setup');
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+
+  /* ==========================================================================
+     5) اللاعبون
+     ========================================================================== */
+  function renderPlayers() {
+    el.playersCount.textContent = String(state.players.length);
+    el.playerTags.innerHTML = '';
+
+    if (!state.players.length) {
+      const d = document.createElement('div');
+      d.className = 'empty';
+      d.textContent = 'لا يوجد لاعبون بعد — أضف أول اسم من الأعلى.';
+      el.playerTags.appendChild(d);
+    } else {
+      state.players.forEach((name, i) => {
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.innerHTML = '<span class="tag-idx">' + String(i + 1).padStart(2, '0') + '</span><span>' + escapeHTML(name) + '</span>';
+        const x = document.createElement('button');
+        x.type = 'button';
+        x.className = 'tag-x';
+        x.innerHTML = svg('x', '');
+        x.setAttribute('aria-label', 'حذف ' + name);
+        x.addEventListener('click', () => removePlayer(i));
+        tag.appendChild(x);
+        el.playerTags.appendChild(tag);
+      });
+    }
+
+    const maxImp = clamp(state.players.length - 1, 1, 3);
+    state.imposterCount = clamp(state.imposterCount, 1, maxImp);
+    el.impCount.textContent = String(state.imposterCount);
+
+    updateStartState();
+    syncHints();
+  }
+
+  function addPlayer() {
+    const raw = el.playerName.value.trim().replace(/\s+/g, ' ');
+    if (!raw) { flashHint(el.playersHint, 'اكتب اسماً أولاً.', 'err'); return; }
+    if (raw.length > 16) { flashHint(el.playersHint, 'الاسم طويل جداً (16 حرفاً كحد أقصى).', 'err'); return; }
+    if (state.players.length >= MAX_PLAYERS) { flashHint(el.playersHint, 'الحد الأقصى ' + MAX_PLAYERS + ' لاعباً.', 'err'); return; }
+    if (state.players.some((p) => p === raw)) { flashHint(el.playersHint, 'هذا الاسم مُضاف بالفعل.', 'err'); return; }
+
+    state.players.push(raw);
+    el.playerName.value = '';
+    el.playerName.focus();
+    renderPlayers();
+    saveSetup();
+  }
+
+  function removePlayer(i) {
+    state.players.splice(i, 1);
+    renderPlayers();
+    saveSetup();
+  }
+
+  let hintTimer = null;
+  function flashHint(node, text, cls) {
+    node.textContent = text;
+    node.className = 'note ' + (cls || '');
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(syncHints, 2200);
+  }
+
+  function syncHints() {
+    const n = state.players.length;
+    if (n < MIN_PLAYERS) {
+      el.playersHint.className = 'note warn';
+      el.playersHint.textContent = 'تحتاج ' + (MIN_PLAYERS - n) + ' لاعباً إضافياً على الأقل (الحد الأدنى ' + MIN_PLAYERS + ').';
+    } else {
+      el.playersHint.className = 'note';
+      el.playersHint.textContent = 'جاهز! ' + n + ' لاعبين في الجولة.';
+    }
+
+    const noCats = state.categories.size === 0;
+    el.catsHint.className = 'note' + (noCats ? ' err' : '');
+    el.catsHint.textContent = noCats
+      ? 'اختر تصنيفاً واحداً على الأقل لسحب الكلمة السرّية.'
+      : 'مجموع الكلمات المتاحة: ' + totalWords() + ' كلمة من ' + state.categories.size + ' تصنيف.';
+    el.catsCount.textContent = catCount();
+  }
+
+  function totalWords() {
+    let t = 0;
+    state.categories.forEach((k) => { t += WORD_DB[k].words.length; });
+    return t;
+  }
+
+  function updateStartState() {
+    const n = state.players.length;
+    const ok = n >= MIN_PLAYERS && n <= MAX_PLAYERS && state.categories.size > 0;
+    el.btnStart.disabled = !ok;
+    if (ok) {
+      el.startHint.textContent = 'الوضع: ' + (state.chaos ? 'فوضى بمعدّل ' + state.chaosRate + '%' : 'عادي') +
+        ' · ' + state.imposterCount + ' محتال · ' + n + ' لاعبين';
+    } else if (n < MIN_PLAYERS) {
+      el.startHint.textContent = 'أضف ' + (MIN_PLAYERS - n) + ' لاعبين على الأقل للبدء';
+    } else {
+      el.startHint.textContent = 'اختر تصنيفاً واحداً على الأقل';
+    }
+  }
+
+  /* ==========================================================================
+     6) التصنيفات والإعدادات
+     ========================================================================== */
+  function renderCategories() {
+    el.categoryChips.innerHTML = '';
+    CAT_KEYS.forEach((k) => {
+      const c = WORD_DB[k];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip' + (state.categories.has(k) ? ' on' : '');
+      btn.setAttribute('aria-pressed', state.categories.has(k) ? 'true' : 'false');
+      btn.dataset.cat = k;
+      btn.innerHTML =
+        '<span class="chip-ico">' + svg(c.icon) + '</span>' +
+        '<span class="chip-body">' +
+          '<span class="chip-name">' + c.name + '</span>' +
+          '<span class="chip-count">' + c.words.length + ' كلمة</span>' +
+        '</span>' +
+        '<span class="chip-box">' + svg('check') + '</span>';
+      btn.addEventListener('click', () => {
+        if (state.categories.has(k)) state.categories.delete(k);
+        else state.categories.add(k);
+        const on = state.categories.has(k);
+        btn.classList.toggle('on', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        syncHints(); updateStartState(); saveSetup();
+      });
+      el.categoryChips.appendChild(btn);
+    });
+  }
+
+  function syncSettingsUI() {
+    el.impCount.textContent = String(state.imposterCount);
+    el.chaosToggle.checked = state.chaos;
+    el.chaosBox.classList.toggle('open', state.chaos);
+    el.chaosRate.value = String(state.chaosRate);
+    el.chaosPct.textContent = state.chaosRate + '%';
+  }
+
+  /* ==========================================================================
+     7) بدء الجولة
+     ========================================================================== */
+  function pickWord() {
+    const pool = [];
+    state.categories.forEach((k) => {
+      WORD_DB[k].words.forEach((w) => pool.push({ w: w, k: k }));
+    });
+    if (!pool.length) return null;
+
+    let pick = pool[rand(pool.length)], guard = 0;
+    while (pool.length > 1 && pick.w === state.lastWord && guard++ < 25) {
+      pick = pool[rand(pool.length)];
+    }
+    return { word: pick.w, catKey: pick.k, catName: WORD_DB[pick.k].name, icon: WORD_DB[pick.k].icon };
+  }
+
+  function startRound() {
+    const pool = pickWord();
+    if (!pool) { alert('الرجاء اختيار تصنيف واحد على الأقل.'); return; }
+
+    const n = state.players.length;
+    const chaosOn = state.chaos && (Math.random() * 100 < state.chaosRate);
+
+    let imposterIdx;
+    if (chaosOn) {
+      imposterIdx = state.players.map((_, i) => i);
+    } else {
+      const count = clamp(state.imposterCount, 1, Math.max(1, n - 1));
+      imposterIdx = shuffle(state.players.map((_, i) => i)).slice(0, count);
+    }
+
+    state.lastWord = pool.word;
+    state.round = {
+      order: state.players.slice(),
+      imposterIdx: new Set(imposterIdx),
+      word: pool.word,
+      catKey: pool.catKey,
+      catName: pool.catName,
+      icon: pool.icon,
+      chaosOn: chaosOn,
+      i: 0,
+      done: new Set()
+    };
+    state.vote = { accused: -1 };
+
+    el.turnCatBadge.innerHTML = svg(pool.icon, 'ico-sm') + '<span>' + escapeHTML(pool.catName) + '</span>';
+    showScreen('reveal');
+    renderTurn();
+  }
+
+  /* ==========================================================================
+     8) شاشة الكشف (اضغط مطوّلاً)
+     ========================================================================== */
+  let holdTimer = null, holding = false, revealed = false;
+
+  function renderBars() {
+    const r = state.round;
+    el.turnBars.innerHTML = '';
+    r.order.forEach((_, i) => {
+      const s = document.createElement('span');
+      s.className = 'bar-seg' + (r.done.has(i) ? ' done' : (i === r.i ? ' current' : ''));
+      el.turnBars.appendChild(s);
+    });
+  }
+
+  function renderTurn() {
+    const r = state.round;
+    el.turnName.textContent = r.order[r.i];
+    el.turnCounter.textContent = 'اللاعب ' + (r.i + 1) + ' من ' + r.order.length;
+    el.revealNote.textContent = 'أمسك الجهاز، اضغط على الكرت، احفظ دورك، ثم أفلت.';
+    renderBars();
+    resetCard();
+    el.secretCard.classList.remove('civil', 'imposter');
+    el.btnNextPlayer.hidden = true;
+    el.btnNextPlayer.innerHTML = (r.i === r.order.length - 1)
+      ? svg('chat', 'ico-sm') + '<span>بدء النقاش</span>'
+      : '<span>اللاعب التالي</span>' + svg('arrow', 'ico-sm');
+  }
+
+  function resetCard() {
+    clearTimeout(holdTimer);
+    holding = false; revealed = false;
+    el.secretCard.classList.remove('arming', 'revealed', 'civil', 'imposter');
+    el.cardHint.textContent = 'اضغط مطولاً لكشف هويتك';
+    el.cardRole.innerHTML = '';
+  }
+
+  function showRole() {
+    const r = state.round;
+    if (!r) return;
+    const isImposter = r.imposterIdx.has(r.i);
+    revealed = true;
+    el.secretCard.classList.add('revealed', isImposter ? 'imposter' : 'civil');
+
+    if (isImposter) {
+      el.cardRole.innerHTML =
+        '<span class="card-kicker">SECRET ROLE</span>' +
+        '<span style="color:var(--imp)">' + svg('mask', 'ico-lg') + '</span>' +
+        '<h3 class="role-imp">أنت المحتال!</h3>' +
+        '<p class="role-note">لا تعرف الكلمة السرّية. تظاهر بأنّك تعرفها، استمع جيداً لكلام الآخرين، وسرق الكلمة دون أن يلاحظوك.</p>';
+      if (navigator.vibrate) { try { navigator.vibrate([30, 50, 70]); } catch (e) {} }
+    } else {
+      el.cardRole.innerHTML =
+        '<span class="card-kicker">SECRET WORD</span>' +
+        '<h3 class="role-word">' + escapeHTML(r.word) + '</h3>' +
+        '<span class="cat-chip">' + svg(r.icon || 'spark', 'ico-sm') + escapeHTML(r.catName) + '</span>' +
+        '<p class="role-note">صِف الكلمة بجملة واحدة دون ذكرها. راقب من يتلعثم… فالمحتال بينكم.</p>';
+      if (navigator.vibrate) { try { navigator.vibrate(20); } catch (e) {} }
+    }
+  }
+
+  function hideRole() {
+    const r = state.round;
+    if (!r) return;
+    const wasRevealed = revealed;
+    resetCard();
+    if (wasRevealed) {
+      r.done.add(r.i);
+      renderBars();
+      el.btnNextPlayer.hidden = false;
+      el.revealNote.textContent = 'تم إغلاق الكرت — مرّر الجهاز للاعب التالي.';
+    }
+  }
+
+  function startHold(e) {
+    if (!state.round || holding || revealed) return;
+    if (e && e.cancelable) { try { e.preventDefault(); } catch (err) {} }
+    holding = true;
+    el.secretCard.classList.add('arming');
+    el.cardHint.textContent = 'استمر بالضغط…';
+    clearTimeout(holdTimer);
+    holdTimer = setTimeout(() => { holding = false; showRole(); }, HOLD_MS);
+  }
+
+  function endHold() {
+    if (!state.round) return;
+    clearTimeout(holdTimer);
+    holding = false;
+    el.secretCard.classList.remove('arming');
+    if (revealed) hideRole();
+    else el.cardHint.textContent = 'اضغط مطولاً لكشف هويتك';
+  }
+
+  function nextPlayer() {
+    const r = state.round;
+    if (!r) return;
+    if (r.i < r.order.length - 1) { r.i += 1; renderTurn(); }
+    else goToDiscussion();
+  }
+
+  /* ==========================================================================
+     9) النقاش والمؤقّت
+     ========================================================================== */
+  function playerRow(name, idx, extra) {
+    return '<li class="row">' +
+      '<span class="avatar">' + escapeHTML(name.trim().charAt(0)) + '</span>' +
+      '<span class="row-name">' + escapeHTML(name) + '</span>' +
+      (extra || '') +
+      '<span class="row-idx">' + String(idx + 1).padStart(2, '0') + '</span>' +
+    '</li>';
+  }
+
+  function goToDiscussion() {
+    el.discussList.innerHTML = state.round.order.map((n, i) => playerRow(n, i)).join('');
+    syncTimerUI();
+    resetTimer();
+    showScreen('discuss');
+  }
+
+  function syncTimerUI() {
+    const on = el.timerToggle.checked;
+    el.timerSettings.hidden = !on;
+    el.noTimerNote.hidden = on;
+    el.timerModeHint.textContent = on
+      ? 'مدة محدّدة، ثم ننتقل للتصويت'
+      : 'وقت مفتوح بلا حدود — أنتم من يقرّر متى ننتقل';
+    if (!on) stopTimer();
+  }
+
+  function resetTimer() {
+    stopTimer();
+    const mins = parseInt(el.timerMinutes.value, 10) || 3;
+    state.timer.total = mins * 60;
+    state.timer.left = mins * 60;
+    renderTimer();
+    el.btnTimerStart.textContent = 'ابدأ المؤقّت';
+  }
+
+  function renderTimer() {
+    el.timerDisplay.textContent = fmtTime(state.timer.left);
+    const pct = state.timer.total ? (state.timer.left / state.timer.total) * 100 : 0;
+    el.timerBar.style.width = pct + '%';
+    const low = state.timer.left <= 30 && state.timer.left > 0;
+    el.timerDisplay.classList.toggle('low', low);
+    el.timerBar.classList.toggle('low', low);
+  }
+
+  function startTimer() {
+    if (state.timer.running) return;
+    if (state.timer.left <= 0) state.timer.left = state.timer.total;
+    state.timer.running = true;
+    el.btnTimerStart.textContent = 'إيقاف مؤقّت';
+    state.timer.id = setInterval(() => {
+      state.timer.left -= 1;
+      if (state.timer.left <= 0) {
+        state.timer.left = 0;
+        stopTimer();
+        renderTimer();
+        el.timerDisplay.classList.add('over');
+        el.btnTimerStart.textContent = 'ابدأ من جديد';
+        if (navigator.vibrate) { try { navigator.vibrate([60, 50, 60, 50, 120]); } catch (e) {} }
+        return;
+      }
+      renderTimer();
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(state.timer.id);
+    state.timer.id = null;
+    state.timer.running = false;
+    el.btnTimerStart.textContent = state.timer.left <= 0 ? 'ابدأ من جديد' : 'متابعة المؤقّت';
+  }
+
+  /* ==========================================================================
+     10) التصويت
+     ========================================================================== */
+  function goToVote() {
+    stopTimer();
+    const r = state.round;
+    el.voteGrid.innerHTML = '';
+    state.vote.accused = -1;
+    el.btnReveal.disabled = true;
+    el.voteHint.className = 'note';
+    el.voteHint.textContent = 'لم يتم اختيار أي لاعب بعد.';
+
+    r.order.forEach((name, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'vote-card';
+      b.dataset.idx = String(i);
+      b.innerHTML =
+        '<span class="v-check">' + svg('check', 'ico-sm') + '</span>' +
+        '<span class="v-ico">' + svg('mask', 'ico-lg') + '</span>' +
+        '<span class="v-name">' + escapeHTML(name) + '</span>';
+      b.addEventListener('click', () => {
+        state.vote.accused = i;
+        Array.from(el.voteGrid.children).forEach((c) => c.classList.toggle('sel', c === b));
+        el.btnReveal.disabled = false;
+        el.voteHint.className = 'note';
+        el.voteHint.textContent = 'صوّتتُم على: ' + name;
+      });
+      el.voteGrid.appendChild(b);
+    });
+
+    showScreen('vote');
+  }
+
+  /* ==========================================================================
+     11) النتيجة
+     ========================================================================== */
+  function revealResult(skipped) {
+    stopTimer();
+    const r = state.round;
+    const accused = skipped ? -1 : state.vote.accused;
+    const accusedIsImposter = accused >= 0 && r.imposterIdx.has(accused);
+    const civCount = r.order.length - r.imposterIdx.size;
+
+    let icon, title, sub, cls;
+    if (r.chaosOn) {
+      icon = 'burst'; title = 'فوضى كاملة!'; cls = 'lose';
+      sub = 'كل اللاعبين كانوا محتالين في هذه الجولة… ولا أحد كان يعرف الكلمة السرّية أصلاً.';
+    } else if (accused < 0) {
+      icon = 'shrug'; title = 'لا تصويت هذه الجولة'; cls = 'lose';
+      sub = 'لم تُخرجوا أحداً. المحتال يعيش ليجول مرة أخرى.';
+    } else if (accusedIsImposter) {
+      icon = 'target'; title = 'أمسكتم المحتال!'; cls = 'win';
+      sub = '«' + r.order[accused] + '» كان المحتال — ونجح المدنيون في كشفه.';
+      if (navigator.vibrate) { try { navigator.vibrate([25, 40, 25]); } catch (e) {} }
+    } else {
+      icon = 'mask'; title = 'المحتال انتصر!'; cls = 'lose';
+      sub = 'أخرجتُم «' + r.order[accused] + '» وكان مدنياً بريئاً… واستمرّ المحتال في اللعب.';
+    }
+
+    el.resultHero.className = 'verdict ' + cls;
+    el.resultIcon.innerHTML = svg(icon, 'ico-lg');
+    el.resultTitle.textContent = title;
+    el.resultSub.textContent = sub;
+    el.resultWord.textContent = r.word;
+    el.resultCat.textContent = r.catName + ' · ' + civCount + ' مدني و ' + r.imposterIdx.size + ' محتال';
+    el.chaosBanner.hidden = !r.chaosOn;
+
+    el.resultList.innerHTML = r.order.map((name, i) => {
+      const isImp = r.imposterIdx.has(i);
+      const role = '<span class="role-chip ' + (isImp ? 'imp' : 'civ') + '">' +
+        svg(isImp ? 'mask' : 'shield', '') + (isImp ? 'محتال' : 'مدني') + '</span>';
+      const mark = accused === i ? '<span class="mark-vote">صوّتتُم عليه</span>' : '';
+      return playerRow(name, i, mark + role);
+    }).join('');
+
+    showScreen('result');
+  }
+
+  /* ==========================================================================
+     12) ربط الأحداث
+     ========================================================================== */
+  $('brandGlyph').innerHTML = svg('mask');
+  $('btnRules').innerHTML = svg('help');
+  $('btnHome').innerHTML = svg('home');
+  $('btnCloseRules').innerHTML = svg('x');
+  $('cardLock').innerHTML = svg('lock', 'ico-lg');
+  $('btnImpMinus').innerHTML = svg('minus', 'ico-sm');
+  $('btnImpPlus').innerHTML = svg('plus', 'ico-sm');
+
+  $('btnAddPlayer').addEventListener('click', addPlayer);
+  el.playerName.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addPlayer(); } });
+
+  $('btnClearPlayers').addEventListener('click', () => {
+    if (!state.players.length) return;
+    if (confirm('هل تريد حذف جميع اللاعبين؟')) { state.players = []; renderPlayers(); saveSetup(); }
+  });
+  $('btnDemo').addEventListener('click', () => {
+    ['أحمد','سارة','يوسف','ليلى','كريم'].forEach((n) => {
+      if (!state.players.includes(n) && state.players.length < MAX_PLAYERS) state.players.push(n);
+    });
+    renderPlayers(); saveSetup();
+  });
+
+  $('btnAllCats').addEventListener('click', () => {
+    state.categories = new Set(CAT_KEYS);
+    renderCategories(); syncHints(); updateStartState(); saveSetup();
+  });
+  $('btnNoCats').addEventListener('click', () => {
+    state.categories = new Set();
+    renderCategories(); syncHints(); updateStartState(); saveSetup();
+  });
+
+  $('btnImpMinus').addEventListener('click', () => {
+    state.imposterCount = clamp(state.imposterCount - 1, 1, clamp(state.players.length - 1, 1, 3));
+    syncSettingsUI(); updateStartState(); saveSetup();
+  });
+  $('btnImpPlus').addEventListener('click', () => {
+    const max = clamp(state.players.length - 1, 1, 3);
+    state.imposterCount = clamp(state.imposterCount + 1, 1, max);
+    if (state.imposterCount === max && state.players.length - 1 > 3) {
+      flashHint(el.playersHint, 'الحد الأقصى 3 محتالين، ويجب أن يبقى لاعب مدني واحد على الأقل.', 'warn');
+    }
+    syncSettingsUI(); updateStartState(); saveSetup();
+  });
+  el.chaosToggle.addEventListener('change', () => {
+    state.chaos = el.chaosToggle.checked;
+    syncSettingsUI(); updateStartState(); saveSetup();
+  });
+  el.chaosRate.addEventListener('input', () => {
+    state.chaosRate = parseInt(el.chaosRate.value, 10);
+    el.chaosPct.textContent = state.chaosRate + '%';
+    updateStartState(); saveSetup();
+  });
+
+  el.btnHome.addEventListener('click', () => {
+    if (state.round && !confirm('العودة للقائمة الرئيسية ستلغي الجولة الحالية. متابعة؟')) return;
+    stopTimer();
+    state.round = null;
+    showScreen('setup');
+  });
+  $('btnRules').addEventListener('click', () => el.rulesModal.classList.add('open'));
+  $('btnCloseRules').addEventListener('click', () => el.rulesModal.classList.remove('open'));
+  $('btnRulesOk').addEventListener('click', () => el.rulesModal.classList.remove('open'));
+  el.rulesModal.addEventListener('click', (e) => { if (e.target === el.rulesModal) el.rulesModal.classList.remove('open'); });
+
+  el.btnStart.addEventListener('click', () => { if (!el.btnStart.disabled) startRound(); });
+
+  /* كرت الكشف: لمس + فأرة + لوحة مفاتيح */
+  const card = el.secretCard;
+  card.addEventListener('touchstart', (e) => startHold(e), { passive: false });
+  card.addEventListener('touchend', (e) => { endHold(); if (e.cancelable) { try { e.preventDefault(); } catch (x) {} } }, { passive: false });
+  card.addEventListener('touchcancel', () => endHold());
+  card.addEventListener('mousedown', (e) => startHold(e));
+  card.addEventListener('mouseup', () => endHold());
+  card.addEventListener('contextmenu', (e) => e.preventDefault());
+  card.addEventListener('dragstart', (e) => e.preventDefault());
+  card.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); startHold(e); }
+  });
+  card.addEventListener('keyup', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); endHold(); }
+  });
+  /* ملاحظة: لا نستخدم mouseleave لأنه يُعاد توليده عند إعادة التخطيط فيُفسد الضغط المطوّل */
+  document.addEventListener('mouseup', () => { if (holding || revealed) endHold(); });
+  window.addEventListener('blur', () => { if (holding || revealed) endHold(); });
+
+  el.btnNextPlayer.addEventListener('click', nextPlayer);
+
+  el.timerToggle.addEventListener('change', () => { syncTimerUI(); if (el.timerToggle.checked) resetTimer(); });
+  el.timerMinutes.addEventListener('input', () => {
+    const m = parseInt(el.timerMinutes.value, 10);
+    el.timerMinutesLabel.textContent = m + (m === 1 ? ' دقيقة' : (m === 2 ? ' دقيقتان' : ' دقائق'));
+    if (!state.timer.running) resetTimer();
+  });
+  el.btnTimerStart.addEventListener('click', () => {
+    if (state.timer.running) { stopTimer(); renderTimer(); } else startTimer();
+  });
+  el.btnTimerReset.addEventListener('click', () => { stopTimer(); resetTimer(); });
+  el.btnToVote.addEventListener('click', () => { stopTimer(); goToVote(); });
+
+  el.btnReveal.addEventListener('click', () => { if (state.vote.accused >= 0) revealResult(false); });
+  el.btnSkipVote.addEventListener('click', () => revealResult(true));
+
+  $('btnNewRound').addEventListener('click', startRound);
+  $('btnBackSetup').addEventListener('click', () => { state.round = null; showScreen('setup'); syncHints(); });
+
+  document.addEventListener('touchmove', (e) => {
+    if (holding && e.target.closest && e.target.closest('#secretCard') && e.cancelable) e.preventDefault();
+  }, { passive: false });
+
+  /* ==========================================================================
+     13) التهيئة
+     ========================================================================== */
+  function init() {
+    loadSetup();
+    renderCategories();
+    renderPlayers();
+    syncSettingsUI();
+    syncHints();
+    updateStartState();
+    el.timerMinutesLabel.textContent = el.timerMinutes.value + ' دقائق';
+    resetTimer();
+    showScreen('setup');
+  }
+  init();
+})();
+</script>
+</body>
+</html>
