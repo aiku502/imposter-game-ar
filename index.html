@@ -104,7 +104,8 @@ svg{ stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; str
 /* التخطيط */
 .app{
   width:100%; max-width:680px; margin:0 auto;
-  padding:16px 16px calc(48px + env(safe-area-inset-bottom));
+  min-height:100vh; min-height:100dvh;
+  padding:16px 16px calc(112px + env(safe-area-inset-bottom));
   display:flex; flex-direction:column; gap:14px;
 }
 
@@ -335,13 +336,50 @@ input[type="range"]::-webkit-slider-thumb{
 input[type="range"]::-moz-range-track{ height:2px; background:var(--line-3); border-radius:2px; }
 input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border-radius:50%; background:var(--text); }
 
+/* ===================== الشريط السفلي الثابت (أوامر الشاشة) ===================== */
+.navbar{
+  position:fixed; inset-inline:0; bottom:0; z-index:40;
+  background:rgba(11,13,17,.95);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+}
+.navbar-inner{ max-width:680px; margin:0 auto; display:flex; align-items:center; gap:8px; }
+.nav-group{ display:none; align-items:center; gap:8px; width:100%; }
+.nav-group.active{ display:flex; }
+.nav-group .btn-grow{ flex:1 1 auto; }
+.nav-status{
+  flex:1 1 auto; min-width:0; margin:0;
+  font-size:11.5px; line-height:1.45; color:var(--faint);
+  overflow:hidden; text-overflow:ellipsis;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+}
+.nav-status.warn{ color:#c9a227; }
+.nav-status.err{ color:var(--imp); }
+
+/* زر تعديل اسم اللاعب */
+.tag-edit{
+  width:20px; height:20px; padding:0; display:grid; place-items:center; cursor:pointer;
+  border-radius:50%; background:transparent; border:1px solid var(--line-2); color:var(--faint);
+  transition:color .15s, border-color .15s;
+}
+.tag-edit:hover{ color:var(--text); border-color:var(--line-3); }
+.tag-edit svg{ width:11px; height:11px; stroke-width:1.8; }
+.tag-input{
+  width:104px; padding:3px 7px; border-radius:6px;
+  background:var(--bg); border:1px solid var(--civil); color:var(--text);
+  font-family:var(--font); font-size:13.5px; font-weight:500; outline:none;
+}
+
+@media (max-width:380px){ .nav-status{ display:none; } }
+
 /* ===================== الشاشات ===================== */
 .screen{ display:none; flex-direction:column; gap:14px; }
-.screen.active{ display:flex; animation:screenIn .22s ease both; }
+.screen.active{ display:flex; flex:1 1 auto; animation:screenIn .22s ease both; }
 @keyframes screenIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
 
 /* ===================== شاشة الكشف ===================== */
-.turn-head{ display:flex; flex-direction:column; gap:10px; }
+.turn-head{ display:flex; flex-direction:column; gap:10px; flex:0 0 auto; }
 .turn-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .pill{
   display:inline-flex; align-items:center; gap:6px;
@@ -361,7 +399,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
 /* الكرت */
 .secret-card{
-  position:relative; width:100%; min-height:360px; flex:1 0 auto;
+  position:relative; width:100%; min-height:320px; flex:1 1 auto;
   display:grid; place-items:center; text-align:center;
   padding:34px 22px; border-radius:18px; cursor:pointer;
   background:var(--surface); border:1px solid var(--line-2);
@@ -536,7 +574,8 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 .footer-note .mono{ font-size:10.5px; }
 
 @media (max-width:520px){
-  .app{ padding:10px 10px calc(40px + env(safe-area-inset-bottom)); gap:12px; }
+  /* مساحة كافية أسفل المحتوى حتى لا يغطّي الشريط الثابت آخر عنصر في الصفحة */
+  .app{ padding:10px 10px calc(104px + env(safe-area-inset-bottom)); gap:12px; }
   .panel{ padding:14px; }
   .chips{ grid-template-columns:repeat(auto-fill,minmax(146px,1fr)); }
   .vote-grid{ grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); }
@@ -600,9 +639,10 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
       <div class="tags" id="playerTags"></div>
 
-      <div style="display:flex;gap:8px;">
-        <button class="link-btn" id="btnDemo">أسماء تجريبية</button>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="link-btn" id="btnDemo">أسماء جاهزة</button>
         <button class="link-btn" id="btnClearPlayers">حذف الكل</button>
+        <span class="note" style="margin-inline-start:auto">اضغط على القلم لتعديل أي اسم</span>
       </div>
 
       <p class="note" id="playersHint"></p>
@@ -668,8 +708,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       </div>
     </div>
 
-    <button class="btn btn-solid btn-lg btn-block" id="btnStart" disabled>ابدأ اللعبة</button>
-    <p class="note" id="startHint" style="text-align:center"></p>
   </section>
 
   <!-- ===================== 2) كشف الهوية ===================== -->
@@ -699,8 +737,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       <div class="layer layer-role" id="cardRole"></div>
     </div>
 
-    <p class="note" id="revealNote" style="text-align:center">أمسك الجهاز، اضغط على الكرت، احفظ دورك، ثم أفلت.</p>
-    <button class="btn btn-solid btn-lg btn-block" id="btnNextPlayer" hidden>اللاعب التالي</button>
   </section>
 
   <!-- ===================== 3) النقاش ===================== -->
@@ -750,7 +786,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       <div class="open-note" id="noTimerNote" hidden>الوقت مفتوح — لا يوجد عدّاد. ناقشوا بحرية حتى تجهزوا للتصويت.</div>
     </div>
 
-    <button class="btn btn-solid btn-lg btn-block" id="btnToVote">الانتقال إلى التصويت</button>
   </section>
 
   <!-- ===================== 4) التصويت ===================== -->
@@ -766,8 +801,6 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       <p class="note" id="voteHint">لم يتم اختيار أي لاعب بعد.</p>
     </div>
 
-    <button class="btn btn-imp btn-lg btn-block" id="btnReveal" disabled>كشف النتيجة</button>
-    <button class="btn btn-ghost btn-block" id="btnSkipVote">تخطّي التصويت (لا أحد خارجاً)</button>
   </section>
 
   <!-- ===================== 5) النتيجة ===================== -->
@@ -794,12 +827,46 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       <ul class="list" id="resultList"></ul>
     </div>
 
-    <button class="btn btn-solid btn-lg btn-block" id="btnNewRound">جولة جديدة بنفس اللاعبين</button>
-    <button class="btn btn-ghost btn-block" id="btnBackSetup">تغيير اللاعبين والإعدادات</button>
   </section>
 
   <p class="footer-note">من المحتال؟ <span class="mono">v2.0</span> — لعبة محلية بجهاز واحد · بلا حسابات وبلا إنترنت</p>
 </div>
+
+<!-- ===================== الشريط السفلي: الأمر الأساسي لكل شاشة ===================== -->
+<nav class="navbar" aria-label="أوامر الشاشة">
+  <div class="navbar-inner">
+
+    <!-- الإعداد -->
+    <div class="nav-group active" data-screen="setup">
+      <p class="nav-status" id="startHint"></p>
+      <button class="btn btn-solid" id="btnStart" disabled>ابدأ اللعبة</button>
+    </div>
+
+    <!-- كشف الهوية -->
+    <div class="nav-group" data-screen="reveal">
+      <p class="nav-status" id="revealNote">اضغط مطوّلاً على الكرت لكشف دورك</p>
+      <button class="btn btn-solid" id="btnNextPlayer" hidden>اللاعب التالي</button>
+    </div>
+
+    <!-- النقاش -->
+    <div class="nav-group" data-screen="discuss">
+      <button class="btn btn-solid btn-grow" id="btnToVote">الانتقال إلى التصويت</button>
+    </div>
+
+    <!-- التصويت -->
+    <div class="nav-group" data-screen="vote">
+      <button class="btn btn-ghost" id="btnSkipVote">تخطّي</button>
+      <button class="btn btn-imp btn-grow" id="btnReveal" disabled>كشف النتيجة</button>
+    </div>
+
+    <!-- النتيجة -->
+    <div class="nav-group" data-screen="result">
+      <button class="btn btn-ghost" id="btnBackSetup">تغيير اللاعبين</button>
+      <button class="btn btn-solid btn-grow" id="btnNewRound">جولة جديدة</button>
+    </div>
+
+  </div>
+</nav>
 
 <!-- ===================== نافذة القواعد ===================== -->
 <div class="modal" id="rulesModal">
@@ -850,6 +917,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     x:        '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
     plus:     '<path d="M12 5.5v13M5.5 12h13"/>',
     minus:    '<path d="M5.5 12h13"/>',
+    pen:      '<path d="M4.5 19.5h4l10-10-4-4-10 10z"/><path d="M14.5 5.5l4 4"/>',
     help:     '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.8.4-1 .9-1 1.6"/><path d="M12 16.8h.01"/>',
     home:     '<path d="M4 11l8-7 8 7"/><path d="M6.2 10v10h11.6V10"/>',
     clock:    '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.2v5l3 2"/>',
@@ -939,6 +1007,8 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
   const MIN_PLAYERS = 3;
   const MAX_PLAYERS = 20;
   const STORE_KEY = 'imposter_ar_setup_v2';
+  /* لاعبون افتراضيون حتى يبدأ الناس اللعب فوراً دون إضافة أسماء */
+  const DEFAULT_PLAYERS = ['لاعب 1', 'لاعب 2', 'لاعب 3', 'لاعب 4'];
 
   /* ==========================================================================
      2) الحالة
@@ -1018,9 +1088,9 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
   function loadSetup() {
     try {
       const raw = localStorage.getItem(STORE_KEY);
-      if (!raw) return;
+      if (!raw) { state.players = DEFAULT_PLAYERS.slice(); return; }
       const d = JSON.parse(raw);
-      if (Array.isArray(d.players)) state.players = d.players.slice(0, MAX_PLAYERS).map(String);
+      if (Array.isArray(d.players) && d.players.length) state.players = d.players.slice(0, MAX_PLAYERS).map(String);
       if (Array.isArray(d.categories) && d.categories.length) {
         state.categories = new Set(d.categories.filter((k) => WORD_DB[k]));
         if (!state.categories.size) state.categories = new Set(CAT_KEYS);
@@ -1029,6 +1099,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       if (typeof d.chaos === 'boolean') state.chaos = d.chaos;
       if (typeof d.chaosRate === 'number') state.chaosRate = clamp(d.chaosRate, 10, 50);
     } catch (e) {}
+    if (!state.players.length) state.players = DEFAULT_PLAYERS.slice();
   }
 
   /* ==========================================================================
@@ -1036,6 +1107,9 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
      ========================================================================== */
   function showScreen(key) {
     Object.keys(el.screens).forEach((k) => el.screens[k].classList.toggle('active', k === key));
+    document.querySelectorAll('.nav-group').forEach((g) => {
+      g.classList.toggle('active', g.dataset.screen === key);
+    });
     el.btnHome.hidden = (key === 'setup');
     try { window.scrollTo(0, 0); } catch (e) {}
   }
@@ -1056,13 +1130,24 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
       state.players.forEach((name, i) => {
         const tag = document.createElement('span');
         tag.className = 'tag';
-        tag.innerHTML = '<span class="tag-idx">' + String(i + 1).padStart(2, '0') + '</span><span>' + escapeHTML(name) + '</span>';
+        tag.innerHTML = '<span class="tag-idx">' + String(i + 1).padStart(2, '0') + '</span>' +
+                        '<span class="tag-name">' + escapeHTML(name) + '</span>';
+
+        const edit = document.createElement('button');
+        edit.type = 'button';
+        edit.className = 'tag-edit';
+        edit.innerHTML = svg('pen', '');
+        edit.setAttribute('aria-label', 'تعديل اسم ' + name);
+        edit.addEventListener('click', () => beginRename(i, tag));
+
         const x = document.createElement('button');
         x.type = 'button';
         x.className = 'tag-x';
         x.innerHTML = svg('x', '');
         x.setAttribute('aria-label', 'حذف ' + name);
         x.addEventListener('click', () => removePlayer(i));
+
+        tag.appendChild(edit);
         tag.appendChild(x);
         el.playerTags.appendChild(tag);
       });
@@ -1074,6 +1159,44 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
 
     updateStartState();
     syncHints();
+  }
+
+  /* تعديل اسم لاعب في مكانه (Enter = حفظ، Esc = إلغاء) */
+  function beginRename(i, tag) {
+    const nameEl = tag.querySelector('.tag-name');
+    if (!nameEl) return;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'tag-input';
+    input.value = state.players[i];
+    input.maxLength = 16;
+    input.setAttribute('aria-label', 'اسم اللاعب');
+    nameEl.replaceWith(input);
+    input.focus();
+    input.select();
+
+    let done = false;
+    const commit = (save) => {
+      if (done) return;
+      done = true;
+      const v = input.value.trim().replace(/\s+/g, ' ');
+      if (!save || !v || v === state.players[i]) { renderPlayers(); return; }
+      renderPlayers();
+      if (state.players.some((p, j) => j !== i && p === v)) {
+        flashHint(el.playersHint, 'هذا الاسم مُضاف بالفعل.', 'err');
+        return;
+      }
+      state.players[i] = v;
+      renderPlayers();
+      saveSetup();
+    };
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); commit(true); }
+      else if (e.key === 'Escape') { e.preventDefault(); commit(false); }
+    });
+    input.addEventListener('blur', () => commit(true));
+    input.addEventListener('mousedown', (e) => e.stopPropagation());
   }
 
   function addPlayer() {
@@ -1251,7 +1374,7 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     const r = state.round;
     el.turnName.textContent = r.order[r.i];
     el.turnCounter.textContent = 'اللاعب ' + (r.i + 1) + ' من ' + r.order.length;
-    el.revealNote.textContent = 'أمسك الجهاز، اضغط على الكرت، احفظ دورك، ثم أفلت.';
+    el.revealNote.textContent = 'اضغط مطوّلاً على الكرت لكشف دورك';
     renderBars();
     resetCard();
     el.secretCard.classList.remove('civil', 'imposter');
@@ -1504,9 +1627,12 @@ input[type="range"]::-moz-range-thumb{ width:16px; height:16px; border:0; border
     if (confirm('هل تريد حذف جميع اللاعبين؟')) { state.players = []; renderPlayers(); saveSetup(); }
   });
   $('btnDemo').addEventListener('click', () => {
+    const isPlaceholder = (n) => /^لاعب\s?\d+$/.test(n);
+    const merged = state.players.filter((n) => !isPlaceholder(n));   // استبدل «لاعب 1…» فقط
     ['أحمد','سارة','يوسف','ليلى','كريم'].forEach((n) => {
-      if (!state.players.includes(n) && state.players.length < MAX_PLAYERS) state.players.push(n);
+      if (!merged.includes(n) && merged.length < MAX_PLAYERS) merged.push(n);
     });
+    state.players = merged;
     renderPlayers(); saveSetup();
   });
 
