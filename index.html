@@ -379,6 +379,13 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 .nav-group{ display:none; align-items:center; gap:9px; width:100%; }
 .nav-group.active{ display:flex; }
 .nav-group .btn-grow{ flex:1 1 auto; }
+/* زر «تم، حفظت دوري» — أكبر وأسهل على الإبهام */
+.btn-big{ flex:1 0 100%; padding:16px 22px; font-size:16.5px; border-radius:14px;
+  box-shadow:4px 4px 0 var(--ink); min-height:56px; }
+/* زر «تم، حفظت دوري» يأخذ صفّاً كاملاً في الشريط السفلي */
+.nav-group:has(.btn-big){ flex-wrap:wrap; }
+body.online-mode .app{ padding-bottom:calc(150px + env(safe-area-inset-bottom)); }
+.btn-big:active{ box-shadow:1px 1px 0 var(--ink); }
 .nav-status{
   flex:1 1 auto; min-width:0; margin:0;
   font-size:11.5px; font-weight:700; line-height:1.45; color:var(--muted);
@@ -391,6 +398,9 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 .screen{ display:none; flex-direction:column; gap:13px; }
 .screen.active{ display:flex; flex:1 1 auto; animation:screenIn .18s ease both; }
 #screen-mode{ justify-content:center; padding-bottom:6px; }
+/* نصوص اللعب: يظهر ما يناسب الوضع الحالي فقط */
+body:not(.online-mode) .only-online{ display:none; }
+body.online-mode .only-local{ display:none; }
 /* أونلاين: نختصر البانر حتى يظهر صندوق الغرفة كاملاً بلا تمرير */
 #screen-setup.online #heroSetup .title-sub,
 #screen-setup.online #heroSetup .meta-row{ display:none; }
@@ -798,7 +808,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     </div>
 
     <!-- التصنيفات -->
-    <div class="panel">
+    <div class="panel" id="catsPanel">
       <div class="sec-head">
         <span class="sec-num">02</span>
         <h2 class="sec-title">التصنيفات</h2>
@@ -816,8 +826,18 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       <p class="note" id="catsHint"></p>
     </div>
 
+    <!-- الأونلاين: الضيف لا يضبط إعدادات الجولة (المضيف هو من يقرّر) -->
+    <div class="panel" id="guestNotePanel" hidden>
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">إعدادات الجولة</h2>
+        <i class="sec-rule"></i>
+      </div>
+      <p class="note">التصنيفات وعدد المحتالين ووضع الفوضى يختارها <b>المضيف</b>، وتُنشر تلقائياً على كل الهواتف. لا تحتاج ضبط شيء — فقط انضم واستمتع.</p>
+    </div>
+
     <!-- الإعدادات -->
-    <div class="panel">
+    <div class="panel" id="settingsPanel">
       <div class="sec-head">
         <span class="sec-num">03</span>
         <h2 class="sec-title">الإعدادات</h2>
@@ -984,7 +1004,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     <div class="nav-group" data-screen="reveal">
       <p class="nav-status" id="revealNote">اضغط مطوّلاً على الكرت لكشف دورك</p>
       <button class="btn btn-solid" id="btnNextPlayer" hidden>اللاعب التالي</button>
-      <button class="btn btn-solid" id="btnSeenRole" hidden>تم، حفظت دوري</button>
+      <button class="btn btn-solid btn-grow btn-big" id="btnSeenRole" hidden>تم، حفظت دوري</button>
     </div>
 
     <!-- النقاش -->
@@ -1013,13 +1033,13 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       <button class="icon-btn" id="btnCloseRules" aria-label="إغلاق" style="border:0"></button>
     </div>
     <ul class="rules">
-      <li><span class="rn">01</span><span>أضِفوا أسماء اللاعبين (3 على الأقل) واختاروا <b>التصنيفات</b> التي تحبونها.</span></li>
-      <li><span class="rn">02</span><span>مرّروا الجهاز بين اللاعبين. كل لاعب <b>يضغط مطولاً</b> على الكرت ليرى دوره، ثم يُفلت فيُغلق الكرت فوراً.</span></li>
+      <li><span class="rn">01</span><span class="only-local">أضِفوا أسماء اللاعبين (3 على الأقل) واختاروا <b>التصنيفات</b> التي تحبونها.</span><span class="only-online">المضيف <b>يُنشئ غرفة</b> ويشارك رمزها أو رمز QR، والبقية يضغطون <b>«الانضمام برمز»</b> ويكتبون الرمز.</span></li>
+      <li><span class="rn">02</span><span class="only-local">مرّروا الجهاز بين اللاعبين. كل لاعب <b>يضغط مطولاً</b> على الكرت ليرى دوره، ثم يُفلت فيُغلق الكرت فوراً.</span><span class="only-online">كل لاعب على هاتفه: <b>يضغط مطولاً</b> على كرته ليرى دوره، ثم يضغط <b>«تم، حفظت دوري»</b> — وعندما ينتهي الجميع يبدأ النقاش تلقائياً.</span></li>
       <li><span class="rn">03</span><span><b>المدنيون</b> يرون الكلمة السرّية نفسها. <b>المحتال</b> لا يراها، ويرى أنّه المحتال فقط.</span></li>
       <li><span class="rn">04</span><span>في <b>النقاش</b> كل لاعب يقول جملة واحدة تصف الكلمة دون ذكرها، والمحتال يتصرّف كأنّه يعرفها.</span></li>
-      <li><span class="rn">05</span><span>عندما تنتهون اضغطوا <b>«إنهاء اللعبة»</b> فيُكشف المحتال والكلمة السرّية للجميع.</span></li>
+      <li><span class="rn">05</span><span class="only-local">عندما تنتهون اضغطوا <b>«إنهاء اللعبة»</b> فيُكشف المحتال والكلمة السرّية للجميع.</span><span class="only-online">المضيف وحده يضغط <b>«إنهاء اللعبة»</b> فتُكشف النتيجة على هواتف الجميع في اللحظة نفسها.</span></li>
       <li><span class="rn">06</span><span><b>وضع الفوضى:</b> احتمال أن يصبح الجميع محتالين. لا أحد يعلم ذلك، والنتيجة تصبح صادمة للجميع.</span></li>
-      <li><span class="rn">07</span><span><b>لعب أونلاين:</b> المضيف يُنشئ غرفة والبقية ينضمّون برمز أو QR، وكل لاعب يرى دوره على هاتفه ثم النقاش والكشف أمام الجميع.</span></li>
+      <li id="ruleOnline"><span class="rn">07</span><span class="only-local"><b>لعب أونلاين:</b> المضيف يُنشئ غرفة والبقية ينضمّون برمز أو QR، وكل لاعب يرى دوره على هاتفه ثم النقاش والكشف أمام الجميع.</span><span class="only-online"><b>بلا حساب وبلا تسجيل:</b> الغرفة تعمل عبر وسيط عام، والرسائل مُعمّاة برمز الغرفة. إن انقطعت الشبكة عن لاعب يعود ويستعيد دوره وحده.</span></li>
     </ul>
     <button class="btn btn-solid btn-block" id="btnRulesOk">فهمت، لنلعب</button>
   </div>
@@ -1533,14 +1553,14 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
         '<span style="color:var(--imp)">' + svg('mask', 'ico-lg') + '</span>' +
         '<h3 class="role-imp">أنت المحتال!</h3>' +
         '<p class="role-note">لا تعرف الكلمة السرّية. تظاهر بأنّك تعرفها، استمع جيداً لكلام الآخرين، وسرق الكلمة دون أن يلاحظوك.</p>';
-      if (navigator.vibrate) { try { navigator.vibrate([30, 50, 70]); } catch (e) {} }
+      /* لا اهتزاز إطلاقاً: أي اهتزاز مختلف للمحتال يكشف دوره لمن يحمل الهاتف */
     } else {
       el.cardRole.innerHTML =
         '<span class="card-kicker">SECRET WORD</span>' +
         '<h3 class="role-word">' + escapeHTML(r.word) + '</h3>' +
         '<span class="cat-chip">' + svg(r.icon || 'spark', 'ico-sm') + escapeHTML(r.catName) + '</span>' +
         '<p class="role-note">صِف الكلمة بجملة واحدة دون ذكرها. راقب من يتلعثم… فالمحتال بينكم.</p>';
-      if (navigator.vibrate) { try { navigator.vibrate(20); } catch (e) {} }
+      /* ولو اهتزّ الكرت للمدني فقط لصار ذلك دليلاً مقلوباً: من لا يهتز هاتفه هو المحتال */
     }
   }
 
@@ -1835,6 +1855,8 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     joinWatch: null,      // مؤقّت: هل وجدنا الغرفة فعلاً؟
     busy: false,          // عملية إنشاء/انضمام جارية
     hostWarned: false,    // نبّهنا اللاعب أن المضيف انقطع؟
+    lastStateStamp: 0,    // ختم آخر حالة طبّقناها (لتصفية الحالات القديمة)
+    lastRoleStamp: 0,     // ختم آخر دور طُبّق
     hostTimeoutMs: 30000, // كم ننتظر بلا رسالة من المضيف قبل التنبيه
     playerTimeoutMs: 90000, // مهلة إسقاط لاعب صامت (في غرفة الانتظار فقط)
     phase: 'lobby',       // lobby | role | discuss | result
@@ -2120,8 +2142,10 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
           if (!p) O.players.push({ id: msg.id, name: (msg.name || 'لاعب').slice(0, 16), seen: false, lastSeen: Date.now() });
           else { p.name = (msg.name || p.name).slice(0, 16); p.lastSeen = Date.now(); }
           publishState();
-          // إن كانت الجولة جارية: أعد إرسال الدور لهذا اللاعب
-          if (O.phase !== 'lobby' && O.game) sendRoleTo(msg.id);
+          renderLobby(); renderReadyList();     // فوراً: وإلا بقي زر «ابدأ الجولة» معطّلاً
+          // أعد إرسال الدور لهذا اللاعب — فقط في مرحلة الأدوار.
+          // (لو أُرسل بعد انتهاء الجولة لقفزت شاشة اللاعب من النتيجة رجوعاً إلى الكرت)
+          if (O.phase === 'role' && O.game) sendRoleTo(msg.id);
         }
       } else if (msg.t === 'ready') {
         const p = O.players.find(x => x.id === msg.id);
@@ -2145,7 +2169,13 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
 
     /* --- رسالة خاصة لي (دوري) --- */
     if (!O.isHost && fromMe && msg.t === 'role') {
+      if (msg.st) {
+        if (O.lastRoleStamp && msg.st < O.lastRoleStamp) return;   // دور قديم (من لحظة سابقة)
+        O.lastRoleStamp = msg.st;
+      }
       if (O.myRole && O.phase === 'role' && (msg.round === undefined || msg.round === O.roundId)) return;  // الدور نفسه
+      /* دور وصل ونحن في النقاش أو النتيجة لنفس الجولة => رسالة متأخرة، لا تقلب الشاشة */
+      if (msg.round && msg.round === O.roundId && (O.phase === 'discuss' || O.phase === 'result')) return;
       if (msg.round) O.roundId = msg.round;
       O.myRole = msg.imp ? { imp: true } : { imp: false, word: msg.word, cat: msg.cat, icon: msg.icon };
       O.phase = 'role';
@@ -2174,6 +2204,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
       t: 'state',
       phase: O.phase,
       round: O.roundId,
+      st: Date.now(),                     // ختم زمني: يمنع الحالات القديمة من سحب اللاعب لشاشة سابقة
       hostId: O.pid,
       players: O.players.map(p => ({ id: p.id, name: p.name, seen: !!p.seen })),
       settings: currentSettings(),
@@ -2187,6 +2218,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     }, Object.assign({ retain: true }, opts || {}));
     /* المضيف لا يستقبل حالته من نفسه، فنرسم واجهة الغرفة هنا */
     if (O.phase === 'lobby') { renderLobby(); renderReadyList(); }
+    syncOnlineUI();
   }
 
   const currentSettings = () => ({
@@ -2203,8 +2235,8 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     const isImp = O.game.imposterIdx.has(idx);
     send(
       TOPIC_ROOT + '/' + O.room + '/p/' + pid,
-      isImp ? { t: 'role', imp: true, chaos: O.game.chaosOn, round: O.roundId }
-            : { t: 'role', imp: false, word: O.game.word, cat: O.game.catName, icon: O.game.icon, catKey: O.game.catKey, chaos: O.game.chaosOn, round: O.roundId },
+      isImp ? { t: 'role', imp: true, chaos: O.game.chaosOn, round: O.roundId, st: Date.now() }
+            : { t: 'role', imp: false, word: O.game.word, cat: O.game.catName, icon: O.game.icon, catKey: O.game.catKey, chaos: O.game.chaosOn, round: O.roundId, st: Date.now() },
       { qos: 1 }
     );
   }
@@ -2213,6 +2245,13 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
      8) الضيف: تطبيق حالة المضيف
      ------------------------------------------------------------------ */
   function applyState(msg) {
+    /* تصفية الحالات القديمة: وسيط عام قد يُعيد حالة محفوظة (retained) من مرحلة سابقة،
+       فتومض شاشة اللاعب بين الكرت والنتيجة. الختم الزمني يمنع ذلك. */
+    if (msg.round && msg.round < O.roundId) return;
+    if (msg.st) {
+      if (O.lastStateStamp && msg.st < O.lastStateStamp) return;
+      O.lastStateStamp = msg.st;
+    }
     if (!O.hostSeen) {
       stopJoinWatch();
       const inp = $('roomCodeInput');
@@ -2325,6 +2364,11 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
   /* نصوص الواجهة تتغيّر بحسب الوضع: تلميحات الرأس وشريط البدء */
   function syncOnlineHints() {
     if (O.mode !== 'online') return;
+    /* الضيف لا يضبط شيئاً: نُخفي لوحات الإعداد ونعرض لوحة الشرح */
+    const guest = O.active && !O.isHost;
+    if ($('catsPanel')) $('catsPanel').hidden = guest;
+    if ($('settingsPanel')) $('settingsPanel').hidden = guest;
+    if ($('guestNotePanel')) $('guestNotePanel').hidden = !guest;
     const eb = $('heroEyebrow');
     if (eb) eb.textContent = 'لعبة استنتاج جماعية · على هواتفكم';
     if ($('metaNetwork')) $('metaNetwork').textContent = 'يحتاج إنترنت';
@@ -2482,7 +2526,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     O.pid = 'h' + randCode(6);
     O.myName = name;
     O.players = [{ id: O.pid, name: name, seen: false }];
-    O.hostSeen = true; O.lastStateAt = Date.now(); lobbySig = readySig = ''; stopJoinWatch(); rememberName(name);
+    O.hostSeen = true; O.lastStateAt = Date.now(); lobbySig = readySig = ''; O.lastStateStamp = 0; O.lastRoleStamp = 0; stopJoinWatch(); rememberName(name);
     O.phase = 'lobby';
     connect().then(() => {
       O.busy = false;
@@ -2498,7 +2542,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     O.room = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
     O.pid = 'p' + randCode(6);
     O.myName = name;
-    O.players = []; O.hostSeen = false; O.lastStateAt = 0; lobbySig = readySig = '';
+    O.players = []; O.hostSeen = false; O.lastStateAt = 0; O.lastStateStamp = 0; O.lastRoleStamp = 0; lobbySig = readySig = '';
     connect().then(() => {
       O.busy = false;
       send(tHost(), { t: 'hello', id: O.pid, name: name });
@@ -2551,7 +2595,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     }
     clearInterval(O.pingId);
     setTimeout(() => { O.clients.forEach(r => { try { r.client.end(true); } catch (e) {} }); }, silent ? 0 : 120);
-    O.clients = []; O.client = null; O.connected = false; O.backend = ''; O.seenMsg.clear(); O.players = []; O.myRole = null; O.hostSeen = false; O.lastStateAt = 0; O.hostWarned = false; lobbySig = readySig = '';
+    O.clients = []; O.client = null; O.connected = false; O.backend = ''; O.seenMsg.clear(); O.players = []; O.myRole = null; O.hostSeen = false; O.lastStateAt = 0; O.hostWarned = false; O.lastStateStamp = 0; O.lastRoleStamp = 0; lobbySig = readySig = '';
     O.phase = 'lobby'; O.isHost = false; O.mode = 'local'; O.busy = false;
     if ($('btnEndGame')) $('btnEndGame').hidden = false;
     if ($('btnBackLobby')) $('btnBackLobby').hidden = true;
@@ -2574,6 +2618,13 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
     if ($('readyList')) $('readyList').hidden = !online;
     if (!online) leaveRoom(true);
     G.el.screens.setup.classList.toggle('online', online);   // بانر مختصر في الأونلاين
+    document.body.classList.toggle('online-mode', online);   // نصوص اللعب المناسبة للوضع
+    /* العودة للمحلي: أعد إظهار لوحات الإعداد */
+    if (!online) {
+      if ($('catsPanel')) $('catsPanel').hidden = false;
+      if ($('settingsPanel')) $('settingsPanel').hidden = false;
+      if ($('guestNotePanel')) $('guestNotePanel').hidden = true;
+    }
     G.showScreen('setup');
     G.syncHints();
     G.updateStartState();
@@ -2723,7 +2774,7 @@ input[type="range"]::-moz-range-thumb{ width:20px; height:20px; border-radius:50
      ------------------------------------------------------------------ */
   if ($('onlineName') && !$('onlineName').value) $('onlineName').value = recallName();
 
-  window.Online = { O, setMode, hostStartRound, syncHints: syncOnlineHints, hostGoDiscuss, hostEndGame, createRoom, joinRoom, leaveRoom, joinUrl, autoJoinFromUrl };
+  window.Online = { O, setMode, hostStartRound, syncHints: syncOnlineHints, _decode: (txt) => decodeMsg(txt, O.room), hostGoDiscuss, hostEndGame, createRoom, joinRoom, leaveRoom, joinUrl, autoJoinFromUrl };
   autoJoinFromUrl();
 })();
 </script>
